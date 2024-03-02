@@ -2,11 +2,27 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Manages user relationships for a social media platform, handling operations such as
+ * following a user and retrieving lists of followers and followed users.
+ * User relationships are persisted in a file.
+ *
+ * @author MM
+ * @version 1.0, 2024-03-02
+ */
 public class UserRelationshipManager {
 
     private final String followersFilePath = "data/followers.txt";
 
-    // Method to follow a user
+    /**
+     * Follows a user by adding the relationship to a persistent file unless
+     * the follower is already following the user.
+     *
+     * @param follower the username of the follower
+     * @param followed the username of the user to be followed
+     * @throws IOException if an I/O error occurs writing to the file
+     */
     public void followUser(String follower, String followed) throws IOException {
         if (!isAlreadyFollowing(follower, followed)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(followersFilePath, true))) {
@@ -16,7 +32,15 @@ public class UserRelationshipManager {
         }
     }
 
-    // Method to check if a user is already following another user
+    /**
+     * Checks if a user is already following another user by searching
+     * the persistent file for the relationship.
+     *
+     * @param follower the username of the follower
+     * @param followed the username of the user to be followed
+     * @return true if the follower is already following the user, false otherwise
+     * @throws IOException if an I/O error occurs reading from the file
+     */
     private boolean isAlreadyFollowing(String follower, String followed) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(followersFilePath))) {
             String line;
@@ -29,7 +53,14 @@ public class UserRelationshipManager {
         return false;
     }
 
-    // Method to get the list of followers for a user
+    /**
+     * Retrieves the list of followers for a given user by reading the
+     * persistent file and collecting all users who follow the specified user.
+     *
+     * @param username the username of the user whose followers are to be retrieved
+     * @return a list of usernames who follow the specified user
+     * @throws IOException if an I/O error occurs reading from the file
+     */
     public List<String> getFollowers(String username) throws IOException {
         List<String> followers = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(followersFilePath))) {
@@ -44,7 +75,14 @@ public class UserRelationshipManager {
         return followers;
     }
 
-    // Method to get the list of users a user is following
+    /**
+     * Retrieves the list of users a given user is following by reading
+     * the persistent file and collecting all users the specified user follows.
+     *
+     * @param username the username of the user whose followings are to be retrieved
+     * @return a list of usernames the specified user is following
+     * @throws IOException if an I/O error occurs reading from the file
+     */
     public List<String> getFollowing(String username) throws IOException {
         List<String> following = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(followersFilePath))) {

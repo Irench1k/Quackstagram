@@ -20,7 +20,47 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents the home screen of the Quakstagram application,
+ * displaying a feed of image posts that users can interact with by liking
+ * or viewing in more detail. The UI supports navigation to other parts
+ * of the application like search, profile, and notifications.
+ *
+ * @author MM
+ * @version 1.0, 2024-03-02
+ */
+
+/** Code Smell: LARGE CLASS
+ * @author MM
+ *
+ *  Code Smell Description: The QuakstagramHomeUI class is responsible for UI initialization, event handling, data
+ *  manipulation, and navigation. This violates the Single Responsibility Principle, suggesting the class could be
+ *  refactored into smaller, more focused classes.
+ *
+ *  Applies to: full QuakstagramHomeUI class
+ *
+ *  Suggested Fix: TODO
+ *
+ *  Fixed? TODO
+ *
+ */
 public class QuakstagramHomeUI extends JFrame {
+
+    /** Code Smell: MAGIC NUMBERS
+     * @author MM
+     *
+     *  Code Smell Description: TThe class contains several "magic numbers," such as dimensions and colors, directly in
+     *  the code (`WIDTH`, `HEIGHT`, `NAV_ICON_SIZE`, etc.). These should be declared as named constants or externalized
+     *  into configuration files to improve readability and make the code easier to maintain.
+     *
+     *  Applies to: QuakstagramHomeUI class constant declaration at the beginning
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
+
     private static final int WIDTH = 300;
     private static final int HEIGHT = 500;
     private static final int NAV_ICON_SIZE = 20; // Corrected static size for bottom icons
@@ -31,8 +71,12 @@ public class QuakstagramHomeUI extends JFrame {
     private JPanel cardPanel;
     private JPanel homePanel;
     private JPanel imageViewPanel;
-    
 
+
+    /**
+     * Initializes and sets up the Quakstagram home UI including layout, panels,
+     * and navigation.
+     */
     public QuakstagramHomeUI() {
         setTitle("Quakstagram Home");
         setSize(WIDTH, HEIGHT);
@@ -86,8 +130,10 @@ public class QuakstagramHomeUI extends JFrame {
         add(navigationPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Initializes the UI components and layout for the main view.
+     */
     private void initializeUI() {
-       
 
         // Content Scroll Panel
         JPanel contentPanel = new JPanel();
@@ -98,21 +144,33 @@ public class QuakstagramHomeUI extends JFrame {
         populateContentPanel(contentPanel, sampleData);
         add(scrollPane, BorderLayout.CENTER);
 
-
-        
-
          // Set up the home panel
-
          contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        
-        
-      
-
          homePanel.add(scrollPane, BorderLayout.CENTER);
-       
-
     }
 
+    /**
+     * Populates the content panel with sample post data including images, descriptions,
+     * and like buttons.
+     *
+     * @param panel The JPanel to populate with post data.
+     * @param sampleData An array of sample post data to display.
+     */
+
+
+    /** Code Smell: LONG METHOD
+     * @author MM
+     *
+     *  Code Smell Description: too long and performs multiple tasks. This methods could be refactored to improve
+     *  readability and maintainability by breaking them down into smaller methods with single responsibilities.
+     *
+     *  Applies to: populateContentPanel method
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
     private void populateContentPanel(JPanel panel, String[][] sampleData) {
 
          for (String[] postData : sampleData) {
@@ -183,118 +241,164 @@ public class QuakstagramHomeUI extends JFrame {
         }
     }
 
-private void handleLikeAction(String imageId, JLabel likesLabel) {
-    Path detailsPath = Paths.get("img", "image_details.txt");
-    StringBuilder newContent = new StringBuilder();
-    boolean updated = false;
-    String currentUser = "";
-    String imageOwner = "";
-    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    /**
+     * Handles the action of liking a post, updating the like count in the UI and
+     * persisting the change to a file.
+     *
+     * @param imageId The ID of the image being liked.
+     * @param likesLabel The JLabel displaying the current like count for the post.
+     */
 
-    // Retrieve the current user from users.txt
-    try (BufferedReader userReader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
-        String line = userReader.readLine();
-        if (line != null) {
-            currentUser = line.split(":")[0].trim();
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+    /** Code Smell: LONG METHOD
+     * @author MM
+     *
+     *  Code Smell Description: too long and performs multiple tasks. This methods could be refactored to improve
+     *  readability and maintainability by breaking them down into smaller methods with single responsibilities.
+     *
+     *  Applies to: handleLikeAction method
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
 
-    // Read and update image_details.txt
-    try (BufferedReader reader = Files.newBufferedReader(detailsPath)) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.contains("ImageID: " + imageId)) {
-                String[] parts = line.split(", ");
-                imageOwner = parts[1].split(": ")[1];
-                int likes = Integer.parseInt(parts[4].split(": ")[1]);
-                likes++; // Increment the likes count
-                parts[4] = "Likes: " + likes;
-                line = String.join(", ", parts);
+    /** Code Smell: FEATURE ENVY
+     * @author MM
+     *
+     *  The handleLikeAction method is more concerned with manipulating data and file I/O than with UI concerns,
+     *  suggesting these responsibilities could be better placed in a separate class focus on data management.
+     *
+     *  Applies to: handleLikeAction method
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
+    private void handleLikeAction(String imageId, JLabel likesLabel) {
+        Path detailsPath = Paths.get("img", "image_details.txt");
+        StringBuilder newContent = new StringBuilder();
+        boolean updated = false;
+        String currentUser = "";
+        String imageOwner = "";
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-                // Update the UI
-                likesLabel.setText("Likes: " + likes);
-                updated = true;
+        // Retrieve the current user from users.txt
+        try (BufferedReader userReader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
+            String line = userReader.readLine();
+            if (line != null) {
+                currentUser = line.split(":")[0].trim();
             }
-            newContent.append(line).append("\n");
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-    // Write updated likes back to image_details.txt
-    if (updated) {
-        try (BufferedWriter writer = Files.newBufferedWriter(detailsPath)) {
-            writer.write(newContent.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Record the like in notifications.txt
-        String notification = String.format("%s; %s; %s; %s\n", imageOwner, currentUser, imageId, timestamp);
-        try (BufferedWriter notificationWriter = Files.newBufferedWriter(Paths.get("data", "notifications.txt"), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            notificationWriter.write(notification);
+        // Read and update image_details.txt
+        try (BufferedReader reader = Files.newBufferedReader(detailsPath)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("ImageID: " + imageId)) {
+                    String[] parts = line.split(", ");
+                    imageOwner = parts[1].split(": ")[1];
+                    int likes = Integer.parseInt(parts[4].split(": ")[1]);
+                    likes++; // Increment the likes count
+                    parts[4] = "Likes: " + likes;
+                    line = String.join(", ", parts);
+
+                    // Update the UI
+                    likesLabel.setText("Likes: " + likes);
+                    updated = true;
+                }
+                newContent.append(line).append("\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-}
 
+        // Write updated likes back to image_details.txt
+        if (updated) {
+            try (BufferedWriter writer = Files.newBufferedWriter(detailsPath)) {
+                writer.write(newContent.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-    
-private String[][] createSampleData() {
-    String currentUser = "";
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
-        String line = reader.readLine();
-        if (line != null) {
-            currentUser = line.split(":")[0].trim();
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-    String followedUsers = "";
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "following.txt"))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith(currentUser + ":")) {
-                followedUsers = line.split(":")[1].trim();
-                break;
+            // Record the like in notifications.txt
+            String notification = String.format("%s; %s; %s; %s\n", imageOwner, currentUser, imageId, timestamp);
+            try (BufferedWriter notificationWriter = Files.newBufferedWriter(Paths.get("data", "notifications.txt"), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+                notificationWriter.write(notification);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
 
-    // Temporary structure to hold the data
-    String[][] tempData = new String[100][]; // Assuming a maximum of 100 posts for simplicity
-    int count = 0;
 
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get("img", "image_details.txt"))) {
-        String line;
-        while ((line = reader.readLine()) != null && count < tempData.length) {
-            String[] details = line.split(", ");
-            String imagePoster = details[1].split(": ")[1];
-            if (followedUsers.contains(imagePoster)) {
-                String imagePath = "img/uploaded/" + details[0].split(": ")[1] + ".png"; // Assuming PNG format
-                String description = details[2].split(": ")[1];
-                String likes = "Likes: " + details[4].split(": ")[1];
-
-                tempData[count++] = new String[]{imagePoster, description, likes, imagePath};
+    /**
+     * Creates sample data for demonstration purposes, simulating a feed of posts.
+     *
+     * @return A two-dimensional array representing sample post data.
+     */
+    private String[][] createSampleData() {
+        String currentUser = "";
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
+            String line = reader.readLine();
+            if (line != null) {
+                currentUser = line.split(":")[0].trim();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+
+        String followedUsers = "";
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "following.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(currentUser + ":")) {
+                    followedUsers = line.split(":")[1].trim();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Temporary structure to hold the data
+        String[][] tempData = new String[100][]; // Assuming a maximum of 100 posts for simplicity
+        int count = 0;
+
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("img", "image_details.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null && count < tempData.length) {
+                String[] details = line.split(", ");
+                String imagePoster = details[1].split(": ")[1];
+                if (followedUsers.contains(imagePoster)) {
+                    String imagePath = "img/uploaded/" + details[0].split(": ")[1] + ".png"; // Assuming PNG format
+                    String description = details[2].split(": ")[1];
+                    String likes = "Likes: " + details[4].split(": ")[1];
+
+                    tempData[count++] = new String[]{imagePoster, description, likes, imagePath};
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Transfer the data to the final array
+        String[][] sampleData = new String[count][];
+        System.arraycopy(tempData, 0, sampleData, 0, count);
+
+        return sampleData;
     }
 
-    // Transfer the data to the final array
-    String[][] sampleData = new String[count][];
-    System.arraycopy(tempData, 0, sampleData, 0, count);
-
-    return sampleData;
-}
-
+    /**
+     * Creates an icon button for the navigation bar with specified icon path and action.
+     *
+     * @param iconPath The path to the icon image file.
+     * @param buttonType A string indicating the type of button (e.g., "home", "profile").
+     * @return A JButton with the specified icon and action.
+     */
     private JButton createIconButton(String iconPath) {
         ImageIcon iconOriginal = new ImageIcon(iconPath);
         Image iconScaled = iconOriginal.getImage().getScaledInstance(NAV_ICON_SIZE, NAV_ICON_SIZE, Image.SCALE_SMOOTH);
@@ -304,6 +408,12 @@ private String[][] createSampleData() {
         return button;
     }
 
+    /**
+     * Displays a full-size image view for a selected post, including user info,
+     * description, and like functionality.
+     *
+     * @param postData An array containing data for the selected post.
+     */
     private void displayImage(String[] postData) {
         imageViewPanel.removeAll(); // Clear previous content
 
@@ -366,6 +476,26 @@ private String[][] createSampleData() {
         cardLayout.show(cardPanel, "ImageView"); // Switch to the image view
     }
 
+    /**
+     * Refreshes the display image view with updated like counts or other changed data.
+     *
+     * @param postData Updated post data including the new like count.
+     * @param imageId The ID of the image being refreshed.
+     */
+
+    /** Code Smell: FEATURE ENVY
+     * @author MM
+     *
+     *  The refreshDisplayImage method is more concerned with manipulating data and file I/O than with UI concerns,
+     *  suggesting these responsibilities could be better placed in a separate class focus on data management.
+     *
+     *  Applies to: refreshDisplayImage method
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
     private void refreshDisplayImage(String[] postData, String imageId) {
         // Read updated likes count from image_details.txt
         try (BufferedReader reader = Files.newBufferedReader(Paths.get("img", "image_details.txt"))) {
@@ -385,6 +515,14 @@ private String[][] createSampleData() {
         displayImage(postData);
     }
 
+    /**
+     * Creates a navigation button with an icon and assigns an action based on the button type.
+     * This method supports creating buttons for different parts of the application like home, profile, notifications, explore, and image upload.
+     *
+     * @param iconPath The path to the icon image file.
+     * @param buttonType The type of button, determining its action (e.g., "home", "profile", "notification", "explore", "add").
+     * @return A customized JButton with an icon and an action listener based on the button type.
+     */
     private JButton createIconButton(String iconPath, String buttonType) {
         ImageIcon iconOriginal = new ImageIcon(iconPath);
         Image iconScaled = iconOriginal.getImage().getScaledInstance(NAV_ICON_SIZE, NAV_ICON_SIZE, Image.SCALE_SMOOTH);
@@ -405,10 +543,12 @@ private String[][] createSampleData() {
             button.addActionListener(e -> ImageUploadUI());
         }
         return button;
- 
-        
     }
- 
+
+    /**
+     * Opens the profile UI, disposing of the current UI frame.
+     * This method reads the logged-in user's username from a file and initializes the profile UI for that user.
+     */
     private void openProfileUI() {
         // Open InstagramProfileUI frame
         this.dispose();
@@ -427,7 +567,11 @@ private String[][] createSampleData() {
         InstagramProfileUI profileUI = new InstagramProfileUI(user);
         profileUI.setVisible(true);
     }
- 
+
+    /**
+     * Opens the notifications UI, disposing of the current UI frame.
+     * This method initializes and displays the notifications UI for the logged-in user.
+     */
      private void notificationsUI() {
         // Open InstagramProfileUI frame
         this.dispose();
@@ -435,26 +579,36 @@ private String[][] createSampleData() {
         notificationsUI.setVisible(true);
     }
 
+    /**
+     * Opens the image upload UI, disposing of the current UI frame.
+     * This method initializes and displays the UI for uploading images.
+     */
     private void ImageUploadUI() {
         // Open InstagramProfileUI frame
         this.dispose();
         ImageUploadUI upload = new ImageUploadUI();
         upload.setVisible(true);
     }
- 
+
+    /**
+     * Opens the home UI, disposing of the current UI frame.
+     * This method reinitializes and displays the home UI, effectively refreshing the view.
+     */
     private void openHomeUI() {
         // Open InstagramProfileUI frame
         this.dispose();
         QuakstagramHomeUI homeUI = new QuakstagramHomeUI();
         homeUI.setVisible(true);
     }
- 
+
+    /**
+     * Opens the explore UI, disposing of the current UI frame.
+     * This method initializes and displays the explore UI, allowing the user to discover new content.
+     */
     private void exploreUI() {
         // Open InstagramProfileUI frame
         this.dispose();
         ExploreUI explore = new ExploreUI();
         explore.setVisible(true);
     }
-
-
 }
