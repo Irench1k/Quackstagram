@@ -44,6 +44,39 @@ import java.time.format.DateTimeFormatter;
  *  Fixed? TODO
  *
  */
+
+/** Code Smell: DUPLICATE CODE
+ * @author MM
+ *
+ *  Code Smell Description: The methods for opening different UIs (`openProfileUI`, `notificationsUI`, `ImageUploadUI`,
+ *  `openHomeUI`, `exploreUI`) follow a very similar pattern of disposing the current frame and opening a new one.
+ *  This duplication could be reduced by refactoring these operations into a single method with parameters to specify
+ *  the UI to open.
+ *
+ *  Applies to: all methods cited above - these are also labelled as code smells referring back to her under their
+ *  method header
+ *
+ *  Suggested Fix: TODO
+ *
+ *  Fixed? TODO
+ *
+ */
+
+/** Code Smell: INAPPROPRIATE INTIMACY
+ * @author MM
+ *
+ *  Code Smell Description: The class directly manipulates low-level details of file reading and writing, image
+ *  processing, and UI management. This suggests a violation of encapsulation where the class is overly familiar with
+ *  the details of other responsibilities. It would be beneficial to separate concerns more cleanly, perhaps by using
+ *  a data access layer or service layer.
+ *
+ *  Applies to: full QuakstagramHomeUI class
+ *
+ *  Suggested Fix: TODO
+ *
+ *  Fixed? TODO
+ *
+ */
 public class QuakstagramHomeUI extends JFrame {
 
     /** Code Smell: MAGIC NUMBERS
@@ -157,7 +190,6 @@ public class QuakstagramHomeUI extends JFrame {
      * @param sampleData An array of sample post data to display.
      */
 
-
     /** Code Smell: LONG METHOD
      * @author MM
      *
@@ -165,6 +197,22 @@ public class QuakstagramHomeUI extends JFrame {
      *  readability and maintainability by breaking them down into smaller methods with single responsibilities.
      *
      *  Applies to: populateContentPanel method
+     *
+     *  Suggested Fix: TODO
+     *
+     *  Fixed? TODO
+     *
+     */
+
+    /** Code Smell: DATA CLUMPS
+     * @author MM
+     *
+     * Code Smell Description: The use of arrays (`String[][] sampleData`) to represent complex data suggests the
+     * potential for introducing a new class to model this data more appropriately. This would improve type safety and
+     * clarity, making the code easier to understand and work with.
+     *
+     *  Applies to: String[][] sampleData
+     *      note: also present in the initializeUI() method
      *
      *  Suggested Fix: TODO
      *
@@ -549,6 +597,10 @@ public class QuakstagramHomeUI extends JFrame {
      * Opens the profile UI, disposing of the current UI frame.
      * This method reads the logged-in user's username from a file and initializes the profile UI for that user.
      */
+
+    /** Code Smell: DUPLICATE CODE
+     * See comment under class header
+     */
     private void openProfileUI() {
         // Open InstagramProfileUI frame
         this.dispose();
@@ -572,6 +624,10 @@ public class QuakstagramHomeUI extends JFrame {
      * Opens the notifications UI, disposing of the current UI frame.
      * This method initializes and displays the notifications UI for the logged-in user.
      */
+
+    /** Code Smell: DUPLICATE CODE
+     * See comment under class header
+     */
      private void notificationsUI() {
         // Open InstagramProfileUI frame
         this.dispose();
@@ -582,6 +638,10 @@ public class QuakstagramHomeUI extends JFrame {
     /**
      * Opens the image upload UI, disposing of the current UI frame.
      * This method initializes and displays the UI for uploading images.
+     */
+
+    /** Code Smell: DUPLICATE CODE
+     * See comment under class header
      */
     private void ImageUploadUI() {
         // Open InstagramProfileUI frame
@@ -594,6 +654,10 @@ public class QuakstagramHomeUI extends JFrame {
      * Opens the home UI, disposing of the current UI frame.
      * This method reinitializes and displays the home UI, effectively refreshing the view.
      */
+
+    /** Code Smell: DUPLICATE CODE
+     * See comment under class header
+     */
     private void openHomeUI() {
         // Open InstagramProfileUI frame
         this.dispose();
@@ -604,6 +668,10 @@ public class QuakstagramHomeUI extends JFrame {
     /**
      * Opens the explore UI, disposing of the current UI frame.
      * This method initializes and displays the explore UI, allowing the user to discover new content.
+     */
+
+    /** Code Smell: DUPLICATE CODE
+     * See comment under class header
      */
     private void exploreUI() {
         // Open InstagramProfileUI frame
