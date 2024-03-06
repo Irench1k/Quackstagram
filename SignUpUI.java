@@ -9,56 +9,27 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class SignUpUI extends JFrame {
-
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 500;
-
+public class SignUpUI extends AbstractLogin {
     private JTextField txtUsername; // TODO: Primitive Obsession: using simple text fields for sensitive information.
     private JTextField txtPassword;
     private JTextField txtBio; // TODO: Data Clump: Grouping of username, password, and bio suggests they should be a single object.
-    private JButton btnRegister;
-    private JLabel lblPhoto;
     private JButton btnUploadPhoto;
     private final String credentialsFilePath = "data/credentials.txt"; // TODO: Hardcoded path may lead to issues when changing storage locations.
     private final String profilePhotoStoragePath = "img/storage/profile/";
-    private JButton btnSignIn;
 
     public SignUpUI() {
-        setTitle("Quackstagram - Register");
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
-        initializeUI(); // TODO: Duplicated Code: Similar initialization logic as in SignInUI class.
+        super("Sign Up");
     }
 
-    private void initializeUI() {
-        // TODO: This method is an example of Long Method code smell.
-        // It does a lot, making it hard to read and maintain.
+    @Override
+    protected String getSecondButtonText() {
+        return "Already have an account? Sign In";
+    }
 
-        // Header with the Register label
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel("Quackstagram 🐥");
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
-
-        // Profile picture placeholder without border
-        lblPhoto = new JLabel();
-        lblPhoto.setPreferredSize(new Dimension(80, 80));
-        lblPhoto.setHorizontalAlignment(JLabel.CENTER);
-        lblPhoto.setVerticalAlignment(JLabel.CENTER);
-        lblPhoto.setIcon(new ImageIcon(
-                new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
-        JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
-        photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        photoPanel.add(lblPhoto);
-
-        // Text fields panel
+    @Override
+    protected JPanel createFieldPanel() {
         JPanel fieldsPanel = new JPanel();
+        JPanel photoPanel = getDuckIcon();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
@@ -89,35 +60,13 @@ public class SignUpUI extends JFrame {
         photoUploadPanel.add(btnUploadPhoto);
         fieldsPanel.add(photoUploadPanel);
 
-        // Register button with black text
-        btnRegister = new JButton("Register");
-        btnRegister.addActionListener(this::onRegisterClicked); // TODO: Shotgun Surgery potential: Similar navigation logic as in SignInUI.
-        btnRegister.setBackground(new Color(255, 90, 95)); // Use a red color that matches the mockup
-        btnRegister.setForeground(Color.BLACK); // Set the text color to black
-        btnRegister.setFocusPainted(false);
-        btnRegister.setBorderPainted(false);
-        btnRegister.setFont(new Font("Arial", Font.BOLD, 14));
-        JPanel registerPanel = new JPanel(new BorderLayout()); // Panel to contain the register button
-        registerPanel.setBackground(Color.WHITE); // Background for the panel
-        registerPanel.add(btnRegister, BorderLayout.CENTER);
-
-        // Adding components to the frame
-        add(headerPanel, BorderLayout.NORTH);
-        add(fieldsPanel, BorderLayout.CENTER);
-        add(registerPanel, BorderLayout.SOUTH);
-        // Adding the sign in button to the register panel or another suitable panel
-        btnSignIn = new JButton("Already have an account? Sign In");
-        btnSignIn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openSignInUI(); //TODO: Low Cohesion: This method affects UI navigation, which might not be its primary responsibility.
-            }
-        });
-        registerPanel.add(btnSignIn, BorderLayout.SOUTH);
+        return fieldsPanel;
     }
 
-    private void onRegisterClicked(ActionEvent event) {
-        // TODO: Shotgun Surgery: Similar logic appears in the SignInUI class. Changes here may require changes there.
+    @Override
+    protected void onPrimaryButtonClick(ActionEvent event) {
+        // TODO: Shotgun Surgery: Similar logic appears in the SignInUI class. Changes
+        // here may require changes there.
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         String bio = txtBio.getText();
@@ -136,6 +85,20 @@ public class SignUpUI extends JFrame {
                 signInFrame.setVisible(true);
             });
         }
+    }
+
+    @Override
+    protected void onSecondaryButtonCLick(ActionEvent event) {
+        // TODO: Duplicated Code: Similar logic appears in SignInUI class
+        // (onRegisterNowClicked)
+        // Close the SignUpUI frame
+        dispose();
+
+        // Open the SignInUI frame
+        SwingUtilities.invokeLater(() -> {
+            SignInUI signInFrame = new SignInUI();
+            signInFrame.setVisible(true);
+        });
     }
 
     private boolean doesUsernameExist(String username) {
@@ -180,17 +143,5 @@ public class SignUpUI extends JFrame {
         } catch (IOException e) {
             e.printStackTrace(); // TODO: Error Handling: Directly printing stack trace
         }
-    }
-
-    private void openSignInUI() {
-        // TODO: Duplicated Code: Similar logic appears in SignInUI class (onRegisterNowClicked)
-        // Close the SignUpUI frame
-        dispose();
-
-        // Open the SignInUI frame
-        SwingUtilities.invokeLater(() -> {
-            SignInUI signInFrame = new SignInUI();
-            signInFrame.setVisible(true);
-        });
     }
 }
