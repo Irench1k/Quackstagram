@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,22 +11,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 
-/**
- * The ExploreUI class represents the user interface for the Explore page in the
- * Quackstagram application.
- * It extends the JFrame class and provides methods to initialize and create the
- * main content panels.
- * The ExploreUI class displays a header panel, navigation panel, and a main
- * content panel with a search bar and image grid.
- * It also provides functionality to display image details when an image is
- * clicked.
- */
-public class ExploreUI extends AbstractUI {
-    private static final int IMAGE_SIZE = WIDTH / 3; // Size for each image in the grid
+public class ExploreUI extends AbstractUI implements ImageDisplay {
+    private final int WIDTH = AbstractUI.WIDTH;
 
     /**
      * Represents the Explore user interface.
@@ -37,24 +21,6 @@ public class ExploreUI extends AbstractUI {
     public ExploreUI() {
         super("Explore");
     }
-    /*
-     * For initializeUI method:
-     * I would reduce the code by just doing for example:
-     * add(createHeaderPanel(), BorderLayout.NORTH);
-     * add(createMainContentPanel(), BorderLayout.CENTER);
-     * add(createNavigationPanel(), BorderLayout.SOUTH);
-     * 
-     */
-
-    /**
-     * Represents a container that is used to organize and display components in a
-     * graphical user interface (GUI).
-     * It is a lightweight container that can be used to group other components
-     * together.
-     * 
-     * @return the JPanel for the main content section
-     * 
-     */
 
     @Override
     protected JComponent createMainContentPanel() {
@@ -63,13 +29,11 @@ public class ExploreUI extends AbstractUI {
         JPanel searchPanel = new JPanel(new BorderLayout());
         JTextField searchField = new JTextField(" Search Users");
         searchPanel.add(searchField, BorderLayout.CENTER);
-        searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, searchField.getPreferredSize().height)); // Limit
-                                                                                                             // the
-                                                                                                             // height
+        searchPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, searchField.getPreferredSize().height));
 
         // Image Grid
-        JPanel imageGridPanel = new JPanel(new GridLayout(0, 3, 2, 2)); // 3 columns, auto rows
-
+        JPanel imageGridPanel = new JPanel(new GridLayout(0, 3, 2, 2));
+        // Load images into the panel
         loadImages(imageGridPanel);
 
         JScrollPane scrollPane = new JScrollPane(imageGridPanel);
@@ -84,38 +48,8 @@ public class ExploreUI extends AbstractUI {
         return mainContentPanel;
     }
 
-    private void loadImages(JPanel imageGridPanel) {
-        // Load images from the uploaded folder
-        File imageDir = new File("img/uploaded");
-        File[] imageFiles = imageDir.listFiles((dir, name) -> name.matches(".*\\.(png|jpg|jpeg)"));
-        for (File imageFile : imageFiles) {
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageFile.getPath()).getImage()
-                    .getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH));
-            JLabel imageLabel = new JLabel(imageIcon);
-            imageLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    displayImage(imageFile.getPath()); // Call method to display the clicked image
-                }
-            });
-            imageGridPanel.add(imageLabel);
-        }
-    }
-    /*
-     * For loadImages method:
-     * This method is doing too many things. It should be refactored.
-     * Create a void loadImages(Jpanel imageGridPanel) method that takes a JPanel as
-     * a parameter.
-     * Then call this method inside the createMainContentPanel method.
-     */
-
-
-    /**
-     * Displays an image with its details on the ExploreUI frame.
-     * 
-     * @param imagePath the path of the image file to be displayed
-     */
-    private void displayImage(String imagePath) {
+    @Override
+    public void displayImage(String imagePath) {
         // Extract image ID from the imagePath
         String imageId = new File(imagePath).getName().split("\\.")[0];
 
@@ -216,27 +150,5 @@ public class ExploreUI extends AbstractUI {
         revalidate();
         repaint();
     }
-    /*
-     * For displayImage method:
-     * This method is too long and does too many things. It should be refactored.
-     * We should break it down into smaller, more focused methods to improve
-     * readibility and maintainability.
-     * 
-     * Seperate the file I/O operations from UI class by creating a separate class
-     * or method.
-     */
+
 }
-
-/*
- * Methods to consider for refactoring because they are similar to the ones in
- * the InstagramProfileUI class:
- * These methods can be moved to a separate class and then called from the
- * ExploreUI class.
- * This includes the createHeaderPanel, createNavigationPanel, createIconButton.
- */
-
-/*
- * Magic numbers:
- * WIDTH - 20 should be set to a constant variable
- * makes the code more readable and maintainable
- */

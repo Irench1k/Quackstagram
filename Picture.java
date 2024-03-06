@@ -1,8 +1,13 @@
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 // Represents a picture on Quackstagram
 class Picture {
+    private String imageID; // imageID
     private String imagePath;
     private String caption;
     private int likesCount;
@@ -26,8 +31,27 @@ class Picture {
     }
 
     // Getter methods for picture details
-    public String getImagePath() { return imagePath; }
-    public String getCaption() { return caption; }
-    public int getLikesCount() { return likesCount; }
-    public List<String> getComments() { return comments; }
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public String getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(String imageID) {
+        this.imageID = imageID;
+    }
 }
