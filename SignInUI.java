@@ -7,18 +7,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class SignInUI extends JFrame {
 
     private static final int WIDTH = 300;
     private static final int HEIGHT = 500;
 
-    private JTextField txtUsername;
+    private JTextField txtUsername; // TODO: Primitive Obsession: using simple text fields for sensitive information.
     private JTextField txtPassword;
     private JButton btnSignIn, btnRegisterNow;
     private JLabel lblPhoto;
     private User newUser;
-    
 
     public SignInUI() {
         setTitle("Quackstagram - Register");
@@ -26,10 +24,13 @@ public class SignInUI extends JFrame {
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
-        initializeUI();
+        initializeUI(); // TODO: Duplicated Code: Similar initialization in SignUpUI class.
     }
 
     private void initializeUI() {
+        // TODO: This method is an example of Long Method code smell.
+        // It tries to do too much, making it hard to understand and maintain.
+
         // Header with the Register label
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
@@ -44,7 +45,8 @@ public class SignInUI extends JFrame {
         lblPhoto.setPreferredSize(new Dimension(80, 80));
         lblPhoto.setHorizontalAlignment(JLabel.CENTER);
         lblPhoto.setVerticalAlignment(JLabel.CENTER);
-        lblPhoto.setIcon(new ImageIcon(new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+        lblPhoto.setIcon(new ImageIcon(
+                new ImageIcon("img/logos/DACS.png").getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
         JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
         photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         photoPanel.add(lblPhoto);
@@ -67,7 +69,6 @@ public class SignInUI extends JFrame {
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
 
-
         // Register button with black text
         btnSignIn = new JButton("Sign-In");
         btnSignIn.addActionListener(this::onSignInClicked);
@@ -87,7 +88,7 @@ public class SignInUI extends JFrame {
 
         // New button for navigating to SignUpUI
         btnRegisterNow = new JButton("No Account? Register Now");
-        btnRegisterNow.addActionListener(this::onRegisterNowClicked);
+        btnRegisterNow.addActionListener(this::onRegisterNowClicked); // TODO: Low Cohesion: This method triggers navigation, affecting UI flow and state management.
         btnRegisterNow.setBackground(Color.WHITE); // Set a different color for distinction
         btnRegisterNow.setForeground(Color.BLACK);
         btnRegisterNow.setFocusPainted(false);
@@ -104,61 +105,64 @@ public class SignInUI extends JFrame {
 
     }
 
-   private void onSignInClicked(ActionEvent event) {
-    String enteredUsername = txtUsername.getText();
-    String enteredPassword = txtPassword.getText();
-    System.out.println(enteredUsername+" <-> "+enteredPassword);
-    if (verifyCredentials(enteredUsername, enteredPassword)) {
-        System.out.println("It worked");
-         // Close the SignUpUI frame
-    dispose();
+    private void onSignInClicked(ActionEvent event) {
+        // TODO: Shotgun Surgery: Similar logic appears in the SignUpUI class. Changes here may require changes there.
+        String enteredUsername = txtUsername.getText();
+        String enteredPassword = txtPassword.getText();
+        System.out.println(enteredUsername + " <-> " + enteredPassword);
+        if (verifyCredentials(enteredUsername, enteredPassword)) {
+            System.out.println("It worked");
+            // Close the SignUpUI frame
+            dispose();
 
-    // Open the SignInUI frame
-    SwingUtilities.invokeLater(() -> {
-        InstagramProfileUI profileUI = new InstagramProfileUI(newUser);
-        profileUI.setVisible(true);
-    });
-    } else {
-        System.out.println("It Didn't");
-    }
-}
-
-private void onRegisterNowClicked(ActionEvent event) {
-    // Close the SignInUI frame
-    dispose();
-
-    // Open the SignUpUI frame
-    SwingUtilities.invokeLater(() -> {
-        SignUpUI signUpFrame = new SignUpUI();
-        signUpFrame.setVisible(true);
-    });
-}
-
-private boolean verifyCredentials(String username, String password) {
-    try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] credentials = line.split(":");
-            if (credentials[0].equals(username) && credentials[1].equals(password)) {
-            String bio = credentials[2];
-            // Create User object and save information
-        newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
-        saveUserInformation(newUser);
-    
-                return true;
-            }
+            // Open the SignInUI frame
+            SwingUtilities.invokeLater(() -> {
+                InstagramProfileUI profileUI = new InstagramProfileUI(newUser);
+                profileUI.setVisible(true);
+            });
+        } else {
+            System.out.println("It Didn't");
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-    return false;
-}
 
-   private void saveUserInformation(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
-            writer.write(user.toString());  // Implement a suitable toString method in User class
+    private void onRegisterNowClicked(ActionEvent event) {
+        // TODO: Duplicated Code: Similar logic appears in SignUpUI class (openSignInUI)
+        // Close the SignInUI frame
+        dispose();
+
+        // Open the SignUpUI frame
+        SwingUtilities.invokeLater(() -> {
+            SignUpUI signUpFrame = new SignUpUI();
+            signUpFrame.setVisible(true);
+        });
+    }
+
+    private boolean verifyCredentials(String username, String password) {
+        // TODO: Data Clumps: `username`, `password`, and later `bio` are often passed together.
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] credentials = line.split(":");
+                if (credentials[0].equals(username) && credentials[1].equals(password)) {
+                    String bio = credentials[2];
+                    // Create User object and save information
+                    newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
+                    saveUserInformation(newUser);
+
+                    return true;
+                }
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO: Error Handling: Directly printing stack trace.
+        }
+        return false;
+    }
+
+    private void saveUserInformation(User user) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
+            writer.write(user.toString()); // Implement a suitable toString method in User class
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO: Here again, improper error handling.
         }
     }
 
