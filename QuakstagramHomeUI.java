@@ -150,7 +150,7 @@ public class QuakstagramHomeUI extends AbstractUI {
 
     @Override
     protected String getHeaderText() {
-        return "🐥 Quackstagram 🐥";
+        return "🐥 Quakstagram 🐥";
     }
 
     /**

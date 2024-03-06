@@ -324,7 +324,7 @@ public class InstagramProfileUI extends AbstractUI {
 
         add(createHeaderPanel(), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-        add(createNavigationPanel(), BorderLayout.SOUTH);
+        add(createControlPanel(), BorderLayout.SOUTH);
 
         revalidate();
         repaint();

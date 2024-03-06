@@ -211,7 +211,7 @@ public class ExploreUI extends AbstractUI {
         // Add the container panel and back button panel to the frame
         add(backButtonPanel, BorderLayout.NORTH);
         add(containerPanel, BorderLayout.CENTER);
-        add(createNavigationPanel(), BorderLayout.SOUTH);
+        add(createControlPanel(), BorderLayout.SOUTH);
 
         revalidate();
         repaint();

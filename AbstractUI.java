@@ -22,62 +22,18 @@ import java.io.File;
 
 
 
-public abstract class AbstractUI extends JFrame {
-    protected static final int WIDTH = 300;
-    protected static final int HEIGHT = 500;
+public abstract class AbstractUI extends BaseFrameManager {
     protected static final int NAV_ICON_SIZE = 20;
-    private String title;
 
     public AbstractUI(String title) {
-        this.title = title;
-        setTitle(title);
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        initializeUI();
+        super(title);
     }
 
-    protected String getHeaderText() {
-        return this.title + "🐥";
-    }
-
-    protected void initializeUI() {
-        getContentPane().removeAll(); // Clear existing components
-        setLayout(new BorderLayout()); // Reset the layout manager
-
-        JComponent headerPanel = createHeaderPanel();
-        JComponent mainContentPanel = createMainContentPanel();
-        JComponent navigationPanel = createNavigationPanel();
-
-        // Add panels to the frame
-        if (getHeaderText() != null) {
-            add(headerPanel, BorderLayout.NORTH);
-        }
-        add(mainContentPanel, BorderLayout.CENTER);
-        add(navigationPanel, BorderLayout.SOUTH);
-
-        revalidate();
-        repaint();
-    }
-
-    // Defined here, but needs configuration
-    private JPanel createHeaderPanel() {
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel(getHeaderText());
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
-        return headerPanel;
-    }
-
-    // Different for each class, so is defined for each class
+    @Override
     protected abstract JComponent createMainContentPanel();
 
-    // Defined here
-    protected JPanel createNavigationPanel() {
+    @Override
+    protected JComponent createControlPanel() {
         // Create and return the navigation panel
         // Navigation Bar
         JPanel navigationPanel = new JPanel();

@@ -27,7 +27,7 @@ public class SignUpUI extends AbstractLogin {
     }
 
     @Override
-    protected JPanel createFieldPanel() {
+    protected JPanel createMainContentPanel() {
         JPanel fieldsPanel = new JPanel();
         JPanel photoPanel = getDuckIcon();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));

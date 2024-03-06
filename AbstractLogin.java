@@ -7,49 +7,27 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public abstract class AbstractLogin extends JFrame{
-    protected static final int WIDTH = 300;
-    protected static final int HEIGHT = 500;
+public abstract class AbstractLogin extends BaseFrameManager {
     private JButton primaryButton;
     private JButton secondaryButton;
     private JLabel lblPhoto;
-    private String title;
-
 
     public AbstractLogin(String title) {
-        this.title = title;
-        setTitle("Quackstagram - " + title);
-        setSize(WIDTH, HEIGHT);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
-        initializeUI();
+        super(title);
     }
 
-    private void initializeUI() {
-        JPanel headerPanel = createHeaderPanel();
-        JPanel fieldsPanel = createFieldPanel();
-        JPanel buttonPanel = createButtoPanel();
-
-        add(headerPanel, BorderLayout.NORTH);
-        add(fieldsPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+    @Override
+    protected String getFormattedTitle() {
+        return "Quackstagram - " + this.getRawTitle();
     }
 
-    private JPanel createHeaderPanel() {
-        // Header with the Register label
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        headerPanel.setBackground(new Color(51, 51, 51)); // Set a darker background for the header
-        JLabel lblRegister = new JLabel("Quackstagram 🐥");
-        lblRegister.setFont(new Font("Arial", Font.BOLD, 16));
-        lblRegister.setForeground(Color.WHITE); // Set the text color to white
-        headerPanel.add(lblRegister);
-        headerPanel.setPreferredSize(new Dimension(WIDTH, 40)); // Give the header a fixed height
-
-        return headerPanel;
+    @Override
+    protected String getHeaderText() {
+        return "Quackstagram 🐥";
     }
 
-    private JPanel createButtoPanel() {
+    @Override
+    protected JComponent createControlPanel() {
         JComponent primaryButton = createPrimaryButton();
         JComponent secondaryButton = createSecondaryButton();
 
@@ -63,7 +41,7 @@ public abstract class AbstractLogin extends JFrame{
     }
 
     private JComponent createPrimaryButton() {
-        primaryButton = new JButton(title);
+        primaryButton = new JButton(getRawTitle());
         primaryButton.addActionListener(this::onPrimaryButtonClick);
         primaryButton.setBackground(new Color(255, 90, 95)); // Use a red color that matches the mockup
         primaryButton.setForeground(Color.BLACK); // Set the text color to black
@@ -101,7 +79,7 @@ public abstract class AbstractLogin extends JFrame{
 
     protected abstract String getSecondButtonText();
 
-    protected abstract JPanel createFieldPanel();
+    protected abstract JComponent createMainContentPanel();
 
     protected abstract void onPrimaryButtonClick(ActionEvent event);
 
