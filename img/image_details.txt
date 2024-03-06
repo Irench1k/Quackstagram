@@ -10,3 +10,4 @@ ImageID: matlab_1, Username: matlab, Bio: Eating Lettuce, Timestamp: 2024-02-28 
 ImageID: ololo_1, Username: ololo, Bio: Enter a caption, Timestamp: 2024-03-03 22:31:28, Likes: 27
 ImageID: mike_1, Username: mike, Bio: Enter a caption, Timestamp: 2024-03-03 23:04:07, Likes: 0
 ImageID: DuckDuck_1, Username: DuckDuck, Bio: Enter a caption, Timestamp: 2024-03-05 22:31:47, Likes: 0
+ImageID: mike_2, Username: mike, Bio: Enter a caption, Timestamp: 2024-03-06 13:40:18, Likes: 0
