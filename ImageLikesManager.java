@@ -1,6 +1,14 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javax.swing.JLabel;
 
 public class ImageLikesManager {
 
@@ -84,6 +92,72 @@ public class ImageLikesManager {
         String line = entry.getKey() + ":" + String.join(",", entry.getValue());
         writer.write(line);
         writer.newLine();
+    }
+
+    /**
+     * Handles the action of liking a post, updating the like count in the UI and
+     * persisting the change to a file.
+     *
+     * @param imageId    The ID of the image being liked.
+     * @param likesLabel The JLabel displaying the current like count for the post.
+     */
+    protected void handleLikeAction(String imageId, JLabel likesLabel) {
+        Path detailsPath = Paths.get("img", "image_details.txt");
+        StringBuilder newContent = new StringBuilder();
+        boolean updated = false;
+        String currentUser = "";
+        String imageOwner = "";
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // Retrieve the current user from users.txt
+        try (BufferedReader userReader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
+            String line = userReader.readLine();
+            if (line != null) {
+                currentUser = line.split(":")[0].trim();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Read and update image_details.txt
+        try (BufferedReader reader = Files.newBufferedReader(detailsPath)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("ImageID: " + imageId)) {
+                    String[] parts = line.split(", ");
+                    imageOwner = parts[1].split(": ")[1];
+                    int likes = Integer.parseInt(parts[4].split(": ")[1]);
+                    likes++; // Increment the likes count
+                    parts[4] = "Likes: " + likes;
+                    line = String.join(", ", parts);
+
+                    // Update the UI
+                    likesLabel.setText("Likes: " + likes);
+                    updated = true;
+                }
+                newContent.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Write updated likes back to image_details.txt
+        if (updated) {
+            try (BufferedWriter writer = Files.newBufferedWriter(detailsPath)) {
+                writer.write(newContent.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Record the like in notifications.txt
+            String notification = String.format("%s; %s; %s; %s\n", imageOwner, currentUser, imageId, timestamp);
+            try (BufferedWriter notificationWriter = Files.newBufferedWriter(Paths.get("data", "notifications.txt"),
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+                notificationWriter.write(notification);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
