@@ -21,7 +21,6 @@ public class ImageUploadUI extends AbstractUI {
     private JTextArea bioTextArea;
     private JButton uploadButton;
     private JButton saveButton;
-    private boolean imageUploaded = false;
 
     private ImageService imageService;
 
@@ -60,8 +59,39 @@ public class ImageUploadUI extends AbstractUI {
         // Main content panel
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        createImageIcon(contentPanel);
+        createBioTextAndPane(contentPanel);
+        createUploadButton(contentPanel);
+        createSaveButton(contentPanel);
 
-        // Image preview
+        return contentPanel;
+    }
+
+    private void createSaveButton(JPanel contentPanel) {
+        saveButton = new JButton("Save Caption");
+        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveButton.addActionListener(this::saveBioAction);
+        contentPanel.add(saveButton);
+    }
+
+    private void createUploadButton(JPanel contentPanel) {
+        uploadButton = new JButton("Upload Image");
+        uploadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        uploadButton.addActionListener(this::uploadAction);
+        contentPanel.add(uploadButton);
+    }
+
+    private void createBioTextAndPane(JPanel contentPanel) {
+        bioTextArea = new JTextArea("Enter a caption");
+        bioTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bioTextArea.setLineWrap(true);
+        bioTextArea.setWrapStyleWord(true);
+        JScrollPane bioScrollPane = new JScrollPane(bioTextArea);
+        bioScrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT / 6));
+        contentPanel.add(bioScrollPane);
+    }
+
+    private void createImageIcon(JPanel contentPanel) {
         imagePreviewLabel = new JLabel();
         imagePreviewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         imagePreviewLabel.setPreferredSize(new Dimension(WIDTH, HEIGHT / 3));
@@ -71,28 +101,6 @@ public class ImageUploadUI extends AbstractUI {
         imagePreviewLabel.setIcon(emptyImageIcon);
 
         contentPanel.add(imagePreviewLabel);
-
-        // Bio text area
-        bioTextArea = new JTextArea("Enter a caption");
-        bioTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        bioTextArea.setLineWrap(true);
-        bioTextArea.setWrapStyleWord(true);
-        JScrollPane bioScrollPane = new JScrollPane(bioTextArea);
-        bioScrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT / 6));
-        contentPanel.add(bioScrollPane);
-
-        // Upload button
-        uploadButton = new JButton("Upload Image");
-        uploadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        uploadButton.addActionListener(this::uploadAction);
-        contentPanel.add(uploadButton);
-
-        // Save button (for bio)
-        saveButton = new JButton("Save Caption");
-        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        saveButton.addActionListener(this::saveBioAction);
-
-        return contentPanel;
     }
 
     private File selectFile() {

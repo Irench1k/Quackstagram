@@ -109,6 +109,13 @@ class User {
      */
     public List<Picture> getPictures() { return pictures; }
 
+    /**
+     * Returns password
+     * 
+     * @return password
+     */
+    public String getPassword() { return password; }
+
     // Setter methods for followers and following counts
 
     /**
