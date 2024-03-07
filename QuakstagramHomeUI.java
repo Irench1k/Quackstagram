@@ -24,59 +24,6 @@ import java.nio.file.Paths;
  * @author MM
  * @version 1.0, 2024-03-02
  */
-
-/** Code Smell: LARGE CLASS
- * @author MM
- *
- *  Code Smell Description: The QuakstagramHomeUI class is responsible for UI initialization, event handling, data
- *  manipulation, and navigation. This violates the Single Responsibility Principle, suggesting the class could be
- *  refactored into smaller, more focused classes.
- *
- *  Applies to: full QuakstagramHomeUI class
- *
- *  Suggested Fix: TODO
- *
- *  Fixed? TODO
- *
- */
-
-/** Code Smell: DUPLICATE CODE
- * @author MM
- *
- *  Code Smell Description: The methods for opening different UIs (`openProfileUI`, `notificationsUI`, `ImageUploadUI`,
- *  `openHomeUI`, `exploreUI`) follow a very similar pattern of disposing the current frame and opening a new one.
- *  This duplication could be reduced by refactoring these operations into a single method with parameters to specify
- *  the UI to open.
- *
- *  Applies to: all methods cited above - these are also labelled as code smells referring back to her under their
- *  method header
- *
- *  Suggested Fix: TODO
- *
- *  Fixed? TODO
- *
- */
-
-/**
- * Code Smell: INAPPROPRIATE INTIMACY
- * 
- * @author MM
- *
- *         Code Smell Description: The class directly manipulates low-level
- *         details of file reading and writing, image
- *         processing, and UI management. This suggests a violation of
- *         encapsulation where the class is overly familiar with
- *         the details of other responsibilities. It would be beneficial to
- *         separate concerns more cleanly, perhaps by using
- *         a data access layer or service layer.
- *
- *         Applies to: full QuakstagramHomeUI class
- *
- *         Suggested Fix: TODO
- *
- *         Fixed? TODO
- *
- */
 public class QuakstagramHomeUI extends AbstractUI {
 
     /**
@@ -156,44 +103,6 @@ public class QuakstagramHomeUI extends AbstractUI {
      *
      * @param panel      The JPanel to populate with post data.
      * @param sampleData An array of sample post data to display.
-     */
-
-    /**
-     * Code Smell: LONG METHOD
-     * 
-     * @author MM
-     *
-     *         Code Smell Description: too long and performs multiple tasks. This
-     *         methods could be refactored to improve
-     *         readability and maintainability by breaking them down into smaller
-     *         methods with single responsibilities.
-     *
-     *         Applies to: populateContentPanel method
-     *
-     *         Suggested Fix: TODO
-     *
-     *         Fixed? TODO
-     *
-     */
-
-    /**
-     * Code Smell: DATA CLUMPS
-     * 
-     * @author MM
-     *
-     *         Code Smell Description: The use of arrays (`String[][] sampleData`)
-     *         to represent complex data suggests the
-     *         potential for introducing a new class to model this data more
-     *         appropriately. This would improve type safety and
-     *         clarity, making the code easier to understand and work with.
-     *
-     *         Applies to: String[][] sampleData
-     *         note: also present in the initializeUI() method
-     *
-     *         Suggested Fix: TODO
-     *
-     *         Fixed? TODO
-     *
      */
     private void populateContentPanel(JPanel panel, String[][] sampleData) {
 
