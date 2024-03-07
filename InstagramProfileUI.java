@@ -3,15 +3,9 @@ import java.util.List;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.awt.*;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InstagramProfileUI extends AbstractUI {
@@ -49,12 +43,20 @@ public class InstagramProfileUI extends AbstractUI {
         String loggedInUsername = reader.readLoggedInUser();
         boolean isCurrentUser = loggedInUsername.equals(currentUser.getUsername());
 
-        // Header Panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setBackground(Color.GRAY);
 
-        // Top Part of the Header (Profile Image, Stats, Follow Button)
+        JPanel topHeaderPanel = createTopHeaderPanel(reader, loggedInUsername, isCurrentUser);
+        JPanel profileNameAndBioPanel = createProfileNameAndBioPanel();
+
+        headerPanel.add(profileNameAndBioPanel);
+        headerPanel.add(topHeaderPanel);
+
+        return headerPanel;
+    }
+
+    private JPanel createTopHeaderPanel(InstagramReader reader, String loggedInUsername, boolean isCurrentUser) {
         JPanel topHeaderPanel = new JPanel(new BorderLayout(10, 0));
         topHeaderPanel.setBackground(new Color(249, 249, 249));
 
@@ -65,61 +67,17 @@ public class InstagramProfileUI extends AbstractUI {
         profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topHeaderPanel.add(profileImage, BorderLayout.WEST);
 
-        // Stats Panel
-        JPanel statsPanel = new JPanel();
-        statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        statsPanel.setBackground(new Color(249, 249, 249));
-        System.out.println("Number of posts for this user" + currentUser.getPostsCount());
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getPostsCount()), "Posts"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowersCount()), "Followers"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowingCount()), "Following"));
-        statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0)); // Add some vertical padding
-
-        // Follow Button
-        // Follow or Edit Profile Button
-        // followButton.addActionListener(e ->
-        // handleFollowAction(currentUser.getUsername()));
-        JButton followButton;
-        if (isCurrentUser) {
-            followButton = new JButton("Edit Profile");
-        } else {
-            // Check if the current user is already being followed by the logged-in user
-            Boolean alreadyFollowing = reader.readAlreadyFollowing(loggedInUsername, currentUser);
-            if (alreadyFollowing) {
-                followButton = new JButton("Following");
-            }
-            else {
-                followButton = new JButton("Follow");
-                followButton.addActionListener(e -> {
-                    handleFollowAction(currentUser.getUsername());
-                    followButton.setText("Following");
-                });
-            }
-        }
-
-        followButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        followButton.setFont(new Font("Arial", Font.BOLD, 12));
-        followButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, followButton.getMinimumSize().height)); // Make the
-                                                                                                             // button
-                                                                                                             // fill the
-                                                                                                             // horizontal
-                                                                                                             // space
-        followButton.setBackground(new Color(225, 228, 232)); // A soft, appealing color that complements the UI
-        followButton.setForeground(Color.BLACK);
-        followButton.setOpaque(true);
-        followButton.setBorderPainted(false);
-        followButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Add some vertical padding
-
-        // Add Stats and Follow Button to a combined Panel
+        JPanel statsPanel = createStatsPanel();
+        JButton followButton = createFollowButton(reader, loggedInUsername, isCurrentUser);
         JPanel statsFollowPanel = new JPanel();
         statsFollowPanel.setLayout(new BoxLayout(statsFollowPanel, BoxLayout.Y_AXIS));
         statsFollowPanel.add(statsPanel);
         statsFollowPanel.add(followButton);
         topHeaderPanel.add(statsFollowPanel, BorderLayout.CENTER);
+        return topHeaderPanel;
+    }
 
-        headerPanel.add(topHeaderPanel);
-
-        // Profile Name and Bio Panel
+    private JPanel createProfileNameAndBioPanel() {
         JPanel profileNameAndBioPanel = new JPanel();
         profileNameAndBioPanel.setLayout(new BorderLayout());
         profileNameAndBioPanel.setBackground(new Color(249, 249, 249));
@@ -137,11 +95,52 @@ public class InstagramProfileUI extends AbstractUI {
 
         profileNameAndBioPanel.add(profileNameLabel, BorderLayout.NORTH);
         profileNameAndBioPanel.add(profileBio, BorderLayout.CENTER);
+        return profileNameAndBioPanel;
+    }
 
-        headerPanel.add(profileNameAndBioPanel);
+    private JButton createFollowButton(InstagramReader reader, String loggedInUsername, boolean isCurrentUser) {
+        JButton followButton;
+        if (isCurrentUser) {
+            followButton = new JButton("Edit Profile");
+        } else {
+            // Check if the current user is already being followed by the logged-in user
+            Boolean alreadyFollowing = reader.readAlreadyFollowing(loggedInUsername, currentUser);
+            if (alreadyFollowing) {
+                followButton = new JButton("Following");
+            }
+            else {
+                followButton = new JButton("Follow");
+                followButton.addActionListener(e -> {
+                    handleFollowAction(currentUser.getUsername());
+                    followButton.setText("Following");
+                });
+            }
+        }
+        followButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        followButton.setFont(new Font("Arial", Font.BOLD, 12));
+        followButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, followButton.getMinimumSize().height)); // Make the
+                                                                                                             // button
+                                                                                                             // fill the
+                                                                                                             // horizontal
+                                                                                                             // space
+        followButton.setBackground(new Color(225, 228, 232)); // A soft, appealing color that complements the UI
+        followButton.setForeground(Color.BLACK);
+        followButton.setOpaque(true);
+        followButton.setBorderPainted(false);
+        followButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        return followButton;
+    }
 
-        return headerPanel;
-
+    private JPanel createStatsPanel() {
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        statsPanel.setBackground(new Color(249, 249, 249));
+        System.out.println("Number of posts for this user" + currentUser.getPostsCount());
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getPostsCount()), "Posts"));
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowersCount()), "Followers"));
+        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowingCount()), "Following"));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0)); // Add some vertical padding
+        return statsPanel;
     }
 
     private void handleFollowAction(String usernameToFollow) {
