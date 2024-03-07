@@ -305,7 +305,7 @@ public class InstagramProfileUI extends AbstractUI {
                         imageLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                displayImage(imageIcon); // Call method to display the clicked image
+                                displayImageIcon(imageIcon); // Call method to display the clicked image
                             }
                         });
                         contentPanel.add(imageLabel);
@@ -330,7 +330,7 @@ public class InstagramProfileUI extends AbstractUI {
         repaint();
     }
 
-    private void displayImage(ImageIcon imageIcon) {
+    private void displayImageIcon(ImageIcon imageIcon) {
         contentPanel.removeAll(); // Remove existing content
         contentPanel.setLayout(new BorderLayout()); // Change layout for image display
 
