@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -83,7 +85,7 @@ public class InstagramReader {
         return bio;
     }
 
-    public String readLoggedInUser() {
+    public String readLoggedInUserName() {
         String loggedInUsername = "";
 
         // Read the logged-in user's username from users.txt
@@ -175,5 +177,50 @@ public class InstagramReader {
             e.printStackTrace();
         }
     }   
+
+    public void saveUserInformation(User user) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
+            writer.write(user.toString()); // Implement a suitable toString method in User class
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO: Here again, improper error handling.
+        }
+    }
+
+    public boolean verifyCredentials(User user) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] credentials = line.split(":");
+                if (credentials[0].equals(user.getUsername()) && credentials[1].equals(user.getPassword())) {
+                    String bio = credentials[2];
+                    // Create User object and save information
+                    user.setBio(bio);; // Assuming User constructor takes these parameters
+                    saveUserInformation(user);
+
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO: Error Handling: Directly printing stack trace.
+        }
+        return false;
+    }
+
+    public boolean doesUsernameExist(String username) {
+        String credentialsFilePath = "data/credentials.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(credentialsFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(username + ":")) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO: Error Handling: Directly printing stack trace.
+        }
+        return false;
+    }
 }
+
+
 

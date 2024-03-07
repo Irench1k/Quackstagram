@@ -40,7 +40,7 @@ public class InstagramProfileUI extends AbstractUI {
 
     private JPanel createHeaderPanel() {
         InstagramReader reader = new InstagramReader();
-        String loggedInUsername = reader.readLoggedInUser();
+        String loggedInUsername = reader.readLoggedInUserName();
         boolean isCurrentUser = loggedInUsername.equals(currentUser.getUsername());
 
         JPanel headerPanel = new JPanel();
