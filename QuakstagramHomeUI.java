@@ -106,7 +106,7 @@ public class QuakstagramHomeUI extends AbstractUI {
     private JPanel cardPanel;
     private JPanel homePanel;
     private JPanel imageViewPanel;
-    private ImageLikesManager imageLikes;
+    private ImageLikesManager imageLikes = new ImageLikesManager();
 
     /**
      * Initializes and sets up the Quakstagram home UI including layout, panels,
@@ -200,11 +200,11 @@ public class QuakstagramHomeUI extends AbstractUI {
         for (String[] postData : sampleData) {
             JPanel itemPanel = getItemPanel();
 
-            JLabel nameLabel = getNamLabel(postData[0]);
+            JLabel nameLabel = getNameLabel(postData[0]);
             JLabel imageLabel = getImageLabel(postData[3]);
             JLabel descriptionLabel = getDiscriptionLabel(postData[1]);
             JLabel likesLabel = getLikesLabel(postData[2]);
-            JButton likeButton = getLikeButton(postData[3], postData[2]);
+            JButton likeButton = getLikeButton(postData, likesLabel);
             JPanel spacingPanel = getSpacingPanel();
 
             itemPanel.add(nameLabel);
@@ -235,7 +235,7 @@ public class QuakstagramHomeUI extends AbstractUI {
         return itemPanel;
     }
 
-    private JLabel getNamLabel(String postData) {
+    private JLabel getNameLabel(String postData) {
         JLabel nameLabel = new JLabel(postData);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         return nameLabel;
@@ -248,8 +248,8 @@ public class QuakstagramHomeUI extends AbstractUI {
         return descriptionLabel;
     }
 
-    private JLabel getLikesLabel(String postData) {
-        JLabel likesLabel = new JLabel(postData);
+    private JLabel getLikesLabel(String text) {
+        JLabel likesLabel = new JLabel(text);
         likesLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         return likesLabel;
@@ -350,9 +350,6 @@ public class QuakstagramHomeUI extends AbstractUI {
     private void displayImage(String[] postData) {
         imageViewPanel.removeAll(); // Clear previous content
 
-        String imageId = new File(postData[3]).getName().split("\\.")[0];
-        JLabel likesLabel = new JLabel(postData[2]); // Update this line
-
         // Display the image
         JLabel fullSizeImageLabel = new JLabel();
         fullSizeImageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -375,27 +372,14 @@ public class QuakstagramHomeUI extends AbstractUI {
         userName.setFont(new Font("Arial", Font.BOLD, 18));
         userPanel.add(userName);// User Name
 
-
-        JButton likeButton = new JButton();
-        likeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        likeButton.setBackground(LIKE_BUTTON_COLOR); // Set the background color for the like button
-        likeButton.setOpaque(true);
-        likeButton.setBorderPainted(false); // Remove border
-        likeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            //handleLikeAction(imageId, likesLabel);
-            ImageLikesManager imageLikes = new ImageLikesManager();
-            imageLikes.handleLikeAction(imageId, likesLabel);
-            refreshDisplayImage(postData, imageId); // Refresh the view
-    }
-        });
+        JLabel likesLabel = new JLabel(postData[2]);
+        JButton likeButton = getLikeButton(postData, likesLabel);
 
         // Information panel at the bottom
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(new JLabel(postData[1])); // Description
-        infoPanel.add(new JLabel(postData[2])); // Likes
+        infoPanel.add(likesLabel); // Likes
         infoPanel.add(likeButton);
 
         imageViewPanel.add(fullSizeImageLabel, BorderLayout.CENTER);
@@ -408,43 +392,25 @@ public class QuakstagramHomeUI extends AbstractUI {
         cardLayout.show(cardPanel, "ImageView"); // Switch to the image view
     }
 
-    private JButton getLikeButton(String imageIdData, String likesLabelData) {
-        String imageId = new File(imageIdData).getName().split("\\.")[0];
-        JLabel likesLabel = getLikesLabel(likesLabelData);
+    private JButton getLikeButton(String[] postData, JLabel likesLabel) {
         JButton likeButton = new JButton("❤");
         likeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         likeButton.setBackground(LIKE_BUTTON_COLOR); // Set the background color for the like button
         likeButton.setOpaque(true);
-        likeButton.setBorderPainted(false); // Remove border
+        likeButton.setBorderPainted(false); // Remove border'
+
+        String imageId = new File(postData[3]).getName().split("\\.")[0];
+
         likeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            //handleLikeAction(imageId, likesLabel);
-            ImageLikesManager imageLikes = new ImageLikesManager();
-            imageLikes.handleLikeAction(imageId, likesLabel);
-        }});
+                // handleLikeAction(imageId, likesLabel);
+                
+                int likes = imageLikes.handleLikeAction(imageId, likesLabel);
+                likesLabel.setText("Likes: " + likes);
+            }
+        });
 
         return likeButton;
     }
-
-    private void refreshDisplayImage(String[] postData, String imageId) {
-        // Read updated likes count from image_details.txt
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("img", "image_details.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("ImageID: " + imageId)) {
-                    String likes = line.split(", ")[4].split(": ")[1];
-                    postData[2] = "Likes: " + likes;
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Call displayImage with updated postData
-        displayImage(postData);
-    }
-
-    
 }
