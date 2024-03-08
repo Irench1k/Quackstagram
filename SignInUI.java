@@ -1,11 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class SignInUI extends AbstractLogin {
     private JTextField txtUsername; // TODO: Primitive Obsession: using simple text fields for sensitive information.
@@ -48,10 +43,10 @@ public class SignInUI extends AbstractLogin {
     @Override
     protected void onPrimaryButtonClick(ActionEvent event) {
         // TODO: Shotgun Surgery: Similar logic appears in the SignUpUI class. Changes here may require changes there.
-        String enteredUsername = txtUsername.getText();
-        String enteredPassword = txtPassword.getText();
-        System.out.println(enteredUsername + " <-> " + enteredPassword);
-        if (verifyCredentials(enteredUsername, enteredPassword)) {
+       newUser = new User(txtUsername.getText(), "", txtPassword.getText());
+        System.out.println(newUser.getUsername() + " <-> " + newUser.getPassword());
+        InstagramReader reader = new InstagramReader();
+        if (reader.verifyCredentials(newUser)) {
             System.out.println("It worked");
             // Close the SignUpUI frame
             dispose();
@@ -77,35 +72,6 @@ public class SignInUI extends AbstractLogin {
             SignUpUI signUpFrame = new SignUpUI();
             signUpFrame.setVisible(true);
         });
-    }
-
-    private boolean verifyCredentials(String username, String password) {
-        // TODO: Data Clumps: `username`, `password`, and later `bio` are often passed together.
-        try (BufferedReader reader = new BufferedReader(new FileReader("data/credentials.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] credentials = line.split(":");
-                if (credentials[0].equals(username) && credentials[1].equals(password)) {
-                    String bio = credentials[2];
-                    // Create User object and save information
-                    newUser = new User(username, bio, password); // Assuming User constructor takes these parameters
-                    saveUserInformation(newUser);
-
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace(); // TODO: Error Handling: Directly printing stack trace.
-        }
-        return false;
-    }
-
-    private void saveUserInformation(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/users.txt", false))) {
-            writer.write(user.toString()); // Implement a suitable toString method in User class
-        } catch (IOException e) {
-            e.printStackTrace(); // TODO: Here again, improper error handling.
-        }
     }
 
     public static void main(String[] args) {
