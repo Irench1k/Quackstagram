@@ -1,16 +1,23 @@
 import javax.swing.*;
 import java.util.List;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.awt.*;
 import java.nio.file.*;
 import java.util.stream.Stream;
 
+/*
+ * The InstagramProfileUI class is handling UI craetion, file reading, and business logic.
+ */
+
+/**
+ * Represents the user interface for the Instagram profile.
+ */
 public class InstagramProfileUI extends AbstractUI {
     private static final int PROFILE_IMAGE_SIZE = 80; // Adjusted size for the profile image to match UI
     private static final int GRID_IMAGE_SIZE = WIDTH / 3; // Static size for grid images
+    private UserService userService = new UserService();
+    private InstagramUIComponents uiComponents = new InstagramUIComponents(WIDTH, userService);
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private User currentUser; // User object to store the current user's information
 
@@ -25,132 +32,7 @@ public class InstagramProfileUI extends AbstractUI {
     }
 
     private void userHandling(User user) {
-        this.currentUser = user;
-        InstagramReader reader = new InstagramReader();
-
-        currentUser.setPostCount(reader.readImageCount(user));
-        currentUser.setFollowersCount(reader.readFollowersCount(user));
-        currentUser.setFollowingCount(reader.readFollowingCount(user));
-        currentUser.setBio(reader.readBio(user));
-
-        System.out.println("Bio for " + currentUser.getUsername() + ": " + currentUser.getBio());
-        System.out.println(currentUser.getPostsCount());
-    }
-
-
-    private JPanel createHeaderPanel() {
-        InstagramReader reader = new InstagramReader();
-        String loggedInUsername = reader.readLoggedInUserName();
-        boolean isCurrentUser = loggedInUsername.equals(currentUser.getUsername());
-
-        JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
-        headerPanel.setBackground(Color.GRAY);
-
-        JPanel topHeaderPanel = createTopHeaderPanel(reader, loggedInUsername, isCurrentUser);
-        JPanel profileNameAndBioPanel = createProfileNameAndBioPanel();
-
-        headerPanel.add(profileNameAndBioPanel);
-        headerPanel.add(topHeaderPanel);
-
-        return headerPanel;
-    }
-
-    private JPanel createTopHeaderPanel(InstagramReader reader, String loggedInUsername, boolean isCurrentUser) {
-        JPanel topHeaderPanel = new JPanel(new BorderLayout(10, 0));
-        topHeaderPanel.setBackground(new Color(249, 249, 249));
-
-        // Profile image
-        ImageIcon profileIcon = new ImageIcon(new ImageIcon("img/storage/profile/" + currentUser.getUsername() + ".png")
-                .getImage().getScaledInstance(PROFILE_IMAGE_SIZE, PROFILE_IMAGE_SIZE, Image.SCALE_SMOOTH));
-        JLabel profileImage = new JLabel(profileIcon);
-        profileImage.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        topHeaderPanel.add(profileImage, BorderLayout.WEST);
-
-        JPanel statsPanel = createStatsPanel();
-        JButton followButton = createFollowButton(reader, loggedInUsername, isCurrentUser);
-        JPanel statsFollowPanel = new JPanel();
-        statsFollowPanel.setLayout(new BoxLayout(statsFollowPanel, BoxLayout.Y_AXIS));
-        statsFollowPanel.add(statsPanel);
-        statsFollowPanel.add(followButton);
-        topHeaderPanel.add(statsFollowPanel, BorderLayout.CENTER);
-        return topHeaderPanel;
-    }
-
-    private JPanel createProfileNameAndBioPanel() {
-        JPanel profileNameAndBioPanel = new JPanel();
-        profileNameAndBioPanel.setLayout(new BorderLayout());
-        profileNameAndBioPanel.setBackground(new Color(249, 249, 249));
-
-        JLabel profileNameLabel = new JLabel(currentUser.getUsername());
-        profileNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        profileNameLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10)); // Padding on the sides
-
-        JTextArea profileBio = new JTextArea(currentUser.getBio());
-        System.out.println("This is the bio " + currentUser.getUsername());
-        profileBio.setEditable(false);
-        profileBio.setFont(new Font("Arial", Font.PLAIN, 12));
-        profileBio.setBackground(new Color(249, 249, 249));
-        profileBio.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10)); // Padding on the sides
-
-        profileNameAndBioPanel.add(profileNameLabel, BorderLayout.NORTH);
-        profileNameAndBioPanel.add(profileBio, BorderLayout.CENTER);
-        return profileNameAndBioPanel;
-    }
-
-    private JButton createFollowButton(InstagramReader reader, String loggedInUsername, boolean isCurrentUser) {
-        JButton followButton;
-        if (isCurrentUser) {
-            followButton = new JButton("Edit Profile");
-        } else {
-            // Check if the current user is already being followed by the logged-in user
-            Boolean alreadyFollowing = reader.readAlreadyFollowing(loggedInUsername, currentUser);
-            if (alreadyFollowing) {
-                followButton = new JButton("Following");
-            }
-            else {
-                followButton = new JButton("Follow");
-                followButton.addActionListener(e -> {
-                    handleFollowAction(currentUser.getUsername());
-                    followButton.setText("Following");
-                });
-            }
-        }
-        followButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        followButton.setFont(new Font("Arial", Font.BOLD, 12));
-        followButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, followButton.getMinimumSize().height)); // Make the
-                                                                                                             // button
-                                                                                                             // fill the
-                                                                                                             // horizontal
-                                                                                                             // space
-        followButton.setBackground(new Color(225, 228, 232)); // A soft, appealing color that complements the UI
-        followButton.setForeground(Color.BLACK);
-        followButton.setOpaque(true);
-        followButton.setBorderPainted(false);
-        followButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        return followButton;
-    }
-
-    private JPanel createStatsPanel() {
-        JPanel statsPanel = new JPanel();
-        statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        statsPanel.setBackground(new Color(249, 249, 249));
-        System.out.println("Number of posts for this user" + currentUser.getPostsCount());
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getPostsCount()), "Posts"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowersCount()), "Followers"));
-        statsPanel.add(createStatLabel(Integer.toString(currentUser.getFollowingCount()), "Following"));
-        statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 10, 0)); // Add some vertical padding
-        return statsPanel;
-    }
-
-    private void handleFollowAction(String usernameToFollow) {
-        InstagramReader reader = new InstagramReader();
-        String currentUserUsername = reader.readCurrentUser();
-        System.out.println("Real user is " + currentUserUsername);
-        // If currentUserUsername is not empty, process following.txt
-        if (!currentUserUsername.isEmpty()) {
-            reader.updateFollowing(currentUserUsername, usernameToFollow);
-        }
+        this.currentUser = userService.getUserDetails(user);
     }
 
     @Override
@@ -169,14 +51,7 @@ public class InstagramProfileUI extends AbstractUI {
                     .forEach(path -> {
                         ImageIcon imageIcon = new ImageIcon(new ImageIcon(path.toString()).getImage()
                                 .getScaledInstance(GRID_IMAGE_SIZE, GRID_IMAGE_SIZE, Image.SCALE_SMOOTH));
-                        JLabel imageLabel = new JLabel(imageIcon);
-                        imageLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                displayImage(imageIcon); // Call method to display the clicked image
-                            }
-                        });
-                        contentPanel.add(imageLabel);
+                        contentPanel.add(createImageLabel(imageIcon));
                     });
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -190,7 +65,7 @@ public class InstagramProfileUI extends AbstractUI {
         getContentPane().removeAll();
         setLayout(new BorderLayout());
 
-        add(createHeaderPanel(), BorderLayout.NORTH);
+        add(uiComponents.createHeaderPanel(currentUser), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(createControlPanel(), BorderLayout.SOUTH);
 
@@ -198,7 +73,18 @@ public class InstagramProfileUI extends AbstractUI {
         repaint();
     }
 
-    public void displayImage(ImageIcon imageIcon) {
+    private JLabel createImageLabel(ImageIcon imageIcon) {
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                displayImage(imageIcon); // Call method to display the clicked image
+            }
+        });
+        return imageLabel;
+    }
+
+    private void displayImage(ImageIcon imageIcon) {
         contentPanel.removeAll(); // Remove existing content
         contentPanel.setLayout(new BorderLayout()); // Change layout for image display
 
@@ -214,14 +100,6 @@ public class InstagramProfileUI extends AbstractUI {
 
         revalidate();
         repaint();
-    }
-
-    private JLabel createStatLabel(String number, String text) {
-        JLabel label = new JLabel("<html><div style='text-align: center;'>" + number + "<br/>" + text + "</div></html>",
-                SwingConstants.CENTER);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setForeground(Color.BLACK);
-        return label;
     }
 
     @Override
