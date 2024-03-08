@@ -19,27 +19,12 @@ public class InstagramUIComponents {
     }
 
     public JPanel createHeaderPanel(User currentUser) {
-        boolean isCurrentUser = false;
-        String loggedInUsername = "";
-
-        // Read the logged-in user's username from users.txt
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get("data", "users.txt"))) {
-            String line = reader.readLine();
-            if (line != null) {
-                loggedInUsername = line.split(":")[0].trim();
-                isCurrentUser = loggedInUsername.equals(currentUser.getUsername());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        InstagramReader reader = new InstagramReader();
+        String loggedInUsername = reader.readLoggedInUserName();
+        boolean isCurrentUser = loggedInUsername.equals(currentUser.getUsername());
 
         // Header Panel
         JPanel headerPanel = new JPanel();
-        try (Stream<String> lines = Files.lines(Paths.get("data", "users.txt"))) {
-            isCurrentUser = lines.anyMatch(line -> line.startsWith(currentUser.getUsername() + ":"));
-        } catch (IOException e) {
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        }
 
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setBackground(Color.GRAY);
@@ -59,7 +44,7 @@ public class InstagramUIComponents {
         JPanel statsPanel = createStatePanel(currentUser);
 
         // Follow Button
-        JButton followButton = createFollowButton(currentUser, loggedInUsername, isCurrentUser);
+        JButton followButton = createFollowButton(reader, currentUser, loggedInUsername, isCurrentUser);
 
         // Add Stats and Follow Button to a combined Panel
         JPanel statsFollowPanel = createStatsFollowPanel(currentUser, statsPanel, followButton);
@@ -116,38 +101,24 @@ public class InstagramUIComponents {
         return statsFollowPanel;
     }
 
-    private JButton createFollowButton(User currentUser, String loggedInUsername, boolean isCurrentUser) {
+    private JButton createFollowButton(InstagramReader reader, User currentUser, String loggedInUsername, boolean isCurrentUser) {
         JButton followButton;
         if (isCurrentUser) {
             followButton = new JButton("Edit Profile");
         } else {
-            followButton = new JButton("Follow");
-
             // Check if the current user is already being followed by the logged-in user
-            Path followingFilePath = Paths.get("data", "following.txt");
-            try (BufferedReader reader = Files.newBufferedReader(followingFilePath)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(":");
-                    if (parts[0].trim().equals(loggedInUsername)) {
-                        String[] followedUsers = parts[1].split(";");
-                        for (String followedUser : followedUsers) {
-                            if (followedUser.trim().equals(currentUser.getUsername())) {
-                                followButton.setText("Following");
-                                break;
-                            }
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            Boolean alreadyFollowing = reader.readAlreadyFollowing(loggedInUsername, currentUser);
+            if (alreadyFollowing) {
+                followButton = new JButton("Following");
             }
-            followButton.addActionListener(e -> {
-                handleFollowAction(currentUser.getUsername());
-                followButton.setText("Following");
-            });
+            else {
+                followButton = new JButton("Follow");
+                followButton.addActionListener(e -> {
+                    handleFollowAction(currentUser.getUsername());
+                    followButton.setText("Following");
+                });
+            }
         }
-
         followButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         followButton.setFont(new Font("Arial", Font.BOLD, 12));
         followButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, followButton.getMinimumSize().height)); // Make the
@@ -159,8 +130,7 @@ public class InstagramUIComponents {
         followButton.setForeground(Color.BLACK);
         followButton.setOpaque(true);
         followButton.setBorderPainted(false);
-        followButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Add some vertical padding
-
+        followButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         return followButton;
     }
 
