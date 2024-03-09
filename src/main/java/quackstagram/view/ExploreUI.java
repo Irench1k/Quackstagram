@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.ui;
+package src.main.java.quackstagram.view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 
 import src.main.java.quackstagram.*;
 import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
 import src.main.java.quackstagram.user.*;
+import src.main.java.quackstagram.view.*;
 
 public class ExploreUI extends AbstractUI implements ImageDisplay {
     private final int WIDTH = AbstractUI.WIDTH;

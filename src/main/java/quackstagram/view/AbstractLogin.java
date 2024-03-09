@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.ui;
+package src.main.java.quackstagram.view;
 import javax.swing.*;
 
 import java.awt.*;
@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 
 import src.main.java.quackstagram.*;
 import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
 import src.main.java.quackstagram.user.*;
+import src.main.java.quackstagram.view.*;
 
 public abstract class AbstractLogin extends BaseFrameManager {
     private JButton primaryButton;
