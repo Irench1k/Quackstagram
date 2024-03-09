@@ -1,4 +1,4 @@
-package src.main.java.quackstagram;
+package quackstagram;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -6,10 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
-import src.main.java.quackstagram.user.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public class InstagramReader {
     public int readImageCount(User user) {

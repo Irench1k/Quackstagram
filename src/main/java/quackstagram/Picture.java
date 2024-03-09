@@ -1,11 +1,11 @@
-package src.main.java.quackstagram;
+package quackstagram;
 import java.util.List;
 import java.util.ArrayList;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
-import src.main.java.quackstagram.user.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.view.*;
+import quackstagram.user.*;
 
 // Represents a picture on Quackstagram
 public class Picture {

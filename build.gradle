@@ -4,5 +4,5 @@ plugins {
 }
 
 application {
-    mainClass = 'src.main.java.quackstagram.ui.SignInUI' 
+    mainClass = 'quackstagram.view.SignInUI' 
 }

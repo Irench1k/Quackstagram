@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.images;
+package quackstagram.images;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
-import src.main.java.quackstagram.user.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public class ImageLikesManager {
 

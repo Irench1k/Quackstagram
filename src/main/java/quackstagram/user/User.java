@@ -1,11 +1,11 @@
-package src.main.java.quackstagram.user;
+package quackstagram.user;
 import java.util.List;
 import java.util.ArrayList;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
-import src.main.java.quackstagram.user.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 /**
  * Represents a user on Quackstagram, a social media platform.

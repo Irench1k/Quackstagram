@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.view;
+package quackstagram.view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.user.*;
-import src.main.java.quackstagram.view.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public class ExploreUI extends AbstractUI implements ImageDisplay {
     private final int WIDTH = AbstractUI.WIDTH;

@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.view;
+package quackstagram.view;
 import javax.swing.*;
 import java.util.List;
 import java.awt.event.*;
@@ -7,10 +7,10 @@ import java.awt.*;
 import java.nio.file.*;
 import java.util.stream.Stream;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.user.*;
-import src.main.java.quackstagram.view.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public class InstagramUIComponents {
     private UserService userService;

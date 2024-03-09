@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.view;
+package quackstagram.view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -16,10 +16,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.user.*;
-import src.main.java.quackstagram.view.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 /**
  * Represents the home screen of the Quakstagram application,

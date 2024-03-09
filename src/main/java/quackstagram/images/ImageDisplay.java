@@ -1,14 +1,14 @@
-package src.main.java.quackstagram.images;
+package quackstagram.images;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.ui.*;
-import src.main.java.quackstagram.user.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public interface ImageDisplay {
     static final int IMAGE_SIZE = 100; // Adjust size as needed

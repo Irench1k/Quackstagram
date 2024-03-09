@@ -1,4 +1,4 @@
-package src.main.java.quackstagram.view;
+package quackstagram.view;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.user.*;
-import src.main.java.quackstagram.view.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public class NotificationsUI extends AbstractUI {
 

@@ -1,11 +1,11 @@
-package src.main.java.quackstagram.view;
+package quackstagram.view;
 import javax.swing.*;
 import java.awt.*;
 
-import src.main.java.quackstagram.*;
-import src.main.java.quackstagram.images.*;
-import src.main.java.quackstagram.user.*;
-import src.main.java.quackstagram.view.*;
+import quackstagram.*;
+import quackstagram.images.*;
+import quackstagram.user.*;
+import quackstagram.view.*;
 
 public abstract class BaseFrameManager extends JFrame {
     protected static final int WIDTH = 300;
