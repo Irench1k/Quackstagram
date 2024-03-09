@@ -1,6 +1,11 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.user;
 import java.util.List;
 import java.util.ArrayList;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 /**
  * Represents a user on Quackstagram, a social media platform.
@@ -10,7 +15,7 @@ import java.util.ArrayList;
  * @author MM
  * @version 1.0, 2024-03-02
  */
-class User {
+public class User {
     private String username;
     private String bio;
     private String password;

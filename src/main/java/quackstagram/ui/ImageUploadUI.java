@@ -1,4 +1,4 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.ui;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 /**
  * The ImageUploadUI class represents a graphical user interface for uploading

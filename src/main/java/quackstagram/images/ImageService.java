@@ -1,10 +1,15 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.images;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 /*
  * The ImageUploadUI class is currently responsible for both the user interface and the business logic 

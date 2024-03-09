@@ -1,4 +1,4 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.images;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +10,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 public class ImageLikesManager {
 
@@ -102,7 +107,7 @@ public class ImageLikesManager {
      * @param imageId    The ID of the image being liked.
      * @param likesLabel The JLabel displaying the current like count for the post.
      */
-    protected int handleLikeAction(String imageId, JLabel likesLabel) {
+    public int handleLikeAction(String imageId, JLabel likesLabel) {
         Path detailsPath = Paths.get("img", "image_details.txt");
         StringBuilder newContent = new StringBuilder();
         boolean updated = false;

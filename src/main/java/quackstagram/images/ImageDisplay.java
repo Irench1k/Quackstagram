@@ -1,12 +1,17 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.images;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
+
 public interface ImageDisplay {
-    static final int IMAGE_SIZE = AbstractUI.WIDTH / 3; // Adjust size as needed
+    static final int IMAGE_SIZE = 100; // Adjust size as needed
 
     public default void loadImages(JPanel imageGridPanel) {
         // Load images from the uploaded folder

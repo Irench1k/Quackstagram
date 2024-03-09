@@ -1,7 +1,12 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.user;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 
 /**

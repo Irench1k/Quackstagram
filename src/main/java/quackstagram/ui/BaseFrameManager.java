@@ -1,6 +1,11 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.ui;
 import javax.swing.*;
 import java.awt.*;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 public abstract class BaseFrameManager extends JFrame {
     protected static final int WIDTH = 300;

@@ -1,8 +1,13 @@
-package src.main.java.quackstagram;
+package src.main.java.quackstagram.ui;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
+import src.main.java.quackstagram.*;
+import src.main.java.quackstagram.images.*;
+import src.main.java.quackstagram.ui.*;
+import src.main.java.quackstagram.user.*;
 
 public class SignInUI extends AbstractLogin {
     private JTextField txtUsername; // TODO: Primitive Obsession: using simple text fields for sensitive information.
