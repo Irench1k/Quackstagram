@@ -1,11 +1,15 @@
 package quackstagram.view;
-import javax.swing.*;
-import java.awt.*;
 
-import quackstagram.*;
-import quackstagram.images.*;
-import quackstagram.user.*;
-import quackstagram.view.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public abstract class BaseFrameManager extends JFrame {
     protected static final int WIDTH = 300;
@@ -19,7 +23,6 @@ public abstract class BaseFrameManager extends JFrame {
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
-        initializeUI();
     }
 
     protected String getRawTitle() {
@@ -30,7 +33,8 @@ public abstract class BaseFrameManager extends JFrame {
         return this.title;
     }
 
-    private void initializeUI() {
+    @SuppressWarnings("unused")
+    protected void initializeUI() {
         JComponent headerPanel = createHeaderPanel();
         JComponent mainPanel = createMainContentPanel();
         JComponent controlPanel = createControlPanel();
