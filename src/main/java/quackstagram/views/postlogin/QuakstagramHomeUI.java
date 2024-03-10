@@ -219,6 +219,30 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         return imageLabel;
     }
 
+    private JPanel getUserPanel(Picture picture) {
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
+        JLabel userName = new JLabel(picture.getOwner());
+        userName.setFont(new Font("Arial", Font.BOLD, 18));
+        userPanel.add(userName);
+
+        return userPanel;
+    }
+
+    private JPanel getInfoPanel(Picture picture) {
+        JLabel likesLabel = new JLabel(("Likes: " + picture.getLikesCount()));
+        JButton likeButton = getLikeButton(picture, likesLabel);
+        JLabel caption = new JLabel(picture.getCaption());
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.add(caption);
+        infoPanel.add(likesLabel);
+        infoPanel.add(likeButton);
+
+        return infoPanel;
+    }
+
     /**
      * Displays a full-size image view for a selected post, including user info,
      * description, and like functionality.
@@ -243,23 +267,8 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
             fullSizeImageLabel.setText("Image not found");
         }
 
-        // User Info
-        JPanel userPanel = new JPanel();
-        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
-        JLabel userName = new JLabel(picture.getOwner());
-        userName.setFont(new Font("Arial", Font.BOLD, 18));
-        userPanel.add(userName);
-
-        JLabel likesLabel = new JLabel(("Likes: " + picture.getLikesCount()));
-        JButton likeButton = getLikeButton(picture, likesLabel);
-        JLabel caption = new JLabel(picture.getCaption());
-
-        // Information panel at the bottom
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.add(caption);
-        infoPanel.add(likesLabel);
-        infoPanel.add(likeButton);
+        JPanel userPanel = getUserPanel(picture);
+        JPanel infoPanel = getInfoPanel(picture);
 
         imageViewPanel.add(fullSizeImageLabel, BorderLayout.CENTER);
         imageViewPanel.add(infoPanel, BorderLayout.SOUTH);
