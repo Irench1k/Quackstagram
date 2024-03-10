@@ -155,7 +155,6 @@ public class FileHandler {
             existingData.add(0, object);
         }
 
-        // write to file
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (T line : existingData) {
                 String lineAsString = String.join("; ", line.serialize());

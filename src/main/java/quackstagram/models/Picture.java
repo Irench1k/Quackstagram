@@ -7,7 +7,7 @@ import java.util.TimeZone;
 
 // Represents a picture on Quackstagram
 public class Picture extends AbstractModel<Picture> {
-    private String pictureID; // TODO: consistent naming
+    private String pictureID;
     private String owner;
     private String caption;
     private String date;
@@ -21,7 +21,6 @@ public class Picture extends AbstractModel<Picture> {
         this.likesCount = likesCount;
     }
 
-    // TODO: Factory method to implement Information Expert (GRASP)
     public static Picture createInstance(String[] args) throws RuntimeException {
         if (args.length != 5) {
             System.out.println(String.join(", ", args));

@@ -39,7 +39,6 @@ public class User extends AbstractModel<User> {
         this.postsCount = postsCount;
     }
 
-    // TODO: Factory method to implement Information Expert (GRASP)
     public static User createInstance(String[] args) throws RuntimeException {
         if (args.length != 6) {
             System.out.println(String.join(", ", args));

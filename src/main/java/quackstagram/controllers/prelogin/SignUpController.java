@@ -39,7 +39,6 @@ public class SignUpController {
         showSignIn();
     }
 
-    // TODO: Separation of concerns
     private void saveProfilePicture(File file, String username) {
         try {
             FileHandler.uploadProfilePicture(file, username);

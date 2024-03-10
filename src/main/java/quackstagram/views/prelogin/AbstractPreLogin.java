@@ -64,10 +64,8 @@ public abstract class AbstractPreLogin extends BaseFrameManager {
     private JComponent createSecondaryButton() {
         // New button for navigating to SignUpUI
         secondaryButton = new JButton(getSecondButtonText());
-        secondaryButton.addActionListener(this::onSecondaryButtonCLick); // TODO: Low Cohesion: This method triggers
-                                                                         // navigation, affecting UI flow and state
-                                                                         // management.
-        secondaryButton.setBackground(Color.WHITE); // Set a different color for distinction
+        secondaryButton.addActionListener(this::onSecondaryButtonCLick);
+        secondaryButton.setBackground(Color.WHITE);
         secondaryButton.setForeground(Color.BLACK);
         secondaryButton.setFocusPainted(false);
         secondaryButton.setBorderPainted(false);
