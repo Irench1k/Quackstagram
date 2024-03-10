@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import quackstagram.models.User;
 import quackstagram.views.BaseFrameManager;
 
-
 // Common ancestor of all post-auth Views
 public abstract class AbstractPostLogin extends BaseFrameManager {
     protected static final int NAV_ICON_SIZE = 20;
@@ -68,24 +67,33 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
         button.setBorder(BorderFactory.createEmptyBorder());
         button.setContentAreaFilled(false);
 
-        if (disabledIcons().contains(buttonType)) {
-            return button;
-        }
-
-        // Define actions based on button type
-        if ("home".equals(buttonType)) {
-            button.addActionListener(e -> openHomeUI());
-        } else if ("profile".equals(buttonType)) {
-            button.addActionListener(e -> openProfileUI());
-        } else if ("notification".equals(buttonType)) {
-            button.addActionListener(e -> notificationsUI());
-        } else if ("explore".equals(buttonType)) {
-            button.addActionListener(e -> exploreUI());
-        } else if ("add".equals(buttonType)) {
-            button.addActionListener(e -> imageUploadUI());
+        if (!disabledIcons().contains(buttonType)) {
+            button.addActionListener(e -> performActionBasedOnButtonType(buttonType));
         }
 
         return button;
+    }
+
+    private void performActionBasedOnButtonType(String buttonType) {
+        switch (buttonType) {
+            case "home":
+                openHomeUI();
+                break;
+            case "profile":
+                openProfileUI();
+                break;
+            case "notification":
+                notificationsUI();
+                break;
+            case "explore":
+                exploreUI();
+                break;
+            case "add":
+                imageUploadUI();
+                break;
+            default:
+                break;
+        }
     }
 
     protected void imageUploadUI() {
