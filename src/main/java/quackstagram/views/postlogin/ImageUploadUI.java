@@ -2,25 +2,18 @@ package quackstagram.views.postlogin;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-import quackstagram.FileHandler;
-import quackstagram.models.Picture;
+import quackstagram.controllers.postlogin.ImageUploadController;
 import quackstagram.models.User;
 
 /**
@@ -35,8 +28,9 @@ import quackstagram.models.User;
  */
 public class ImageUploadUI extends AbstractPostLogin {
     private JLabel imagePreviewLabel;
-    private JTextArea bioTextArea;
+    private JTextArea captionArea;
     private JButton uploadButton;
+    private ImageUploadController controller;
 
     /**
      * Constructs a new ImageUploadUI object.
@@ -45,23 +39,8 @@ public class ImageUploadUI extends AbstractPostLogin {
      */
     public ImageUploadUI(User currentUser) {
         super("Upload Image", currentUser);
+        controller = new ImageUploadController(this, currentUser);
     }
-
-    private void uploadAction(ActionEvent event) {
-        File selectedFile = selectFile();
-        if (selectedFile != null) {
-            try {
-                Picture picture = Picture.createNewForUser(getCurrentUser().getUsername(), bioTextArea.getText());
-                FileHandler.uploadImage(selectedFile, picture);
-                FileHandler.savePicture(picture);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error saving image: " + ex.getMessage(), "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-    // I have refractored the uploadAction method into smaller methods and/or
-    // classes
 
     /**
      * Initializes the user interface for the image upload functionality.
@@ -83,16 +62,16 @@ public class ImageUploadUI extends AbstractPostLogin {
     private void createUploadButton(JPanel contentPanel) {
         uploadButton = new JButton("Upload Image");
         uploadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        uploadButton.addActionListener(this::uploadAction);
+        uploadButton.addActionListener((e) -> controller.uploadAction(captionArea.getText()));
         contentPanel.add(uploadButton);
     }
 
     private void createCaptionTextAndPane(JPanel contentPanel) {
-        bioTextArea = new JTextArea("Enter a caption");
-        bioTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        bioTextArea.setLineWrap(true);
-        bioTextArea.setWrapStyleWord(true);
-        JScrollPane bioScrollPane = new JScrollPane(bioTextArea);
+        captionArea = new JTextArea("Enter a caption");
+        captionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        captionArea.setLineWrap(true);
+        captionArea.setWrapStyleWord(true);
+        JScrollPane bioScrollPane = new JScrollPane(captionArea);
         bioScrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT / 6));
         contentPanel.add(bioScrollPane);
     }
@@ -107,20 +86,6 @@ public class ImageUploadUI extends AbstractPostLogin {
         imagePreviewLabel.setIcon(emptyImageIcon);
 
         contentPanel.add(imagePreviewLabel);
-    }
-
-    private File selectFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select an image file");
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg");
-        fileChooser.addChoosableFileFilter(filter);
-
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
-        }
-        return null;
     }
 
     @Override

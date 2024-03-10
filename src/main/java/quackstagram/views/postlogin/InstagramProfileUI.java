@@ -15,8 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import quackstagram.FileHandler;
+import quackstagram.controllers.postlogin.InstagramProfileController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.postlogin.components.InstagramUIComponents;
 
 /*
  * The InstagramProfileUI class is handling UI craetion, file reading, and business logic.
@@ -30,11 +32,13 @@ public class InstagramProfileUI extends AbstractPostLogin {
     private InstagramUIComponents uiComponents;
     private JPanel contentPanel; // Panel to display the image grid or the clicked image
     private User targetUser;
+    private InstagramProfileController controller;
 
     public InstagramProfileUI(User currentUser, User targetUser) {
         super("DACS Profile", currentUser);
         this.targetUser = targetUser;
-        this.uiComponents = new InstagramUIComponents(WIDTH, currentUser, targetUser);
+        this.controller = new InstagramProfileController(this, currentUser, targetUser);
+        this.uiComponents = new InstagramUIComponents(currentUser, targetUser, controller);
         overwriteMainContentPanel();
     }
 
@@ -94,9 +98,7 @@ public class InstagramProfileUI extends AbstractPostLogin {
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            this.dispose();
-            InstagramProfileUI profileUI = new InstagramProfileUI(currentUser, targetUser);
-            profileUI.setVisible(true);
+            controller.showProfileUI();
         });
         contentPanel.add(backButton, BorderLayout.SOUTH);
 

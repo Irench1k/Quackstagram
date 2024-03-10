@@ -1,4 +1,4 @@
-package quackstagram.views.postlogin;
+package quackstagram.views.postlogin.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import quackstagram.FileHandler;
+import quackstagram.controllers.postlogin.InstagramProfileController;
 import quackstagram.models.User;
 
 public class InstagramUIComponents {
@@ -25,10 +25,12 @@ public class InstagramUIComponents {
     private User targetUser; // user whos profile is displayed
     private static final int PROFILE_IMAGE_SIZE = 80; // Adjusted size for the profile image to match UI
     private boolean isCurrentUser = false;
+    private InstagramProfileController controller;
 
-    public InstagramUIComponents(int width, User currentUser, User targetUser) {
+    public InstagramUIComponents(User currentUser, User targetUser, InstagramProfileController controller) {
         this.currentUser = currentUser;
         this.targetUser = targetUser;
+        this.controller = controller;
         this.isCurrentUser = currentUser.isIdEqualTo(targetUser);
     }
 
@@ -124,7 +126,7 @@ public class InstagramUIComponents {
             } else {
                 followButton = new JButton("Follow");
                 followButton.addActionListener(e -> {
-                    handleFollowAction();
+                    controller.handleFollowAction();
                     followButton.setText("Following");
                 });
             }
@@ -158,10 +160,5 @@ public class InstagramUIComponents {
         label.setFont(new Font("Arial", Font.BOLD, 12));
         label.setForeground(Color.BLACK);
         return label;
-    }
-
-    private void handleFollowAction() {
-        this.currentUser.addUserToFollow(targetUser);
-        FileHandler.saveUser(targetUser);
     }
 }

@@ -26,18 +26,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import quackstagram.FileHandler;
+import quackstagram.controllers.postlogin.ExploreController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
 
 public class ExploreUI extends AbstractPostLogin {
     private final int WIDTH = AbstractPostLogin.WIDTH;
     static final int IMAGE_SIZE = 100;
+    private ExploreController controller;
 
     /**
      * Represents the Explore user interface.
      */
     public ExploreUI(User currentUser) {
         super("Explore", currentUser);
+        this.controller = new ExploreController(this, currentUser);
     }
 
     @Override
@@ -108,16 +111,7 @@ public class ExploreUI extends AbstractPostLogin {
         topPanel.add(timeLabel, BorderLayout.EAST);
 
         usernameLabel.addActionListener(e -> {
-            User pictureOwner;
-            try {
-                pictureOwner = FileHandler.getUser(picture.getOwner());
-            } catch (Exception error) {
-                error.printStackTrace();
-                return;
-            }
-            InstagramProfileUI profileUI = new InstagramProfileUI(currentUser, pictureOwner);
-            profileUI.setVisible(true);
-            dispose(); // Close the current frame
+            controller.goToUserProfile(picture.getOwner());
         });
 
         return topPanel;

@@ -1,4 +1,5 @@
 package quackstagram.views.postlogin;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -26,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import quackstagram.FileHandler;
-import quackstagram.models.Notification;
+import quackstagram.controllers.postlogin.QuakstagramHomeController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
 
@@ -68,6 +69,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
     private JPanel cardPanel;
     private JPanel homePanel;
     private JPanel imageViewPanel;
+    private QuakstagramHomeController controller;
 
     /**
      * Initializes and sets up the Quakstagram home UI including layout, panels,
@@ -75,6 +77,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
      */
     public QuakstagramHomeUI(User currentUser) {
         super("Quakstagram Home", currentUser);
+        this.controller = new QuakstagramHomeController(this, currentUser);
     }
 
     @Override
@@ -260,6 +263,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
 
         imageViewPanel.add(fullSizeImageLabel, BorderLayout.CENTER);
         imageViewPanel.add(infoPanel, BorderLayout.SOUTH);
+
         imageViewPanel.add(userPanel, BorderLayout.NORTH);
 
         imageViewPanel.revalidate();
@@ -278,11 +282,8 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         likeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                picture.addLike();
-                FileHandler.savePicture(picture);
-                Notification notification = new Notification(picture.getOwner(), currentUser.getUsername(), picture.getPictureID());
-                FileHandler.saveNotification(notification);
-                likesLabel.setText("Likes: " + picture.getLikesCount());
+                int newLikes = controller.addLike(picture);
+                likesLabel.setText("Likes: " + newLikes);
             }
         });
 

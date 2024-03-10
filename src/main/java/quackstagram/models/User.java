@@ -2,7 +2,6 @@ package quackstagram.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Represents a user on Quackstagram, a social media platform.
