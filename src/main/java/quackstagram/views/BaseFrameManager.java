@@ -1,4 +1,4 @@
-package quackstagram.view;
+package quackstagram.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

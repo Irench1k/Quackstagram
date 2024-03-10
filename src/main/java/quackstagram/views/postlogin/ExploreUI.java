@@ -1,4 +1,4 @@
-package quackstagram.view.postlogin;
+package quackstagram.views.postlogin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -188,5 +188,4 @@ public class ExploreUI extends AbstractPostLogin {
         revalidate();
         repaint();
     }
-
 }

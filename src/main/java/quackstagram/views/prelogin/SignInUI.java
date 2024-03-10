@@ -1,4 +1,4 @@
-package quackstagram.view.prelogin;
+package quackstagram.views.prelogin;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -10,16 +10,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import quackstagram.FileHandler;
-import quackstagram.models.User;
-import quackstagram.view.postlogin.InstagramProfileUI;
+import quackstagram.controllers.prelogin.SignInController;
 
 public class SignInUI extends AbstractPreLogin {
     private JTextField txtUsername;
     private JTextField txtPassword;
+    private SignInController controller;
 
     public SignInUI() {
         super("Sign-In");
+        this.controller = new SignInController(this);
     }
 
     @Override
@@ -53,38 +53,12 @@ public class SignInUI extends AbstractPreLogin {
 
     @Override
     protected void onPrimaryButtonClick(ActionEvent event) {
-        User newUser;
-        try {
-            newUser = FileHandler.getUser(txtUsername.getText());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        if (newUser.isPasswordEqual(txtPassword.getText())) {
-            System.out.println("It worked");
-            dispose();
-
-            SwingUtilities.invokeLater(() -> {
-                InstagramProfileUI profileUI = new InstagramProfileUI(newUser, newUser);
-                profileUI.setVisible(true);
-            });
-        } else {
-            System.out.println("It Didn't");
-        }
+        controller.logIn(txtUsername.getText(), txtPassword.getText());
     }
 
     @Override
     protected void onSecondaryButtonCLick(ActionEvent event) {
-        // TODO: Duplicated Code: Similar logic appears in SignUpUI class (openSignInUI)
-        // Close the SignInUI frame
-        dispose();
-
-        // Open the SignUpUI frame
-        SwingUtilities.invokeLater(() -> {
-            SignUpUI signUpFrame = new SignUpUI();
-            signUpFrame.setVisible(true);
-        });
+        controller.showSignUp();
     }
 
     public static void main(String[] args) {

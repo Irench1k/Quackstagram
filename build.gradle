@@ -4,5 +4,5 @@ plugins {
 }
 
 application {
-    mainClass = 'quackstagram.view.prelogin.SignInUI' 
+    mainClass = 'quackstagram.views.prelogin.SignInUI' 
 }

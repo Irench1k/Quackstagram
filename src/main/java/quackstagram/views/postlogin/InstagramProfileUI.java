@@ -1,4 +1,4 @@
-package quackstagram.view.postlogin;
+package quackstagram.views.postlogin;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -36,6 +36,10 @@ public class InstagramProfileUI extends AbstractPostLogin {
         this.targetUser = targetUser;
         this.uiComponents = new InstagramUIComponents(WIDTH, currentUser, targetUser);
         overwriteMainContentPanel();
+    }
+
+    public InstagramProfileUI(User user) {
+        this(user, user);
     }
 
     @Override

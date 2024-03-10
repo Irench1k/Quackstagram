@@ -1,4 +1,4 @@
-package quackstagram.view.postlogin;
+package quackstagram.views.postlogin;
 
 import java.awt.Component;
 import java.awt.Dimension;

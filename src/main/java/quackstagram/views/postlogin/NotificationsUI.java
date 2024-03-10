@@ -1,4 +1,4 @@
-package quackstagram.view.postlogin;
+package quackstagram.views.postlogin;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;

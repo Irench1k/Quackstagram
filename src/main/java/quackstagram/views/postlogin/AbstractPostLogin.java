@@ -1,4 +1,4 @@
-package quackstagram.view.postlogin;
+package quackstagram.views.postlogin;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import quackstagram.models.User;
-import quackstagram.view.BaseFrameManager;
+import quackstagram.views.BaseFrameManager;
 
 
 // Common ancestor of all post-auth Views
@@ -86,7 +86,6 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
         }
 
         return button;
-
     }
 
     protected void imageUploadUI() {
