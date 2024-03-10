@@ -250,7 +250,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         userName.setFont(new Font("Arial", Font.BOLD, 18));
         userPanel.add(userName);
 
-        JLabel likesLabel = new JLabel(Integer.toString(picture.getLikesCount()));
+        JLabel likesLabel = new JLabel(("Likes: " + picture.getLikesCount()));
         JButton likeButton = getLikeButton(picture, likesLabel);
         JLabel caption = new JLabel(picture.getCaption());
 
@@ -281,7 +281,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
 
         likeButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {;
                 int newLikes = controller.addLike(picture);
                 likesLabel.setText("Likes: " + newLikes);
             }
