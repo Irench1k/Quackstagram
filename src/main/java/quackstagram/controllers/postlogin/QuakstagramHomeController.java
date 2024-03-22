@@ -17,24 +17,21 @@ public class QuakstagramHomeController {
     }
 
     public int addLike(Picture picture, NotificationsUI notificationsUI) {
-        // Create a notification for the owner of the picture
-        Notification ownerNotification = new Notification(picture.getOwner(), currentUser.getUsername(),
-                picture.getPictureID());
-        ownerNotification.setNotificationsUI(notificationsUI);
-        picture.addObserver(ownerNotification);
-        FileHandler.saveNotification(ownerNotification);
-
-        // Create a notification for the user who liked the picture
-        Notification userNotification = new Notification(currentUser.getUsername(), currentUser.getUsername(),
-                picture.getPictureID());
-        userNotification.setNotificationsUI(notificationsUI);
-        picture.addObserver(userNotification);
-        FileHandler.saveNotification(userNotification);
-
         // Add the like to the picture
         picture.addLike();
         FileHandler.savePicture(picture);
-
+    
+        // Check if the current user is the owner of the picture
+        if (!currentUser.getUsername().equals(picture.getOwner())) {
+            // Create a notification for the owner of the picture
+            Notification notification = new Notification(picture.getOwner(), currentUser.getUsername(),
+                    picture.getPictureID());
+            notification.setNotificationsUI(notificationsUI);
+            picture.addObserver(notification);
+            FileHandler.saveNotification(notification);
+        }
+    
         return picture.getLikesCount();
     }
+       
 }

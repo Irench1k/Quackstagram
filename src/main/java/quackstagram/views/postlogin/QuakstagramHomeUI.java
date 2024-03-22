@@ -42,26 +42,7 @@ import quackstagram.models.User;
  */
 public class QuakstagramHomeUI extends AbstractPostLogin {
 
-    /**
-     * Code Smell: MAGIC NUMBERS
-     * 
-     * @author MM
-     *
-     *         Code Smell Description: TThe class contains several "magic numbers,"
-     *         such as dimensions and colors, directly in
-     *         the code (`WIDTH`, `HEIGHT`, `NAV_ICON_SIZE`, etc.). These should be
-     *         declared as named constants or externalized
-     *         into configuration files to improve readability and make the code
-     *         easier to maintain.
-     *
-     *         Applies to: QuakstagramHomeUI class constant declaration at the
-     *         beginning
-     *
-     *         Suggested Fix: TODO
-     *
-     *         Fixed? TODO
-     *
-     */
+    private AbstractPostLogin ui;
     private NotificationsUI notificationsUI; // Add this line to declare the NotificationsUI instance
     private static final int IMAGE_WIDTH = WIDTH - 100; // Width for the image posts
     private static final int IMAGE_HEIGHT = 150; // Height for the image posts
