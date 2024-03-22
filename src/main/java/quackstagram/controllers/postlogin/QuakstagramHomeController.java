@@ -4,6 +4,7 @@ import quackstagram.FileHandler;
 import quackstagram.models.Notification;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.postlogin.NotificationsUI;
 import quackstagram.views.postlogin.QuakstagramHomeUI;
 
 public class QuakstagramHomeController {
@@ -15,11 +16,13 @@ public class QuakstagramHomeController {
         this.currentUser = currentUser;
     }
 
-    public int addLike(Picture picture) {
-        picture.addLike();
-        FileHandler.savePicture(picture);
+    public int addLike(Picture picture, NotificationsUI notificationsUI) {
         Notification notification = new Notification(picture.getOwner(), currentUser.getUsername(),
                 picture.getPictureID());
+        notification.setNotificationsUI(notificationsUI); // Set the NotificationsUI instance
+        picture.addObserver(notification);
+        picture.addLike();
+        FileHandler.savePicture(picture);
         FileHandler.saveNotification(notification);
         return picture.getLikesCount();
     }

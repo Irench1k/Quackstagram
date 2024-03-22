@@ -62,6 +62,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
      *         Fixed? TODO
      *
      */
+    private NotificationsUI notificationsUI; // Add this line to declare the NotificationsUI instance
     private static final int IMAGE_WIDTH = WIDTH - 100; // Width for the image posts
     private static final int IMAGE_HEIGHT = 150; // Height for the image posts
     private static final Color LIKE_BUTTON_COLOR = new Color(255, 90, 95); // Color for the like button
@@ -75,8 +76,9 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
      * Initializes and sets up the Quakstagram home UI including layout, panels,
      * and navigation.
      */
-    public QuakstagramHomeUI(User currentUser) {
+    public QuakstagramHomeUI(User currentUser, NotificationsUI notificationsUI) {
         super("Quakstagram Home", currentUser);
+        this.notificationsUI = notificationsUI; // Store the NotificationsUI instance in a field
         this.controller = new QuakstagramHomeController(this, currentUser);
     }
 
@@ -287,15 +289,15 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         likeButton.setBackground(LIKE_BUTTON_COLOR); // Set the background color for the like button
         likeButton.setOpaque(true);
         likeButton.setBorderPainted(false); // Remove border'
-
+        
         likeButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {;
-                int newLikes = controller.addLike(picture);
+            public void actionPerformed(ActionEvent e) {
+                int newLikes = controller.addLike(picture, notificationsUI); // Pass the NotificationsUI instance
                 likesLabel.setText("Likes: " + newLikes);
             }
         });
-
+        
         return likeButton;
     }
 }

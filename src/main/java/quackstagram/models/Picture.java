@@ -3,10 +3,13 @@ package quackstagram.models;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 // Represents a picture on Quackstagram
 public class Picture extends AbstractModel<Picture> {
+    private List<Observer> observers = new ArrayList<>();
     private String pictureID;
     private String owner;
     private String caption;
@@ -38,11 +41,11 @@ public class Picture extends AbstractModel<Picture> {
         String formattedCurrentDate = ZonedDateTime.now(TimeZone.getTimeZone("UTC").toZoneId()).format(formatter);
 
         return new Picture(
-            pictureId,
-            owner,
-            caption,
-            formattedCurrentDate,
-            0);
+                pictureId,
+                owner,
+                caption,
+                formattedCurrentDate,
+                0);
     }
 
     @Override
@@ -67,6 +70,19 @@ public class Picture extends AbstractModel<Picture> {
     // Increment likes count
     public void addLike() {
         likesCount++;
+        notifyObservers();
+    }
+
+    // adds an observer to the list of observers
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    // notifies all observers
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
     }
 
     public String getCaption() {

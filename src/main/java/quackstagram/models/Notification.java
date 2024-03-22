@@ -6,7 +6,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.TimeZone;
 
-public class Notification extends AbstractModel<Notification> {
+import quackstagram.views.postlogin.NotificationsUI;
+
+public class Notification extends AbstractModel<Notification> implements Observer {
+    private NotificationsUI notificationsUI; // Add this line to declare the reference to the NotificationsUI instance
+
+
+    
     private String username; // whose image was liked
     private String likedBy; // who liked the image
     private String pictureId;
@@ -28,6 +34,18 @@ public class Notification extends AbstractModel<Notification> {
         this.date = ZonedDateTime.now(TimeZone.getTimeZone("UTC").toZoneId()).format(formatter);
     }
 
+    @Override
+    public void update() {
+        String message = String.format("User %s liked picture %s on %s", likedBy, pictureId, date);
+        System.out.println(message);
+        // Assuming you have a reference to the NotificationsUI instance
+        notificationsUI.updateNotifications();
+    }
+
+    public void setNotificationsUI(NotificationsUI notificationsUI) {
+        this.notificationsUI = notificationsUI;
+    }
+
     public static Notification createInstance(String[] args) throws RuntimeException {
         if (args.length != 4) {
             System.out.println(String.join(", ", args));
@@ -42,7 +60,7 @@ public class Notification extends AbstractModel<Notification> {
 
     @Override
     public String[] serialize() {
-        return new String[] {username, likedBy, pictureId, date};
+        return new String[] { username, likedBy, pictureId, date };
     }
 
     @Override

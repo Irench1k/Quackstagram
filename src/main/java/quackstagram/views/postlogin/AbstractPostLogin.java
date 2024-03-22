@@ -120,7 +120,8 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
     protected void openHomeUI() {
         // Open InstagramProfileUI frame
         this.dispose();
-        QuakstagramHomeUI homeUI = new QuakstagramHomeUI(currentUser);
+        NotificationsUI notificationsUI = new NotificationsUI(currentUser);
+        QuakstagramHomeUI homeUI = new QuakstagramHomeUI(currentUser, notificationsUI);
         homeUI.setVisible(true);
     }
 
