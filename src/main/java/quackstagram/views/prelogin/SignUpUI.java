@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import quackstagram.controllers.prelogin.SignUpController;
+import quackstagram.views.ColorID;
+import quackstagram.views.Theme;
 
 public class SignUpUI extends AbstractPreLogin {
     private JTextField txtUsername;
@@ -47,9 +49,9 @@ public class SignUpUI extends AbstractPreLogin {
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
         txtBio = new JTextField("Bio");
-        txtBio.setForeground(Color.GRAY);
-        txtUsername.setForeground(Color.GRAY);
-        txtPassword.setForeground(Color.GRAY);
+        txtBio.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
 
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);

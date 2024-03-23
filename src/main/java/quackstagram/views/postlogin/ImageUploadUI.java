@@ -32,11 +32,6 @@ public class ImageUploadUI extends AbstractPostLogin {
     private JButton uploadButton;
     private ImageUploadController controller;
 
-    /**
-     * Constructs a new ImageUploadUI object.
-     * Sets the title, size, minimum size, default close operation, and layout
-     * of the window. Also initializes the UI components.
-     */
     public ImageUploadUI(User currentUser) {
         super("Upload Image", currentUser);
         controller = new ImageUploadController(this, currentUser);

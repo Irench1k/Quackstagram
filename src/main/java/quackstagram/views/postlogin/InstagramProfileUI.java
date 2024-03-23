@@ -20,13 +20,6 @@ import quackstagram.models.Picture;
 import quackstagram.models.User;
 import quackstagram.views.postlogin.components.InstagramUIComponents;
 
-/*
- * The InstagramProfileUI class is handling UI craetion, file reading, and business logic.
- */
-
-/**
- * Represents the user interface for the Instagram profile.
- */
 public class InstagramProfileUI extends AbstractPostLogin {
     private static final int GRID_IMAGE_SIZE = WIDTH / 3; // Static size for grid images
     private InstagramUIComponents uiComponents;

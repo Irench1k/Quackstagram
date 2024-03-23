@@ -30,41 +30,18 @@ import quackstagram.FileHandler;
 import quackstagram.controllers.postlogin.QuakstagramHomeController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.ColorID;
 
 /**
  * Represents the home screen of the Quakstagram application,
  * displaying a feed of image posts that users can interact with by liking
  * or viewing in more detail. The UI supports navigation to other parts
  * of the application like search, profile, and notifications.
- *
- * @author MM
- * @version 1.0, 2024-03-02
  */
 public class QuakstagramHomeUI extends AbstractPostLogin {
 
-    /**
-     * Code Smell: MAGIC NUMBERS
-     * 
-     * @author MM
-     *
-     *         Code Smell Description: TThe class contains several "magic numbers,"
-     *         such as dimensions and colors, directly in
-     *         the code (`WIDTH`, `HEIGHT`, `NAV_ICON_SIZE`, etc.). These should be
-     *         declared as named constants or externalized
-     *         into configuration files to improve readability and make the code
-     *         easier to maintain.
-     *
-     *         Applies to: QuakstagramHomeUI class constant declaration at the
-     *         beginning
-     *
-     *         Suggested Fix: TODO
-     *
-     *         Fixed? TODO
-     *
-     */
     private static final int IMAGE_WIDTH = WIDTH - 100; // Width for the image posts
     private static final int IMAGE_HEIGHT = 150; // Height for the image posts
-    private static final Color LIKE_BUTTON_COLOR = new Color(255, 90, 95); // Color for the like button
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JPanel homePanel;
@@ -122,14 +99,6 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         return picturesToShow;
     }
 
-    /**
-     * Populates the content panel with sample post data including images,
-     * descriptions,
-     * and like buttons.
-     *
-     * @param panel      The JPanel to populate with post data.
-     * @param sampleData An array of sample post data to display.
-     */
     private void populateContentPanel(JPanel panel, ArrayList<Picture> pictures) {
 
         for (Picture picture : pictures) {
@@ -164,7 +133,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
     private JPanel getItemPanel() {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
-        itemPanel.setBackground(Color.WHITE); // Set the background color for the item panel
+        itemPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND)); // Set the background color for the item panel
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         itemPanel.setAlignmentX(CENTER_ALIGNMENT);
         return itemPanel;
@@ -194,7 +163,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         // Grey spacing panel
         JPanel spacingPanel = new JPanel();
         spacingPanel.setPreferredSize(new Dimension(WIDTH - 10, 5)); // Set the height for spacing
-        spacingPanel.setBackground(new Color(230, 230, 230)); // Grey color for spacing
+        spacingPanel.setBackground(getColor(ColorID.BACKGROUND_SPACING)); // Grey color for spacing
         return spacingPanel;
     }
 
@@ -203,7 +172,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         JLabel imageLabel = new JLabel();
         imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         imageLabel.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
-        imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add border to image label
+        imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add border to image label DO NOT CHANGE COLOR
         try {
             BufferedImage originalImage = ImageIO.read(new File(picturePath));
             BufferedImage croppedImage = originalImage.getSubimage(0, 0,
@@ -243,12 +212,6 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         return infoPanel;
     }
 
-    /**
-     * Displays a full-size image view for a selected post, including user info,
-     * description, and like functionality.
-     *
-     * @param postData An array containing data for the selected post.
-     */
     private void displayImage(Picture picture) {
         imageViewPanel.removeAll(); // Clear previous content
 
@@ -284,7 +247,8 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
     private JButton getLikeButton(Picture picture, JLabel likesLabel) {
         JButton likeButton = new JButton("❤");
         likeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        likeButton.setBackground(LIKE_BUTTON_COLOR); // Set the background color for the like button
+        likeButton.setBackground(getColor(ColorID.LIKE_BUTTON)); // Set the background color for the like button
+        //System.out.println("QUAKSTAGRAM Like button color: " + likeButtonColor2);
         likeButton.setOpaque(true);
         likeButton.setBorderPainted(false); // Remove border'
 
