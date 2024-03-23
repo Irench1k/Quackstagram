@@ -8,4 +8,4 @@ ololo; Password; Bio; matlab; 1; 1
 DuckDuck; 321; Hello everyone; ; 0; 1
 Cute Cat; 1234; I love everyone!; ; 0; 0
 johnjohn_johnjohnjohnjohnjohn_johnjohnjohn; Password; ; ; 0; 0
-Jerome; Password; rage against the machine; ; 0; 0
+Jerome; Password; ; ; 0; 0

@@ -17,7 +17,7 @@ import quackstagram.views.moderator.ModeratorView;
  * </p>
  *
  * TODO: add image previews before deletion
- * TODO: add image previews before deletion
+ * TODO: add delete full user
  *
  */
 public class ModeratorMain {
