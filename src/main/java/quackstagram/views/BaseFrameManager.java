@@ -41,6 +41,10 @@ public abstract class BaseFrameManager extends JFrame {
         return this.theme.getColor(id);
     }
 
+    protected String getIconPath(IconID id) {
+        return this.theme.getIconPath(id);
+    }
+
     @SuppressWarnings("unused")
     protected void initializeUI() {
         JComponent headerPanel = createHeaderPanel();

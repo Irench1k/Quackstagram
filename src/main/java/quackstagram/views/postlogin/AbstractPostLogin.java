@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import quackstagram.models.User;
 import quackstagram.views.BaseFrameManager;
 import quackstagram.views.ColorID;
+import quackstagram.views.IconID;
 
 // Common ancestor of all post-auth Views
 public abstract class AbstractPostLogin extends BaseFrameManager {
@@ -44,15 +45,15 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        navigationPanel.add(createIconButton("img/icons/home.png", "home"));
+        navigationPanel.add(createIconButton(getIconPath(IconID.HOME), "home"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/search.png", "explore"));
+        navigationPanel.add(createIconButton(getIconPath(IconID.SEARCH), "explore"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/add.png", "add"));
+        navigationPanel.add(createIconButton(getIconPath(IconID.ADD), "add"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/heart.png", "notification"));
+        navigationPanel.add(createIconButton(getIconPath(IconID.HEART), "notification"));
         navigationPanel.add(Box.createHorizontalGlue());
-        navigationPanel.add(createIconButton("img/icons/profile.png", "profile"));
+        navigationPanel.add(createIconButton(getIconPath(IconID.PROFILE), "profile"));
 
         return navigationPanel;
     }
