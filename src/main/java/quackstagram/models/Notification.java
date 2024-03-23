@@ -11,8 +11,6 @@ import quackstagram.views.postlogin.NotificationsUI;
 public class Notification extends AbstractModel<Notification> implements Observer {
     private NotificationsUI notificationsUI; // Add this line to declare the reference to the NotificationsUI instance
 
-
-    
     private String username; // whose image was liked
     private String likedBy; // who liked the image
     private String pictureId;
@@ -34,11 +32,17 @@ public class Notification extends AbstractModel<Notification> implements Observe
         this.date = ZonedDateTime.now(TimeZone.getTimeZone("UTC").toZoneId()).format(formatter);
     }
 
+    
+    /**
+     * Updates the notification by printing a message indicating that a user has liked a picture.
+     * It also updates the notifications UI.
+     * 
+     * Part of the Observer Design Pattern
+     */
     @Override
     public void update() {
         String message = String.format("User %s liked picture %s on %s", likedBy, pictureId, date);
         System.out.println(message);
-        // Assuming you have a reference to the NotificationsUI instance
         notificationsUI.updateNotifications();
     }
 

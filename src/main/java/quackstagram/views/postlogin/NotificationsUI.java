@@ -1,4 +1,5 @@
 package quackstagram.views.postlogin;
+
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
@@ -34,6 +35,16 @@ public class NotificationsUI extends AbstractPostLogin {
         return scrollPane;
     }
 
+    /**
+     * Updates the notifications panel with the latest notifications for the current
+     * user.
+     * Removes all existing notifications from the panel and adds new notifications
+     * retrieved from the file handler.
+     * Each notification is displayed as a label within a panel.
+     * The content panel is then revalidated and repainted to reflect the changes.
+     * 
+     * Gets updated by the Observer pattern when a new notification is added.
+     */
     public void updateNotifications() {
         contentPanel.removeAll();
 

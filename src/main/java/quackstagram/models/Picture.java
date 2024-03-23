@@ -67,18 +67,33 @@ public class Picture extends AbstractModel<Picture> {
         return this.owner;
     }
 
-    // Increment likes count
+    /**
+     * Increases the number of likes for this picture by one and notifies the
+     * observers.
+     * 
+     * Observer Design Pattern
+     */
     public void addLike() {
         likesCount++;
         notifyObservers();
     }
 
-    // adds an observer to the list of observers
+    /**
+     * Adds an observer to the list of observers for this Picture.
+     *
+     * @param observer the observer to be added
+     * 
+     *                 Observer Design Pattern
+     */
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
-    // notifies all observers
+    /**
+     * Notifies all the observers by calling their update method.
+     * 
+     * Observer Design Pattern
+     */
     private void notifyObservers() {
         for (Observer observer : observers) {
             observer.update();
