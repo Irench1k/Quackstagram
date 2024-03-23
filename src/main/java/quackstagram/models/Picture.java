@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 // Represents a picture on Quackstagram
-public class Picture extends AbstractModel<Picture> {
+public class Picture extends AbstractModel<Picture> implements Subject {
     private List<Observer> observers = new ArrayList<>();
     private String pictureID;
     private String owner;
@@ -94,10 +94,21 @@ public class Picture extends AbstractModel<Picture> {
      * 
      * Observer Design Pattern
      */
-    private void notifyObservers() {
+    public void notifyObservers() {
         for (Observer observer : observers) {
             observer.update();
         }
+    }
+
+    /**
+     * Removes an observer from the list of observers for this Picture.
+     *
+     * @param observer the observer to be removed
+     * 
+     *                 Observer Design Pattern
+     */
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
     }
 
     public String getCaption() {
