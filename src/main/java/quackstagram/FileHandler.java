@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -165,4 +166,33 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
+
+    public static void deleteUserBio(String username) {
+        // Read all users
+        ArrayList<User> users = readFile(USERS_FILE, User::createInstance);
+
+        // Find the user and update their bio
+        users.forEach(user -> {
+            if (user.getUsername().equals(username)) {
+                user.setBio(""); // Update the bio to an empty string
+            }
+        });
+
+        // Save the updated users back to the file
+        saveAllUsers(users);
+    }
+
+    private static void saveAllUsers(ArrayList<User> users) {
+        try (BufferedWriter writer = Files.newBufferedWriter(USERS_FILE)) {
+            for (User user : users) {
+                String line = String.join("; ", user.serialize());
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
