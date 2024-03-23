@@ -6,6 +6,7 @@ import quackstagram.models.Picture;
 import quackstagram.models.User;
 import quackstagram.views.moderator.ModeratorView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,28 +18,34 @@ public class ModeratorController {
         this.model = model;
         this.view = view;
         view.setOnUserClickListener(this::onUserClicked);
-        view.setOnBioDeleteListener(username -> {
-            try {
-                FileHandler.deleteUserBio(username);
-                onUserClicked(username); // Refresh user details display
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        view.setOnAttributeClickListener(this::onAttributeClicked);
         updateView();
     }
 
     private void onUserClicked(String username) {
         User user = model.getUserByUsername(username);
         if (user != null) {
+            List<String> userDetails = new ArrayList<>();
+            userDetails.add("Username: " + user.getUsername());
+            userDetails.add("Bio: " + user.getBio());
+            // Add other details as needed
+
             List<Picture> pictures = model.getPicturesForUser(username);
-            String userDetails = "Username: " + user.getUsername() +
-                    "\nBio: " + user.getBio() +
-                    "\n\nPictures:\n" + pictures.stream()
-                    .map(pic -> pic.getPictureID() + " - " + pic.getCaption())
-                    .collect(Collectors.joining("\n"));
+            for (int i = 0; i < pictures.size(); i++) {
+                Picture pic = pictures.get(i);
+                String pictureText = "Picture " + (i + 1) + ": " + pic.getPictureID() + " - " + pic.getCaption();
+                userDetails.add(pictureText);
+            }
+
             view.setUserDetails(userDetails);
         }
+    }
+
+    private void onAttributeClicked(String attributeName) {
+        // Implement the delete logic here
+        System.out.println("Logic to delete " + attributeName + " to be implemented.");
+
+        // If needed, you can call additional methods to handle the deletion from the model.
     }
 
     private void updateView() {
@@ -51,4 +58,5 @@ public class ModeratorController {
     public void showView() {
         view.setVisible(true);
     }
+
 }
