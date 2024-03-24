@@ -99,6 +99,7 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
         }
         if (command != null) {
             command.execute(currentUser);
+            this.dispose();
         }
     }
 
