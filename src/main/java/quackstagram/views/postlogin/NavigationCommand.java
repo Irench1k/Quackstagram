@@ -1,5 +1,7 @@
 package quackstagram.views.postlogin;
 
+import quackstagram.models.User;
+
 public interface NavigationCommand {
-    void execute();
+    void execute(User currentUser);
 }

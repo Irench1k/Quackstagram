@@ -98,43 +98,15 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
                 break;
         }
         if (command != null) {
-            command.execute();
+            command.execute(currentUser);
         }
     }
 
-    public void imageUploadUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        ImageUploadUI upload = new ImageUploadUI(currentUser);
-        upload.setVisible(true);
-    }
 
-    public void openProfileUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        InstagramProfileUI profileUI = new InstagramProfileUI(currentUser, currentUser);
-        profileUI.setVisible(true);
-    }
 
-    public void notificationsUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        NotificationsUI notificationsUI = new NotificationsUI(currentUser);
-        notificationsUI.setVisible(true);
-    }
 
-    public void openHomeUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        NotificationsUI notificationsUI = new NotificationsUI(currentUser);
-        QuakstagramHomeUI homeUI = new QuakstagramHomeUI(currentUser, notificationsUI);
-        homeUI.setVisible(true);
-    }
 
-    public void exploreUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        ExploreUI explore = new ExploreUI(currentUser);
-        explore.setVisible(true);
-    }
+
+
+
 }
