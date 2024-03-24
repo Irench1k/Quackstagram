@@ -41,7 +41,7 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
         // Create and return the navigation panel
         // Navigation Bar
         JPanel navigationPanel = new JPanel();
-        navigationPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        navigationPanel.setBackground(getColor(ColorID.MINOR_BACKGROUND));
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.X_AXIS));
         navigationPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 

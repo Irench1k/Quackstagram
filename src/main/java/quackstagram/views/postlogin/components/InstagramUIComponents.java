@@ -131,7 +131,7 @@ public class InstagramUIComponents {
     private JButton createFollowButton() {
         JButton followButton;
         if (this.isCurrentUser) {
-            followButton = new JButton("Edit Profile");
+            followButton = new JButton("Edit Profile ⤵");
             followButton.addActionListener(e -> showThemeSelectionMenu(followButton));
         } else {
             // Check if the current user is already being followed by the logged-in user
@@ -159,17 +159,15 @@ public class InstagramUIComponents {
     private void showThemeSelectionMenu(JButton source) {
         JPopupMenu themeMenu = new JPopupMenu();
 
-        JMenuItem lightThemeItem = new JMenuItem("Light");
-        lightThemeItem.addActionListener(e -> {
-            Theme.getInstance().changeTheme(Theme.ThemeName.LIGHT);
-        });
-        themeMenu.add(lightThemeItem);
-
-        JMenuItem darkThemeItem = new JMenuItem("Dark");
-        darkThemeItem.addActionListener(e -> {
-            Theme.getInstance().changeTheme(Theme.ThemeName.DARK);
-        });
-        themeMenu.add(darkThemeItem);
+            // Iterate over all available themes
+        for (Theme.ThemeName themeName : Theme.ThemeName.values()) {
+            JMenuItem themeItem = new JMenuItem(themeName.name());
+            themeItem.addActionListener(e -> {
+                Theme.getInstance().changeTheme(themeName);
+                controller.showProfileUI(); // Refresh the profile UI to apply the new theme
+            });
+            themeMenu.add(themeItem);
+        }
 
         themeMenu.show(source, 0, source.getHeight());
     }
