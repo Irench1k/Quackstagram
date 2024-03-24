@@ -29,6 +29,7 @@ import quackstagram.FileHandler;
 import quackstagram.controllers.postlogin.ExploreController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.ColorID;
 import quackstagram.views.postlogin.commands.OpenExploreUICommand;
 
 public class ExploreUI extends AbstractPostLogin {
@@ -67,6 +68,9 @@ public class ExploreUI extends AbstractPostLogin {
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         mainContentPanel.add(searchPanel);
         mainContentPanel.add(scrollPane); // This will stretch to take up remaining space
+        mainContentPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        mainContentPanel.setBorder(null);
+
         return mainContentPanel;
     }
 
@@ -104,12 +108,16 @@ public class ExploreUI extends AbstractPostLogin {
         JPanel topPanel = new JPanel(new BorderLayout());
 
         JButton usernameLabel = new JButton(picture.getOwner());
+        usernameLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        usernameLabel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
         String timeSincePosting = getCalculatedTime(picture);
         JLabel timeLabel = new JLabel(timeSincePosting);
+        timeLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
         timeLabel.setHorizontalAlignment(JLabel.RIGHT);
 
         topPanel.add(usernameLabel, BorderLayout.WEST);
         topPanel.add(timeLabel, BorderLayout.EAST);
+        topPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         usernameLabel.addActionListener(e -> {
             controller.goToUserProfile(picture.getOwner());
@@ -128,6 +136,7 @@ public class ExploreUI extends AbstractPostLogin {
         } catch (IOException ex) {
             imageLabel.setText("Image not found");
         }
+        imageLabel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return imageLabel;
     }
@@ -135,16 +144,21 @@ public class ExploreUI extends AbstractPostLogin {
     private JPanel getBottomPanel(Picture picture) {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JTextArea captionArea = new JTextArea(picture.getCaption());
+        captionArea.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        captionArea.setBackground(getColor(ColorID.MAIN_BACKGROUND));
         captionArea.setEditable(false);
         JLabel likesLabel = new JLabel("Likes: " + picture.getLikesCount());
+        likesLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
         bottomPanel.add(captionArea, BorderLayout.CENTER);
         bottomPanel.add(likesLabel, BorderLayout.SOUTH);
+        bottomPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return bottomPanel;
     }
 
     private JPanel getBackButtonPanel() {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        backButtonPanel.setForeground(getColor(ColorID.TEXT_PRIMARY));
 
         JButton backButton = new JButton("Back");
         // Make the button take up the full width
@@ -154,6 +168,7 @@ public class ExploreUI extends AbstractPostLogin {
             command.exploreUI(currentUser);
         });
         backButtonPanel.add(backButton);
+        backButtonPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return backButtonPanel;
     }
@@ -168,6 +183,7 @@ public class ExploreUI extends AbstractPostLogin {
         containerPanel.add(topPanel, BorderLayout.NORTH);
         containerPanel.add(imageLabel, BorderLayout.CENTER);
         containerPanel.add(bottomPanel, BorderLayout.SOUTH);
+        containerPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return containerPanel;
     }

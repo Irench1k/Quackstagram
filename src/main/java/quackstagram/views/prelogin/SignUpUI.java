@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import quackstagram.controllers.prelogin.SignUpController;
+import quackstagram.views.ColorID;
+import quackstagram.views.Theme;
 
 public class SignUpUI extends AbstractPreLogin {
     private JTextField txtUsername;
@@ -47,9 +49,18 @@ public class SignUpUI extends AbstractPreLogin {
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
         txtBio = new JTextField("Bio");
-        txtBio.setForeground(Color.GRAY);
-        txtUsername.setForeground(Color.GRAY);
-        txtPassword.setForeground(Color.GRAY);
+        txtBio.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
+
+        txtBio.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
+
+        // Remove the borders of the text fields
+        txtBio.setBorder(null);
+        txtUsername.setBorder(null);
+        txtPassword.setBorder(null);
 
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);
@@ -60,6 +71,8 @@ public class SignUpUI extends AbstractPreLogin {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtBio);
         btnUploadPhoto = new JButton("Upload Photo");
+        btnUploadPhoto.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        btnUploadPhoto.setBackground(getColor(ColorID.ENTER_COMPONENT));
 
         btnUploadPhoto.addActionListener(new ActionListener() {
             @Override
@@ -67,9 +80,13 @@ public class SignUpUI extends AbstractPreLogin {
                 handleProfilePictureUpload();
             }
         });
+        
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         photoUploadPanel.add(btnUploadPhoto);
+        photoUploadPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        
         fieldsPanel.add(photoUploadPanel);
+        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;
     }
