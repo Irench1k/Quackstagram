@@ -17,6 +17,7 @@ import quackstagram.models.User;
 import quackstagram.views.BaseFrameManager;
 import quackstagram.views.ColorID;
 import quackstagram.views.IconID;
+import quackstagram.views.postlogin.commands.*;
 
 // Common ancestor of all post-auth Views
 public abstract class AbstractPostLogin extends BaseFrameManager {
@@ -77,59 +78,38 @@ public abstract class AbstractPostLogin extends BaseFrameManager {
     }
 
     private void performActionBasedOnButtonType(String buttonType) {
+        NavigationCommand command = null;
+
         switch (buttonType) {
             case "home":
-                openHomeUI();
+                command = new OpenHomeUICommand(this);
                 break;
             case "profile":
-                openProfileUI();
+                command = new OpenInstagramProfileUICommand(this);
                 break;
             case "notification":
-                notificationsUI();
+                command = new OpenNotificationUICommand(this);
                 break;
             case "explore":
-                exploreUI();
+                command = new OpenExploreUICommand(this);
                 break;
             case "add":
-                imageUploadUI();
+                command = new OpenImageUploadUICommand(this);
                 break;
             default:
                 break;
         }
+        if (command != null) {
+            command.execute(currentUser);
+            this.dispose();
+        }
     }
 
-    protected void imageUploadUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        ImageUploadUI upload = new ImageUploadUI(currentUser);
-        upload.setVisible(true);
-    }
 
-    protected void openProfileUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        InstagramProfileUI profileUI = new InstagramProfileUI(currentUser, currentUser);
-        profileUI.setVisible(true);
-    }
 
-    protected void notificationsUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        NotificationsUI notificationsUI = new NotificationsUI(currentUser);
-        notificationsUI.setVisible(true);
-    }
 
-    protected void openHomeUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        QuakstagramHomeUI homeUI = new QuakstagramHomeUI(currentUser);
-        homeUI.setVisible(true);
-    }
 
-    protected void exploreUI() {
-        // Open InstagramProfileUI frame
-        this.dispose();
-        ExploreUI explore = new ExploreUI(currentUser);
-        explore.setVisible(true);
-    }
+
+
+
 }

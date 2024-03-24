@@ -30,6 +30,7 @@ import quackstagram.controllers.postlogin.ExploreController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
 import quackstagram.views.ColorID;
+import quackstagram.views.postlogin.commands.OpenExploreUICommand;
 
 public class ExploreUI extends AbstractPostLogin {
     private final int WIDTH = AbstractPostLogin.WIDTH;
@@ -163,7 +164,8 @@ public class ExploreUI extends AbstractPostLogin {
         // Make the button take up the full width
         backButton.setPreferredSize(new Dimension(WIDTH - 20, backButton.getPreferredSize().height));
         backButton.addActionListener(e -> {
-            exploreUI();
+            OpenExploreUICommand command = new OpenExploreUICommand(this);
+            command.exploreUI(currentUser);
         });
         backButtonPanel.add(backButton);
         backButtonPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));

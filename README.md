@@ -1,3 +1,44 @@
+# Quackstagram README
+
+## Overview
+Quackstagram is a simple social media application where users can share images, follow other users, like pictures, and update their profiles. Built with a focus on simplicity, it provides a basic platform for photo sharing and social networking.
+
+## Features
+User Authentication: Sign up, sign in, and log out capabilities.
+Profile Management: Users can create and update their profile with a bio and a profile picture.
+Image Sharing: Users can upload images with captions to their profile.
+Explore: Users can explore pictures uploaded by other users.
+Follow System: Users can follow/unfollow other users to personalize their feed.
+Likes: Users can like pictures.
+Notifications: Users receive notifications when their pictures are liked.
+
+## Technical Details
+Quackstagram is built using Java, focusing on OOP principles and MVC architecture. The project is divided into several packages for better organization:
+
+Models: Contains classes representing the application's data models (e.g., User, Picture, Notification)
+Controllers: Contains classes responsible for handling user input and updating the model/view accordingly.
+Views: Contains classes for the application's user interface, split into pre-login and post-login views to separate authentication from the main application features.
+File Handling: Handles data persistence by reading from and writing to text files.
+
+## Key Classes
+User: Represents a user on Quackstagram.
+Picture: Represents a picture uploaded by a user.
+Notification: Represents a notification generated when a picture is liked.
+FileHandler: Provides static methods for reading from and writing to text files, serving as the application's data persistence mechanism.
+
+## Controllers and Views
+Pre-login Controllers and Views: Handle user authentication (sign-in and sign-up).
+Post-login Controllers and Views: Manage the core functionalities of the app such as exploring images, uploading pictures, and viewing profiles.
+
+## Running Quackstagram
+Ensure you have Java installed on your machine.
+Compile the Java files in your IDE or terminal.
+Run the SignInUI class to start the application.
+
+
+====================================================
+
+
 # Quackstagram (BCS1430 30%)
 
 ## Social Media App for DACS Opportunity 

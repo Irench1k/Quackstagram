@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="oom_gitlab.Quackstagram_Code" target="20" />
+      <module name="oom_gitlab.Quackstagram_Code.main" target="20" />
+      <module name="oom_gitlab.Quackstagram_Code.test" target="20" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
