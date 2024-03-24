@@ -29,6 +29,7 @@ import quackstagram.FileHandler;
 import quackstagram.controllers.postlogin.ExploreController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.ColorID;
 
 public class ExploreUI extends AbstractPostLogin {
     private final int WIDTH = AbstractPostLogin.WIDTH;
@@ -66,6 +67,9 @@ public class ExploreUI extends AbstractPostLogin {
         mainContentPanel.setLayout(new BoxLayout(mainContentPanel, BoxLayout.Y_AXIS));
         mainContentPanel.add(searchPanel);
         mainContentPanel.add(scrollPane); // This will stretch to take up remaining space
+        mainContentPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        mainContentPanel.setBorder(null);
+
         return mainContentPanel;
     }
 

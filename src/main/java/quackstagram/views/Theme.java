@@ -2,7 +2,6 @@ package quackstagram.views;
 
 import java.awt.Color;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 // Singleton Design Pattern for theme change
@@ -13,10 +12,11 @@ public class Theme {
         Map.entry(ThemeName.LIGHT, new EnumMap<>(Map.ofEntries(
             Map.entry(ColorID.BACKGROUND_HEADER, new Color(51, 51, 51)),
             Map.entry(ColorID.BACKGROUND_HEADER_SECONDARY, Color.GRAY),
-            Map.entry(ColorID.MAIN_BACKGROUND, new Color(249, 249, 249)),
+            Map.entry(ColorID.MAIN_BACKGROUND, new Color(242, 242, 242)),
+            Map.entry(ColorID.MINOR_BACKGROUND, new Color(249, 249, 249)),
             Map.entry(ColorID.LIKE_BUTTON, new Color(255, 90, 95)),
             Map.entry(ColorID.PRIMARY_lOGIN_BUTTON, new Color(255, 90, 95)),
-            Map.entry(ColorID.BACKGROUND_SPACING, new Color(230, 230, 230)),
+            Map.entry(ColorID.ENTER_COMPONENT, new Color(236, 236, 229)),
             Map.entry(ColorID.FOLLOW_BUTTON, new Color(225, 228, 232)),
             Map.entry(ColorID.TEXT_PRIMARY, Color.BLACK),
             Map.entry(ColorID.TEXT_SECONDARY, Color.GRAY),
@@ -25,11 +25,12 @@ public class Theme {
         Map.entry(ThemeName.DARK, new EnumMap<>(Map.ofEntries(
             Map.entry(ColorID.BACKGROUND_HEADER, new Color(204, 204, 204)),
             Map.entry(ColorID.BACKGROUND_HEADER_SECONDARY, Color.GRAY),
-            Map.entry(ColorID.MAIN_BACKGROUND, new Color(40, 44, 52)),
+            Map.entry(ColorID.MAIN_BACKGROUND, new Color(40,42,54)),
+            Map.entry(ColorID.MINOR_BACKGROUND, new Color(33,34,43)),
             Map.entry(ColorID.LIKE_BUTTON, new Color(0, 165, 160)),
             Map.entry(ColorID.PRIMARY_lOGIN_BUTTON, new Color(0, 165, 160)),
-            Map.entry(ColorID.BACKGROUND_SPACING, new Color(35, 35, 35)),
-            Map.entry(ColorID.FOLLOW_BUTTON, new Color(30, 27, 23)),
+            Map.entry(ColorID.ENTER_COMPONENT, new Color(47, 48, 59)),
+            Map.entry(ColorID.FOLLOW_BUTTON, new Color(0, 165, 160)),
             Map.entry(ColorID.TEXT_PRIMARY, Color.WHITE),
             Map.entry(ColorID.TEXT_SECONDARY, new Color(131,138,155)),
             Map.entry(ColorID.OPPOSITE_TEXT, Color.BLACK)
@@ -55,7 +56,7 @@ public class Theme {
 
     private Theme() {}
 
-    enum ThemeName {
+    public enum ThemeName {
         DARK,
         LIGHT
     }
@@ -65,17 +66,16 @@ public class Theme {
         if (theme == null) {
             theme = new Theme();
         }
-        System.out.println("Theme.getInstance returning: " + theme);
         return theme;
     }
 
     public void changeTheme(ThemeName name) {
         currentTheme = name;
+        System.out.println("Current theme: " + currentTheme);
     }
 
     // Color likeColor = theme.getColor(Theme.ColorComponent.LIKE_BUTTON);
     public Color getColor(ColorID id) {
-        System.out.println("getColor: " + id.toString());
         return themeDefinitions.get(currentTheme).get(id);
     }
 

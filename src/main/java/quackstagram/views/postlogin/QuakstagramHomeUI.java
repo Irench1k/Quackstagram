@@ -81,6 +81,9 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         cardPanel.add(imageViewPanel, "ImageView");
         cardLayout.show(cardPanel, "Home");
 
+        contentPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        contentPanel.setBorder(null);
+
         return cardPanel;
     }
 
@@ -110,6 +113,11 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
             JLabel likesLabel = getLikesLabel(picture.getLikesCount());
             JButton likeButton = getLikeButton(picture, likesLabel);
             JPanel spacingPanel = getSpacingPanel();
+
+            nameLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
+            imageLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
+            captionLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
+            likesLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
 
             itemPanel.add(nameLabel);
             itemPanel.add(imageLabel);
@@ -163,7 +171,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         // Grey spacing panel
         JPanel spacingPanel = new JPanel();
         spacingPanel.setPreferredSize(new Dimension(WIDTH - 10, 5)); // Set the height for spacing
-        spacingPanel.setBackground(getColor(ColorID.BACKGROUND_SPACING)); // Grey color for spacing
+        spacingPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND)); // Grey color for spacing
         return spacingPanel;
     }
 
@@ -192,22 +200,27 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
         JLabel userName = new JLabel(picture.getOwner());
+        userName.setForeground(getColor(ColorID.TEXT_PRIMARY));
         userName.setFont(new Font("Arial", Font.BOLD, 18));
         userPanel.add(userName);
+        userPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return userPanel;
     }
 
     private JPanel getInfoPanel(Picture picture) {
         JLabel likesLabel = new JLabel(("Likes: " + picture.getLikesCount()));
+        likesLabel.setForeground(getColor(ColorID.TEXT_PRIMARY));
         JButton likeButton = getLikeButton(picture, likesLabel);
         JLabel caption = new JLabel(picture.getCaption());
+        caption.setForeground(getColor(ColorID.TEXT_PRIMARY));
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(caption);
         infoPanel.add(likesLabel);
         infoPanel.add(likeButton);
+        infoPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return infoPanel;
     }
@@ -240,6 +253,7 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
 
         imageViewPanel.revalidate();
         imageViewPanel.repaint();
+        imageViewPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         cardLayout.show(cardPanel, "ImageView"); // Switch to the image view
     }

@@ -26,7 +26,7 @@ public abstract class BaseFrameManager extends JFrame {
         setSize(WIDTH, HEIGHT);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
+        //setLayout(new BorderLayout(10, 10));
     }
 
     protected String getRawTitle() {

@@ -18,6 +18,7 @@ import quackstagram.FileHandler;
 import quackstagram.controllers.postlogin.InstagramProfileController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
+import quackstagram.views.ColorID;
 import quackstagram.views.postlogin.components.InstagramUIComponents;
 
 public class InstagramProfileUI extends AbstractPostLogin {
@@ -65,6 +66,9 @@ public class InstagramProfileUI extends AbstractPostLogin {
         add(uiComponents.createHeaderPanel(), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(createControlPanel(), BorderLayout.SOUTH);
+
+        contentPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        contentPanel.setBorder(null);
 
         revalidate();
         repaint();

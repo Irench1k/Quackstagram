@@ -85,6 +85,7 @@ public abstract class AbstractPreLogin extends BaseFrameManager {
         JPanel photoPanel = new JPanel(); // Use a panel to center the photo label
         photoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         photoPanel.add(lblPhoto);
+        photoPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return photoPanel;
     }

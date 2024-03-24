@@ -13,7 +13,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
@@ -21,6 +23,7 @@ import quackstagram.controllers.postlogin.InstagramProfileController;
 import quackstagram.models.User;
 import quackstagram.views.ColorID;
 import quackstagram.views.Theme;
+import quackstagram.views.postlogin.InstagramProfileUI;
 
 public class InstagramUIComponents {
     private User currentUser; // logged in user
@@ -29,10 +32,10 @@ public class InstagramUIComponents {
     private boolean isCurrentUser = false;
     private InstagramProfileController controller;
     private Theme theme = Theme.getInstance();
-    private Color mainBackgroundColor = theme.getColor(ColorID.MAIN_BACKGROUND); // set primary color
     private Color followButtonColor = theme.getColor(ColorID.FOLLOW_BUTTON);
     private Color textPrimaryColor = theme.getColor(ColorID.TEXT_PRIMARY);
     private Color backgroundHeaderSecondary = theme.getColor(ColorID.BACKGROUND_HEADER_SECONDARY);
+    private Color minorBackgroundColor = theme.getColor(ColorID.MINOR_BACKGROUND);
 
 
     public InstagramUIComponents(User currentUser, User targetUser, InstagramProfileController controller) {
@@ -51,7 +54,7 @@ public class InstagramUIComponents {
 
         // Top Part of the Header (Profile Image, Stats, Follow Button)
         JPanel topHeaderPanel = new JPanel(new BorderLayout(10, 0));
-        topHeaderPanel.setBackground(mainBackgroundColor);
+        topHeaderPanel.setBackground(minorBackgroundColor);
 
         // Profile image
         ImageIcon profileIcon = new ImageIcon(
@@ -93,6 +96,7 @@ public class InstagramUIComponents {
 
     private JLabel createProfileNameLabel() {
         JLabel profileNameLabel = new JLabel(targetUser.getUsername());
+        profileNameLabel.setForeground(textPrimaryColor);
         profileNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         profileNameLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10)); // Padding on the sides
         return profileNameLabel;
@@ -101,16 +105,17 @@ public class InstagramUIComponents {
     private JPanel createProfileNameAndBioPanel() {
         JPanel profileNameAndBioPanel = new JPanel();
         profileNameAndBioPanel.setLayout(new BorderLayout());
-        profileNameAndBioPanel.setBackground(mainBackgroundColor);
+        profileNameAndBioPanel.setBackground(minorBackgroundColor);
         return profileNameAndBioPanel;
     }
 
     private JTextArea createProfileBio() {
         JTextArea profileBio = new JTextArea(targetUser.getBio());
+        profileBio.setForeground(textPrimaryColor);
         System.out.println("This is the bio " + targetUser.getUsername());
         profileBio.setEditable(false);
         profileBio.setFont(new Font("Arial", Font.PLAIN, 12));
-        profileBio.setBackground(mainBackgroundColor);
+        profileBio.setBackground(minorBackgroundColor);
         profileBio.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10)); // Padding on the sides
         return profileBio;
     }
@@ -127,6 +132,7 @@ public class InstagramUIComponents {
         JButton followButton;
         if (this.isCurrentUser) {
             followButton = new JButton("Edit Profile");
+            followButton.addActionListener(e -> showThemeSelectionMenu(followButton));
         } else {
             // Check if the current user is already being followed by the logged-in user
             if (this.currentUser.followsUser(targetUser)) {
@@ -150,10 +156,28 @@ public class InstagramUIComponents {
         return followButton;
     }
 
+    private void showThemeSelectionMenu(JButton source) {
+        JPopupMenu themeMenu = new JPopupMenu();
+
+        JMenuItem lightThemeItem = new JMenuItem("Light");
+        lightThemeItem.addActionListener(e -> {
+            Theme.getInstance().changeTheme(Theme.ThemeName.LIGHT);
+        });
+        themeMenu.add(lightThemeItem);
+
+        JMenuItem darkThemeItem = new JMenuItem("Dark");
+        darkThemeItem.addActionListener(e -> {
+            Theme.getInstance().changeTheme(Theme.ThemeName.DARK);
+        });
+        themeMenu.add(darkThemeItem);
+
+        themeMenu.show(source, 0, source.getHeight());
+    }
+
     private JPanel createStatePanel() {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        statsPanel.setBackground(mainBackgroundColor);
+        statsPanel.setBackground(minorBackgroundColor);
         System.out.println("Number of posts for this user" + targetUser.getPostsCount());
         statsPanel.add(createStatLabel(Integer.toString(targetUser.getPostsCount()), "Posts"));
         statsPanel.add(createStatLabel(Integer.toString(targetUser.getFollowersCount()), "Followers"));
