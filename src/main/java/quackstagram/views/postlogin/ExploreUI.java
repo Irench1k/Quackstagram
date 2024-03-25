@@ -166,6 +166,7 @@ public class ExploreUI extends AbstractPostLogin {
         backButton.addActionListener(e -> {
             OpenExploreUICommand command = new OpenExploreUICommand(this);
             command.exploreUI(currentUser);
+            this.dispose();
         });
         backButtonPanel.add(backButton);
         backButtonPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
