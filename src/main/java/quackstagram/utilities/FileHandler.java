@@ -1,4 +1,4 @@
-package quackstagram;
+package quackstagram.utilities;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;

@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import quackstagram.FileHandler;
+import quackstagram.utilities.FileHandler;
 import quackstagram.controllers.postlogin.QuakstagramHomeController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;

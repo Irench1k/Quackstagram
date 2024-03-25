@@ -1,6 +1,6 @@
 package quackstagram.controllers.moderator;
 
-import quackstagram.FileHandler;
+import quackstagram.utilities.FileHandler;
 import quackstagram.models.ModeratorModel;
 import quackstagram.models.Picture;
 import quackstagram.models.User;

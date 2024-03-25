@@ -1,8 +1,8 @@
 plugins {
     id 'java'
-    id 'application' 
+    id 'application'
 }
 
 application {
-    mainClass = 'quackstagram.views.prelogin.SignInUI' 
+    mainClass = 'quackstagram.UserLaunch'
 }

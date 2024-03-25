@@ -4,6 +4,8 @@ import quackstagram.controllers.moderator.ModeratorController;
 import quackstagram.models.ModeratorModel;
 import quackstagram.views.moderator.ModeratorView;
 
+import javax.swing.*;
+
 
 /**
  * The entry point for the Moderator Panel application in the Quackstagram project.
@@ -20,15 +22,17 @@ import quackstagram.views.moderator.ModeratorView;
  * TODO: add delete full user
  *
  */
-public class ModeratorMain {
+public class ModeratorLaunch {
 
     /**
      * The main method that initializes and runs the moderator panel.
      */
     public static void main(String[] args) {
-        ModeratorModel model = new ModeratorModel();
-        ModeratorView view = new ModeratorView();
-        ModeratorController controller = new ModeratorController(model, view);
-        controller.showView();
+        SwingUtilities.invokeLater(() -> {
+            ModeratorModel model = new ModeratorModel();
+            ModeratorView view = new ModeratorView();
+            ModeratorController controller = new ModeratorController(model, view);
+            controller.showView();
+        });
     }
 }

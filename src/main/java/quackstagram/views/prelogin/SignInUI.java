@@ -35,7 +35,7 @@ public class SignInUI extends AbstractPreLogin {
         txtPassword = new JTextField("Password");
         txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
         txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
-        
+
         txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
         txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
 
@@ -69,12 +69,5 @@ public class SignInUI extends AbstractPreLogin {
     @Override
     protected void onSecondaryButtonCLick(ActionEvent event) {
         controller.showSignUp();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SignInUI frame = new SignInUI();
-            frame.setVisible(true);
-        });
     }
 }
