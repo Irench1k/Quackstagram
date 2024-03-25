@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import quackstagram.FileHandler;
+import quackstagram.utilities.FileHandler;
 import quackstagram.controllers.postlogin.ExploreController;
 import quackstagram.models.Picture;
 import quackstagram.models.User;
