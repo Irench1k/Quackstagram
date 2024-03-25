@@ -18,9 +18,7 @@ import javax.swing.*;
  * ModeratorView, allowing the moderator to interact with the application.
  * </p>
  *
- * TODO: add image previews before deletion
- * TODO: add delete full user
- *
+ * TODO: add delete full user (if we have time)
  */
 public class ModeratorLaunch {
 
