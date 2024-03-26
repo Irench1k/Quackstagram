@@ -35,10 +35,17 @@ public class SignInUI extends AbstractPreLogin {
 
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
-        txtUsername.setForeground(Color.GRAY);
-        txtPassword.setForeground(Color.GRAY);
+        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtUsername.setBorder(null);
+        txtPassword.setBorder(null);
         
         JButton twoFAButton = new JButton("Click if you've enabled 2FA");
+        twoFAButton.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        twoFAButton.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        
         twoFAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
