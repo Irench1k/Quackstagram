@@ -22,12 +22,12 @@ import quackstagram.views.ColorID;
 import quackstagram.views.Theme;
 
 public class SignUpUI extends AbstractPreLogin {
-    private JTextField txtUsername;
-    private JTextField txtPassword;
-    private JTextField txtBio;
-    private JButton btnUploadPhoto;
-    private File selectedFile;
-    private SignUpController controller;
+    protected JTextField txtUsername;
+    protected JTextField txtPassword;
+    protected JTextField txtBio;
+    protected JButton btnUploadPhoto;
+    protected File selectedFile;
+    protected SignUpController controller;
 
     public SignUpUI() {
         super("Sign Up");
@@ -80,13 +80,22 @@ public class SignUpUI extends AbstractPreLogin {
                 handleProfilePictureUpload();
             }
         });
-        
+
+        JButton twoFAButton = new JButton("Add 2FA");
+        twoFAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.view = new SignUpUIDecorator(controller.view);
+                controller.showSignUp();
+            }
+        });
+
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         photoUploadPanel.add(btnUploadPhoto);
         photoUploadPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
         
         fieldsPanel.add(photoUploadPanel);
-        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        fieldsPanel.add(twoFAButton);
 
         return fieldsPanel;
     }
@@ -117,7 +126,7 @@ public class SignUpUI extends AbstractPreLogin {
     }
 
     // Method to handle profile picture upload
-    private void handleProfilePictureUpload() {
+    public void handleProfilePictureUpload() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         fileChooser.setFileFilter(filter);

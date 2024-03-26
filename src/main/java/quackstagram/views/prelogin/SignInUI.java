@@ -6,17 +6,19 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
 
 import quackstagram.controllers.prelogin.SignInController;
 import quackstagram.views.ColorID;
 
 public class SignInUI extends AbstractPreLogin {
-    private JTextField txtUsername;
-    private JTextField txtPassword;
-    private SignInController controller;
+    protected JTextField txtUsername;
+    protected JTextField txtPassword;
+    protected SignInController controller;
 
     public SignInUI() {
         super("Sign-In");
@@ -33,16 +35,18 @@ public class SignInUI extends AbstractPreLogin {
 
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
-        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
-        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
-
-        txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
-        txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
-
-        // Remove the borders of the text fields
-        txtUsername.setBorder(null);
-        txtPassword.setBorder(null);
-
+        txtUsername.setForeground(Color.GRAY);
+        txtPassword.setForeground(Color.GRAY);
+        
+        JButton twoFAButton = new JButton("Click if you've enabled 2FA");
+        twoFAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.view = new SignInUIDecorator(controller.view);
+                controller.showSignIn();
+            }
+        });
+    
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);
         fieldsPanel.add(Box.createVerticalStrut(10));
@@ -50,6 +54,7 @@ public class SignInUI extends AbstractPreLogin {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
+        fieldsPanel.add(twoFAButton);
 
         fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
