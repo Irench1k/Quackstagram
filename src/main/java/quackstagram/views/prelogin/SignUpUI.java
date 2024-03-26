@@ -20,12 +20,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import quackstagram.controllers.prelogin.SignUpController;
 
 public class SignUpUI extends AbstractPreLogin {
-    private JTextField txtUsername;
-    private JTextField txtPassword;
-    private JTextField txtBio;
-    private JButton btnUploadPhoto;
-    private File selectedFile;
-    private SignUpController controller;
+    protected JTextField txtUsername;
+    protected JTextField txtPassword;
+    protected JTextField txtBio;
+    protected JButton btnUploadPhoto;
+    protected File selectedFile;
+    protected SignUpController controller;
 
     public SignUpUI() {
         super("Sign Up");
@@ -102,7 +102,7 @@ public class SignUpUI extends AbstractPreLogin {
             return;
         }
 
-        controller.signUp(username, password, bio, 0, selectedFile);
+        controller.signUp(username, password, bio, selectedFile);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SignUpUI extends AbstractPreLogin {
     }
 
     // Method to handle profile picture upload
-    private void handleProfilePictureUpload() {
+    public void handleProfilePictureUpload() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         fileChooser.setFileFilter(filter);

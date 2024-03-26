@@ -6,16 +6,18 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
 
 import quackstagram.controllers.prelogin.SignInController;
 
 public class SignInUI extends AbstractPreLogin {
-    private JTextField txtUsername;
-    private JTextField txtPassword;
-    private SignInController controller;
+    protected JTextField txtUsername;
+    protected JTextField txtPassword;
+    protected SignInController controller;
 
     public SignInUI() {
         super("Sign-In");
@@ -34,7 +36,16 @@ public class SignInUI extends AbstractPreLogin {
         txtPassword = new JTextField("Password");
         txtUsername.setForeground(Color.GRAY);
         txtPassword.setForeground(Color.GRAY);
-
+        
+        JButton twoFAButton = new JButton("Click if you've enabled 2FA");
+        twoFAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.view = new SignInUIDecorator(controller.view);
+                controller.showSignIn();
+            }
+        });
+    
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);
         fieldsPanel.add(Box.createVerticalStrut(10));
@@ -42,6 +53,7 @@ public class SignInUI extends AbstractPreLogin {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
+        fieldsPanel.add(twoFAButton);
 
         return fieldsPanel;
     }
