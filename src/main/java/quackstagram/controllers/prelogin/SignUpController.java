@@ -12,13 +12,13 @@ import quackstagram.views.prelogin.SignInUI;
 import quackstagram.views.prelogin.SignUpUI;
 
 public class SignUpController {
-    private SignUpUI view;
+    public SignUpUI view;
 
     public SignUpController(SignUpUI view) {
         this.view = view;
     }
 
-    public void signUp(String username, String password, String bio, File selectedFile) {
+    public void signUp(String username, String password, String bio, int passCode, File selectedFile) {
         try {
             FileHandler.getUser(username);
             JOptionPane.showMessageDialog(view,
@@ -29,7 +29,7 @@ public class SignUpController {
             // User does not exist - expected
         }
 
-        User newUser = new User(username, password, bio, new ArrayList<String>(), 0, 0);
+        User newUser = new User(username, password, bio, passCode, new ArrayList<String>(), 0, 0);
 
         // All checks done, save stuff
         // TODO: if one of the saving fails, revert has to be done
@@ -51,5 +51,10 @@ public class SignUpController {
         view.dispose();
         SignInUI signInFrame = new SignInUI();
         signInFrame.setVisible(true);
+    }
+
+    public void showSignUp() {
+        view.dispose();
+        view.setVisible(true);
     }
 }

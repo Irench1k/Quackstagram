@@ -16,6 +16,7 @@ public class User extends AbstractModel<User> {
     private String username;
     private String password;
     private String bio;
+    private int passCode;
     private ArrayList<String> followingUsers; // other users that this one follows
     private int followersCount;
     private int postsCount;
@@ -29,11 +30,12 @@ public class User extends AbstractModel<User> {
      * @param bio      the bio of the new user
      * @param password the password for the new user
      */
-    public User(String username, String password, String bio, ArrayList<String> followingUsers,
+    public User(String username, String password, String bio,int passCode, ArrayList<String> followingUsers,
                 int followersCount, int postsCount) {
         this.username = username;
         this.password = password;
         this.bio = bio;
+        this.passCode = passCode;
         this.followingUsers = followingUsers;
         this.followersCount = followersCount;
         this.postsCount = postsCount;
@@ -51,7 +53,7 @@ public class User extends AbstractModel<User> {
         int followersCount = Integer.parseInt(args[4]);
         int postsCount = Integer.parseInt(args[5]);
 
-        return new User(username, password, bio, followingUsers, followersCount, postsCount);
+        return new User(username, password, bio, 0, followingUsers, followersCount, postsCount);
     }
 
     @Override

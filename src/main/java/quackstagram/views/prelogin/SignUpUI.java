@@ -67,9 +67,20 @@ public class SignUpUI extends AbstractPreLogin {
                 handleProfilePictureUpload();
             }
         });
+
+        JButton twoFAButton = new JButton("Add 2FA");
+        twoFAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.view = new SignUpUIDecorator(controller.view);
+                controller.showSignUp();
+            }
+        });
+
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         photoUploadPanel.add(btnUploadPhoto);
         fieldsPanel.add(photoUploadPanel);
+        fieldsPanel.add(twoFAButton);
 
         return fieldsPanel;
     }
@@ -91,7 +102,7 @@ public class SignUpUI extends AbstractPreLogin {
             return;
         }
 
-        controller.signUp(username, password, bio, selectedFile);
+        controller.signUp(username, password, bio, 0, selectedFile);
     }
 
     @Override
