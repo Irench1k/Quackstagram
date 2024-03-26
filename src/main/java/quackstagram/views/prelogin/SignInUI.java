@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 
 import quackstagram.controllers.prelogin.SignInController;
+import quackstagram.views.ColorID;
 
 public class SignInUI extends AbstractPreLogin {
     protected JTextField txtUsername;
@@ -55,6 +56,8 @@ public class SignInUI extends AbstractPreLogin {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(twoFAButton);
 
+        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+
         return fieldsPanel;
     }
 
@@ -71,12 +74,5 @@ public class SignInUI extends AbstractPreLogin {
     @Override
     protected void onSecondaryButtonCLick(ActionEvent event) {
         controller.showSignUp();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SignInUI frame = new SignInUI();
-            frame.setVisible(true);
-        });
     }
 }

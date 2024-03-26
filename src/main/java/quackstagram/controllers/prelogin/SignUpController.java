@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import quackstagram.FileHandler;
+import quackstagram.utilities.FileHandler;
 import quackstagram.models.User;
 import quackstagram.views.prelogin.SignInUI;
 import quackstagram.views.prelogin.SignInUIDecorator;

@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 
 import quackstagram.controllers.postlogin.ImageUploadController;
 import quackstagram.models.User;
+import quackstagram.views.ColorID;
 
 /**
  * The ImageUploadUI class represents a graphical user interface for uploading
@@ -32,11 +33,6 @@ public class ImageUploadUI extends AbstractPostLogin {
     private JButton uploadButton;
     private ImageUploadController controller;
 
-    /**
-     * Constructs a new ImageUploadUI object.
-     * Sets the title, size, minimum size, default close operation, and layout
-     * of the window. Also initializes the UI components.
-     */
     public ImageUploadUI(User currentUser) {
         super("Upload Image", currentUser);
         controller = new ImageUploadController(this, currentUser);
@@ -55,12 +51,16 @@ public class ImageUploadUI extends AbstractPostLogin {
         createImageIcon(contentPanel);
         createCaptionTextAndPane(contentPanel);
         createUploadButton(contentPanel);
+        contentPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return contentPanel;
     }
 
     private void createUploadButton(JPanel contentPanel) {
-        uploadButton = new JButton("Upload Image");
+        String upload = "Upload Image";
+        uploadButton = new JButton(upload);
+        uploadButton.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        uploadButton.setBackground(getColor(ColorID.LIKE_BUTTON));
         uploadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         uploadButton.addActionListener((e) -> controller.uploadAction(captionArea.getText()));
         contentPanel.add(uploadButton);
@@ -71,7 +71,13 @@ public class ImageUploadUI extends AbstractPostLogin {
         captionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         captionArea.setLineWrap(true);
         captionArea.setWrapStyleWord(true);
+        captionArea.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        captionArea.setBackground(getColor(ColorID.ENTER_COMPONENT));
+
+
         JScrollPane bioScrollPane = new JScrollPane(captionArea);
+        bioScrollPane.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        bioScrollPane.setBorder(null);
         bioScrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT / 6));
         contentPanel.add(bioScrollPane);
     }

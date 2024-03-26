@@ -1,6 +1,6 @@
 package quackstagram.controllers.postlogin;
 
-import quackstagram.FileHandler;
+import quackstagram.utilities.FileHandler;
 import quackstagram.models.User;
 import quackstagram.views.postlogin.InstagramProfileUI;
 
