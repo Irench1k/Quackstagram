@@ -82,6 +82,8 @@ public class SignUpUI extends AbstractPreLogin {
         });
 
         JButton twoFAButton = new JButton("Add 2FA");
+        twoFAButton.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        twoFAButton.setBackground(getColor(ColorID.ENTER_COMPONENT));
         twoFAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,6 +98,7 @@ public class SignUpUI extends AbstractPreLogin {
         
         fieldsPanel.add(photoUploadPanel);
         fieldsPanel.add(twoFAButton);
+        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;
     }
