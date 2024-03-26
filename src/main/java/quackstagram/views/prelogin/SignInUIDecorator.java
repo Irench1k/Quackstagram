@@ -5,10 +5,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.Color;
+
+import quackstagram.views.ColorID;
+
 import java.awt.event.ActionEvent;
 
 public class SignInUIDecorator extends SignInUI {
+    @SuppressWarnings("unused")
     private SignInUI signInUI;
     JTextField txtPassCode;
 
@@ -27,9 +30,17 @@ public class SignInUIDecorator extends SignInUI {
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
         txtPassCode = new JTextField("Passcode");
-        txtUsername.setForeground(Color.GRAY);
-        txtPassword.setForeground(Color.GRAY);
-        txtPassCode.setForeground(Color.GRAY);;
+        txtPassCode.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassCode.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
+
+        txtPassCode.setBorder(BorderFactory.createEmptyBorder());
+        txtPassword.setBorder(BorderFactory.createEmptyBorder());
+        txtUsername.setBorder(BorderFactory.createEmptyBorder());
+        
         
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);
@@ -40,6 +51,7 @@ public class SignInUIDecorator extends SignInUI {
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtPassCode);
         fieldsPanel.add(Box.createVerticalStrut(10));
+        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;
     }

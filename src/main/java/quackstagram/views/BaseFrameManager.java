@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import quackstagram.views.Theme;
-
 public abstract class BaseFrameManager extends JFrame {
     protected static final int WIDTH = 300;
     protected static final int HEIGHT = 500;

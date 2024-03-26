@@ -1,6 +1,5 @@
 package quackstagram.views.prelogin;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 
 import quackstagram.views.BaseFrameManager;
 import quackstagram.views.ColorID;
-import quackstagram.views.Theme;
 
 public abstract class AbstractPreLogin extends BaseFrameManager {
     private JButton primaryButton;

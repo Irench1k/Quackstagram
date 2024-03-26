@@ -1,6 +1,5 @@
 package quackstagram.views.prelogin;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
@@ -9,8 +8,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
+import java.awt.FlowLayout;
 
 import quackstagram.controllers.prelogin.SignInController;
 import quackstagram.views.ColorID;
@@ -62,7 +61,12 @@ public class SignInUI extends AbstractPreLogin {
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(twoFAButton);
+        
+        JPanel twoFAPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        twoFAPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+        twoFAPanel.add(twoFAButton);
 
+        fieldsPanel.add(twoFAPanel);
         fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;

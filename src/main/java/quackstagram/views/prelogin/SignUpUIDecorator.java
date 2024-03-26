@@ -1,6 +1,5 @@
 package quackstagram.views.prelogin;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import quackstagram.views.ColorID;
 
 public class SignUpUIDecorator extends SignUpUI {
     SignUpUI signUpUI;
@@ -31,10 +32,17 @@ public class SignUpUIDecorator extends SignUpUI {
         txtUsername = new JTextField("Username");
         txtPassword = new JTextField("Password");
         txtBio = new JTextField("Bio");
-        txtBio.setForeground(Color.GRAY);
-        txtUsername.setForeground(Color.GRAY);
-        txtPassword.setForeground(Color.GRAY);
+        txtBio.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtBio.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtUsername.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtUsername.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        txtPassword.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        txtPassword.setBackground(getColor(ColorID.ENTER_COMPONENT));
 
+        txtBio.setBorder(BorderFactory.createEmptyBorder());
+        txtPassword.setBorder(BorderFactory.createEmptyBorder());
+        txtUsername.setBorder(BorderFactory.createEmptyBorder());
+        
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(photoPanel);
         fieldsPanel.add(Box.createVerticalStrut(10));
@@ -43,22 +51,32 @@ public class SignUpUIDecorator extends SignUpUI {
         fieldsPanel.add(txtPassword);
         fieldsPanel.add(Box.createVerticalStrut(10));
         fieldsPanel.add(txtBio);
+        fieldsPanel.add(Box.createVerticalStrut(10));
         btnUploadPhoto = new JButton("Upload Photo");
-
+        btnUploadPhoto.setForeground(getColor(ColorID.TEXT_PRIMARY));
+        btnUploadPhoto.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        
         btnUploadPhoto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleProfilePictureUpload();
             }
         });
-
+        
         twoFAField = new JTextField("Passcode");
-        twoFAField.setForeground(Color.GRAY);
+        twoFAField.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        twoFAField.setBackground(getColor(ColorID.ENTER_COMPONENT));
+        twoFAField.setBorder(BorderFactory.createEmptyBorder());
         fieldsPanel.add(twoFAField);
 
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        photoUploadPanel.setForeground(getColor(ColorID.TEXT_SECONDARY));
+        photoUploadPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
         photoUploadPanel.add(btnUploadPhoto);
+        
         fieldsPanel.add(photoUploadPanel);
+        fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
+
 
         return fieldsPanel;
     }

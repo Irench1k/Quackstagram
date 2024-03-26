@@ -1,6 +1,5 @@
 package quackstagram.views.prelogin;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +18,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import quackstagram.controllers.prelogin.SignUpController;
 import quackstagram.views.ColorID;
-import quackstagram.views.Theme;
 
 public class SignUpUI extends AbstractPreLogin {
     protected JTextField txtUsername;
@@ -94,10 +92,10 @@ public class SignUpUI extends AbstractPreLogin {
 
         JPanel photoUploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         photoUploadPanel.add(btnUploadPhoto);
+        photoUploadPanel.add(twoFAButton);
         photoUploadPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
         
         fieldsPanel.add(photoUploadPanel);
-        fieldsPanel.add(twoFAButton);
         fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;
