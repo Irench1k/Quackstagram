@@ -10,6 +10,8 @@ Quackstagram is a simple social media application where users can share images, 
 ### Running the Code
 Ensure you have Java installed on your machine. Compile the Java files in your IDE or terminal. Run the `UserLaunch` class to start the application.
 
+OR
+
 Navigate to the project directory and execute the appropriate command based on your operating system:
 - On Windows:
 ```bash
@@ -20,16 +22,8 @@ gradlew run
 ./gradlew run
 ```
 
-Or you can also 
-
 ## Authors
-* Stanimira Dimitrova
-* Ece Kaya
-* Alexandru Lazarina
-* Nahdjay Lin
-* Melina Makri
-* Alvaro Murillo Terre
+* Laurin Gschwenter
+* Matthieu Marienbach
 * Irina Iarlykanova
-
-## User Instructions
-
+* Selim Elkaffas
