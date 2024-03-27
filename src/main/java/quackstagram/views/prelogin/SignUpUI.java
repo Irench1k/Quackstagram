@@ -85,6 +85,7 @@ public class SignUpUI extends AbstractPreLogin {
         twoFAButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controller.view.dispose();
                 controller.view = new SignUpUIDecorator(controller.view);
                 controller.showSignUp();
             }
