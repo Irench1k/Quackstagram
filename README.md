@@ -33,7 +33,12 @@ Post-login Controllers and Views: Manage the core functionalities of the app suc
 ## Running Quackstagram
 Ensure you have Java installed on your machine.
 Compile the Java files in your IDE or terminal.
-Run the SignInUI class to start the application.
+
+Mac or Linux:
+> ./gradlew run
+
+Windows:
+> gradle run
 
 
 ====================================================
