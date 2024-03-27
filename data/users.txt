@@ -1,3 +1,4 @@
+Rango; Password; Rango the big banana; 7dk29; ; 0; 0
 Username1; Password; Bio; 123; ; 0; 0
 Username; Password; Bio; 0; ; 0; 0
 Lorin; Password; For copyright reasons, I am not Grogu; 0; Mystar Zara; 3; 2
@@ -9,3 +10,4 @@ mike; Password; Bio; 0; matlab ololo; 0; 2
 ololo; Password; Bio; 0; matlab; 1; 1
 DuckDuck; 321; Hello everyone; 0; ; 0; 1
 Cute Cat; 1234; I love everyone!; 0; ; 0; 0
+Jerome; Password; Delete this inappropriate bio; 0; ; 0; 0
