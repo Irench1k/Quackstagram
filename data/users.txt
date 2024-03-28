@@ -13,3 +13,4 @@ mike; Password; Bio; 0; matlab ololo; 0; 2
 ololo; Password; Bio; 0; matlab; 1; 1
 DuckDuck; 321; Hello everyone; 0; ; 0; 1
 Cute Cat; 1234; I love everyone!; 0; ; 0; 0
+Jerome; Password; Delete this inappropriate bio; ; ; 0; 0
