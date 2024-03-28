@@ -23,6 +23,6 @@ public class InstagramProfileController {
 
     public void handleFollowAction() {
         this.currentUser.addUserToFollow(targetUser);
-        FileHandler.saveUser(targetUser);
+        FileHandler.saveUser(this.currentUser);
     }
 }
