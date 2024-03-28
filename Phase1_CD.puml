@@ -116,6 +116,110 @@ Picture ..> FileHandler : uses >
 Notification ..> FileHandler : uses >
 
 ' Views
+
+' Define the Theme Singleton class
+class Theme {
+    - static theme : Theme
+    - currentTheme : ThemeName
+    - themeDefinitions : EnumMap<ThemeName, EnumMap<ColorID, Color>>
+    - iconDefinitions : EnumMap<ThemeName, EnumMap<IconID, String>>
+    - Theme()
+    + {static} getInstance() : Theme
+    + changeTheme(name : ThemeName) : void
+    + getColor(id : ColorID) : Color
+    + getIconPath(id : IconID) : String
+}
+
+' Define enums used by the Theme class
+enum ThemeName {
+    DARK
+    LIGHT
+}
+
+enum ColorID {
+    BACKGROUND_HEADER
+    BACKGROUND_HEADER_SECONDARY
+    MAIN_BACKGROUND
+    MINOR_BACKGROUND
+    LIKE_BUTTON
+    PRIMARY_LOGIN_BUTTON
+    ENTER_COMPONENT
+    FOLLOW_BUTTON
+    TEXT_PRIMARY
+    TEXT_SECONDARY
+    OPPOSITE_TEXT
+}
+
+enum IconID {
+    ADD
+    HEART
+    HOME
+    PROFILE
+    SEARCH
+}
+
+' Show the Theme associations with the enums
+Theme -- ThemeName
+Theme -- ColorID
+Theme -- IconID
+
+' Define the BaseFrameManager class
+abstract class BaseFrameManager {
+    #WIDTH: int
+    #HEIGHT: int
+    -title: String
+    -theme: Theme
+    +BaseFrameManager(title: String)
+    #getRawTitle(): String
+    #getFormattedTitle(): String
+    #getColor(id: ColorID): Color
+    #getIconPath(id: IconID): String
+    {abstract} #createMainContentPanel(): JComponent
+    {abstract} #createControlPanel(): JComponent
+    #initializeUI(): void
+}
+
+
+' Define the inheritance relationship
+BaseFrameManager -down-> Theme : <<getInstance>>
+
+' Optionally, if there are subclasses of BaseFrameManager, define them like so
+abstract class AbstractPreLogin {
+    -primaryButton: JButton
+    -secondaryButton: JButton
+    -lblPhoto: JLabel
+    +AbstractPreLogin(title: String)
+    #getFormattedTitle(): String
+    #getHeaderText(): String
+    #createControlPanel(): JComponent
+    #createPrimaryButton(): JComponent
+    #createSecondaryButton(): JComponent
+    #getDuckIcon(): JPanel
+    {abstract} #getSecondButtonText(): String
+    {abstract} #onPrimaryButtonClick(ActionEvent): void
+    {abstract} #onSecondaryButtonCLick(ActionEvent): void
+}
+
+AbstractPreLogin --|> BaseFrameManager
+
+abstract class AbstractPostLogin {
+    -currentUser: User
+    +AbstractPostLogin(title: String, currentUser: User)
+    #getCurrentUser(): User
+    #createControlPanel(): JComponent
+    #createIconButton(iconPath: String, buttonType: String): JButton
+    #performActionBasedOnButtonType(buttonType: String): void
+    {abstract} #disabledIcons(): List<String>
+}
+
+AbstractPostLogin --|> BaseFrameManager
+
+' Add notes if needed
+note right of Theme : Singleton\nensures only one instance
+note right of BaseFrameManager : Accesses Theme resources via protected methods
+note right of AbstractPostLogin : Specific UI after login
+note right of AbstractPreLogin : Specific UI before login
+
 class SignInUI {
         -txtUsername: JTextField
         -txtPassword: JTextField
@@ -207,6 +311,16 @@ class NotificationsUI {
 class ImageUploadUI {
     +uploadAction(caption: String): void
 }
+
+SignInUI --|> AbstractPreLogin : extends >
+SignUpUI --|> AbstractPreLogin : extends >
+
+InstagramProfileUI --|> AbstractPostLogin : extends >
+ExploreUI --|> AbstractPostLogin : extends >
+QuakstagramHomeUI --|> AbstractPostLogin : extends >
+NotificationsUI --|> AbstractPostLogin : extends >
+ImageUploadUI --|> AbstractPostLogin : extends >
+
 
 ' Controllers
 class SignInController {
