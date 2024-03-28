@@ -1,25 +1,21 @@
 package quackstagram.models;
 
 /**
- * The Observer interface represents an object that can be notified of changes
- * in a subject.
- * Classes that implement this interface can register themselves as observers
- * and receive updates
- * when the subject's state changes.
+ * Defines the Observer part of the Observer Design Pattern.
+ * Objects implementing this interface act as observers that can be notified of changes
+ * in the state of a subject they are observing. This mechanism is typically used to implement
+ * event handling systems where observers react to changes in the subject's state.
+ *
+ * Example usage includes updating user interfaces in response to model changes or
+ * propagating state changes across different parts of an application.
  */
-
 public interface Observer {
+
     /**
-     * 
-     * This method is called by the subject to notify the observer of a state change.
+     * Called by the subject to notify this observer about a state change.
+     * Implementing classes should define specific actions to be taken in response
+     * to the notification, such as updating the user interface or processing the
+     * changes in the subject.
      */
     void update();
 }
-
-//Subject: Picture class
-//Observer: Notification class
-
-
-// If the Picture state changes, a picture is liked
-// All of its observers are notified
-// ie update the notification UI

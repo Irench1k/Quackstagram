@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Represents a user on Quackstagram, a social media platform.
- * A user has a username, bio, password, a count of posts, followers, and
- * following,
- * as well as a list of pictures posted by the user.
- *
- * @author MM
- * @version 1.0, 2024-03-02
+ * Represents a user on the Quackstagram social media platform. A User object
+ * encapsulates information about a user's identity, their social graph, and
+ * their activity on the platform, including the number of posts made, followers
+ * gained, and the accounts they are following.
  */
 public class User extends AbstractModel<User> {
     private String username;
@@ -22,13 +19,16 @@ public class User extends AbstractModel<User> {
     private int postsCount;
 
     /**
-     * Constructs a new User with the specified username, bio, and password.
-     * Initializes the posts count, followers count, and following count to 0.
-     * Initializes an empty list of pictures.
+     * Constructs a new User with the specified details. Initializes the posts count,
+     * followers count, and following list based on the provided parameters.
      *
-     * @param username the username of the new user
-     * @param bio      the bio of the new user
-     * @param password the password for the new user
+     * @param username       the unique identifier for the user
+     * @param password       the user's password for authentication
+     * @param bio            a brief biography or description about the user
+     * @param passCode       an optional passcode for additional security, can be null if not used
+     * @param followingUsers a list of usernames that this user follows
+     * @param followersCount the number of followers this user has
+     * @param postsCount     the number of posts this user has made
      */
     public User(String username, String password, String bio,String passCode, ArrayList<String> followingUsers,
                 int followersCount, int postsCount) {
@@ -41,6 +41,16 @@ public class User extends AbstractModel<User> {
         this.postsCount = postsCount;
     }
 
+    /**
+     * Polymorphic variation of the User constructor in the event that the user doesn't have/want a passcode
+     *
+     * @param username
+     * @param password
+     * @param bio
+     * @param followingUsers
+     * @param followersCount
+     * @param postsCount
+     */
     public User(String username, String password, String bio, ArrayList<String> followingUsers,
                 int followersCount, int postsCount) {
         this.username = username;
@@ -52,6 +62,20 @@ public class User extends AbstractModel<User> {
         this.postsCount = postsCount;
     }
 
+    /**
+     * Creates an instance of a User from an array of string arguments. This method
+     * is typically used to reconstruct a User object from data stored in a persistent
+     * storage format, such as a database or a flat file.
+     *
+     * @param args An array of strings representing the user's attributes. The expected
+     *             order is username, password, bio, passCode, space-separated list of
+     *             following users, followers count, and posts count. The method expects
+     *             exactly 7 elements in the array.
+     * @return A newly constructed User object with the provided attributes.
+     * @throws RuntimeException If the input array does not contain exactly 7 elements,
+     *                          indicating a mismatch between expected and actual data format,
+     *                          this exception is thrown to signal the error.
+     */
     public static User createInstance(String[] args) throws RuntimeException {
         if (args.length != 7) {
             System.out.println(String.join(", ", args));
@@ -147,10 +171,22 @@ public class User extends AbstractModel<User> {
         return this.followingUsers.size();
     }
 
+    /**
+     * Checks if the provided password matches the user's password.
+     *
+     * @param suppliedPassword the password to check
+     * @return true if the passwords match, false otherwise
+     */
     public boolean isPasswordEqual(String suppliedPassword) {
         return this.password.equals(suppliedPassword);
     }
 
+    /**
+     * Checks if the provided passCode matches the user's passCode.
+     *
+     * @param suppliedPassCode the passCode to check
+     * @return true if the passCodes match, false otherwise
+     */
     public boolean isPassCodeEqual(String suppliedPassCode) {
         return this.passCode.equals(suppliedPassCode);
     }
@@ -184,6 +220,11 @@ public class User extends AbstractModel<User> {
         return false;
     }
 
+    /**
+     * Adds a user to this user's list of followed users, if they're not already being followed.
+     *
+     * @param targetUser the user to follow
+     */
     public void addUserToFollow(User targetUser) {
         if (isIdEqualTo(targetUser)) {
             // can't follow ourselves

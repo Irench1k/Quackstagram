@@ -8,14 +8,26 @@ import java.util.TimeZone;
 
 import quackstagram.views.postlogin.NotificationsUI;
 
+/**
+ * Represents a notification generated in response to an event in the Quackstagram application,
+ * such as a user liking a picture. Implements the Observer interface as part of the Observer Design Pattern,
+ * allowing notifications to be updated in response to observed events.
+ */
 public class Notification extends AbstractModel<Notification> implements Observer {
-    private NotificationsUI notificationsUI; // Add this line to declare the reference to the NotificationsUI instance
+    private NotificationsUI notificationsUI; // Reference to the Notifications UI to update UI on notification
+    private String username; // Username of the user whose image was liked
+    private String likedBy; // Username of the user who liked the image
+    private String pictureId; // ID of the picture that was liked
+    private String date; // Date and time when the like occurred
 
-    private String username; // whose image was liked
-    private String likedBy; // who liked the image
-    private String pictureId;
-    private String date;
-
+    /**
+     * Constructs a Notification with all necessary details.
+     *
+     * @param username The username of the user whose picture was liked.
+     * @param likedBy The username of the user who liked the picture.
+     * @param pictureId The ID of the picture that was liked.
+     * @param date The date and time when the picture was liked.
+     */
     public Notification(String username, String likedBy, String pictureId, String date) {
         this.username = username;
         this.likedBy = likedBy;
@@ -23,6 +35,13 @@ public class Notification extends AbstractModel<Notification> implements Observe
         this.date = date;
     }
 
+    /**
+     * Constructs a Notification with the current date and time automatically set.
+     *
+     * @param username The username of the user whose picture was liked.
+     * @param likedBy The username of the user who liked the picture.
+     * @param pictureId The ID of the picture that was liked.
+     */
     public Notification(String username, String likedBy, String pictureId) {
         this.username = username;
         this.likedBy = likedBy;
@@ -46,10 +65,22 @@ public class Notification extends AbstractModel<Notification> implements Observe
         notificationsUI.updateNotifications();
     }
 
+    /**
+     * Sets the NotificationsUI instance for this notification to interact with.
+     *
+     * @param notificationsUI The NotificationsUI instance.
+     */
     public void setNotificationsUI(NotificationsUI notificationsUI) {
         this.notificationsUI = notificationsUI;
     }
 
+    /**
+     * Factory method to create a Notification instance from an array of string arguments.
+     *
+     * @param args An array of strings containing notification details.
+     * @return A new Notification instance.
+     * @throws RuntimeException If the arguments do not match the expected format.
+     */
     public static Notification createInstance(String[] args) throws RuntimeException {
         if (args.length != 4) {
             System.out.println(String.join(", ", args));
