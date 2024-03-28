@@ -246,6 +246,22 @@ class SignUpUI {
         -handleProfilePictureUpload(): void
     }
 
+class SignUpUIDecorator {
+    - SignUpUI signUpUI
+    - JTextField twoFAField
+    + SignUpUIDecorator(signUpUI: SignUpUI)
+    + createMainContentPanel(): JPanel
+    + onPrimaryButtonClick(event: ActionEvent)
+}
+
+class SignInUIDecorator {
+    - SignInUI signInUI
+    - JTextField txtPassCode
+    + SignInUIDecorator(signInUI: SignInUI)
+    + createMainContentPanel(): JPanel
+    + onPrimaryButtonClick(event: ActionEvent)
+}
+
 class InstagramProfileUI {
         -GRID_IMAGE_SIZE: int
         -uiComponents: InstagramUIComponents
@@ -314,6 +330,8 @@ class ImageUploadUI {
 
 SignInUI --|> AbstractPreLogin : extends >
 SignUpUI --|> AbstractPreLogin : extends >
+SignInUIDecorator --|> SignInUI : extends > 
+SignUpUIDecorator --|> SignUpUI : extends > 
 
 InstagramProfileUI --|> AbstractPostLogin : extends >
 ExploreUI --|> AbstractPostLogin : extends >
