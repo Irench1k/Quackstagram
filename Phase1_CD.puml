@@ -86,7 +86,9 @@ InstagramProfileUI ---> InstagramProfileController : unidirectional association
 ExploreUI --* ExploreController : composition
 QuakstagramHomeUI ..> QuakstagramHomeController : uses
 ImageUploadUI ..> ImageUploadController : uses
-NotificationsUI ..> QuakstagramHomeController : uses
+NotificationsUI ..> Notification : uses
+NotificationsUI -- "1" User : currentUser
+
 
 ' Utility classes
 class FileHandler {
@@ -197,9 +199,10 @@ class ExploreUI {
     }
 
 class NotificationsUI {
-        +NotificationsUI(currentUser: User)
-        +createMainContentPanel(): JComponent
-    }
+    -currentUser: User
+    +NotificationsUI(currentUser: User)
+    +createMainContentPanel(): JComponent
+}
 
 class ImageUploadUI {
     +uploadAction(caption: String): void
@@ -266,5 +269,67 @@ class ImageUploadController {
         +uploadAction(caption: String): void
         -selectFile(): File
     }
+
+'Moderator section
+class ModeratorController {
+    -model : ModeratorModel
+    -view : ModeratorView
+
+    +ModeratorController(model : ModeratorModel, view : ModeratorView)
+    +showView() : void
+
+    -onUserClicked(username : String) : void
+    -onAttributeClicked(attribute : String) : void
+    -updateView() : void
+}
+
+class ModeratorModel {
+    -USER_FILE : Path
+    -PICTURES_FILE : Path
+    -userList : List<User>
+
+    +ModeratorModel()
+    +getUserList() : List<User>
+    +getUserByUsername(username : String) : User
+    +getPicturesForUser(username : String) : List<Picture>
+    +refreshUserList() : void
+
+    -loadUsers() : void
+}
+
+class ModeratorView {
+    -userListDisplay : JList<String>
+    -userDetailsList : JList<String>
+    -userDetailsModel : DefaultListModel<String>
+    -deleteButton : JButton
+    -imagePreview : JLabel
+    -onUserClick : Consumer<String>
+    -onAttributeClick : Consumer<String>
+
+    +ModeratorView()
+    +displayUserList(users : List<String>) : void
+    +setUserDetails(details : List<String>) : void
+    +setOnUserClickListener(onUserClick : Consumer<String>) : void
+    +setOnAttributeClickListener(onAttributeClick : Consumer<String>) : void
+    +getSelectedUsername() : String
+
+    -initializeComponents() : void
+    -layoutComponents() : void
+    -clearImagePreview() : void
+    -loadImagePreview(pictureDetail : String) : void
+    -updateDeleteButtonVisibility() : void
+}
+
+
+ModeratorController --> ModeratorModel : uses
+ModeratorController --> ModeratorView : uses
+
+ModeratorController ..> User : updates
+ModeratorController ..> Picture : updates
+
+ModeratorModel --> User : contains
+ModeratorModel --> Picture : contains
+
+ModeratorController ..> FileHandler : uses
 
 @enduml
