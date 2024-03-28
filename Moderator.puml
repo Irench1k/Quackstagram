@@ -1,0 +1,72 @@
+@startuml
+
+class ModeratorController {
+    - model: ModeratorModel
+    - view: ModeratorView
+    + ModeratorController(model: ModeratorModel, view: ModeratorView)
+    - onUserClicked(username: String)
+    - onAttributeClicked(attribute: String)
+    - updateView()
+    + showView()
+}
+
+class ModeratorModel {
+    - userList: List<User>
+    + ModeratorModel()
+    - loadUsers()
+    + getUserList(): List<User>
+    + getUserByUsername(username: String): User
+    + getPicturesForUser(username: String): List<Picture>
+    + refreshUserList()
+}
+
+class ModeratorView {
+    - userListDisplay: JList<String>
+    - userDetailsList: JList<String>
+    - userDetailsModel: DefaultListModel<String>
+    - deleteButton: JButton
+    - imagePreview: JLabel
+    - onUserClick: Consumer<String>
+    - onAttributeClick: Consumer<String>
+    + ModeratorView()
+    - initializeComponents()
+    - layoutComponents()
+    - clearImagePreview()
+    + displayUserList(users: List<String>)
+    + setUserDetails(details: List<String>)
+    - loadImagePreview(pictureDetail: String)
+    + setOnUserClickListener(onUserClick: Consumer<String>)
+    + setOnAttributeClickListener(onAttributeClick: Consumer<String>)
+    - updateDeleteButtonVisibility()
+    + getSelectedUsername(): String
+}
+
+class User {
+    + {static} createInstance(userDetails: String[]): User
+    + getUsername(): String
+    + getBio(): String
+}
+
+class Picture {
+    + {static} createInstance(pictureDetails: String[]): Picture
+    + getPictureID(): String
+    + getCaption(): String
+    + getDate(): Date
+}
+
+class FileHandler {
+    + deleteUserBio(username: String)
+    + deleteUserProfilePicture(username: String)
+    + deleteUserUploadedPicture(pictureID: String)
+}
+
+ModeratorController --> ModeratorModel
+ModeratorController --> ModeratorView
+ModeratorModel "1" *-- "*" User
+ModeratorModel "1" *-- "*" Picture
+ModeratorView --> User : display
+ModeratorView --> Picture : display
+ModeratorModel ..> FileHandler : uses
+ModeratorController ..> FileHandler : uses
+
+@enduml
