@@ -18,14 +18,9 @@ import quackstagram.models.User;
 import quackstagram.views.ColorID;
 
 /**
- * The ImageUploadUI class represents a graphical user interface for uploading
- * images and entering captions.
- * It extends the JFrame class and provides methods for initializing the UI
- * components and handling user actions.
- * The UI consists of an image preview, a text area for entering captions, and
- * buttons for uploading images and saving captions.
- * The class also provides methods for reading the username, generating unique
- * image IDs, saving image information, and getting file extensions.
+ * The {@code ImageUploadUI} class extends {@code AbstractPostLogin} to provide a user interface for uploading images
+ * to Quackstagram. Users can select an image from their file system, preview it, enter a caption, and then upload it
+ * to their profile.
  */
 public class ImageUploadUI extends AbstractPostLogin {
     private JLabel imagePreviewLabel;
@@ -33,16 +28,21 @@ public class ImageUploadUI extends AbstractPostLogin {
     private JButton uploadButton;
     private ImageUploadController controller;
 
+    /**
+     * Constructs an ImageUploadUI with the specified current user.
+     *
+     * @param currentUser The current user who is uploading an image.
+     */
     public ImageUploadUI(User currentUser) {
         super("Upload Image", currentUser);
         controller = new ImageUploadController(this, currentUser);
     }
 
     /**
-     * Initializes the user interface for the image upload functionality.
-     * This method creates and configures the necessary UI components, such as
-     * panels, labels, text areas, and buttons.
-     * It sets up the layout and adds the components to the frame.
+     * Initializes the main content panel with components for image upload, including
+     * a preview label, caption text area, and an upload button.
+     *
+     * @return A JComponent representing the main content panel of the image upload UI.
      */
     protected JComponent createMainContentPanel() {
         // Main content panel
@@ -56,6 +56,11 @@ public class ImageUploadUI extends AbstractPostLogin {
         return contentPanel;
     }
 
+    /**
+     * Creates and configures the upload button.
+     *
+     * @param contentPanel The panel to which the upload button is added.
+     */
     private void createUploadButton(JPanel contentPanel) {
         String upload = "Upload Image";
         uploadButton = new JButton(upload);
@@ -66,6 +71,11 @@ public class ImageUploadUI extends AbstractPostLogin {
         contentPanel.add(uploadButton);
     }
 
+    /**
+     * Creates and configures the caption text area and its scroll pane.
+     *
+     * @param contentPanel The panel to which the caption components are added.
+     */
     private void createCaptionTextAndPane(JPanel contentPanel) {
         captionArea = new JTextArea("Enter a caption");
         captionArea.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -82,6 +92,12 @@ public class ImageUploadUI extends AbstractPostLogin {
         contentPanel.add(bioScrollPane);
     }
 
+
+    /**
+     * Creates and configures the image preview label.
+     *
+     * @param contentPanel The panel to which the image preview label is added.
+     */
     private void createImageIcon(JPanel contentPanel) {
         imagePreviewLabel = new JLabel();
         imagePreviewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -94,6 +110,11 @@ public class ImageUploadUI extends AbstractPostLogin {
         contentPanel.add(imagePreviewLabel);
     }
 
+    /**
+     * Returns a list of icon types that should be disabled in the navigation bar for this UI.
+     *
+     * @return A List of strings representing the icon types to be disabled.
+     */
     @Override
     protected List<String> disabledIcons() {
         return List.of("add");

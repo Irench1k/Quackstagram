@@ -14,16 +14,30 @@ import java.awt.FlowLayout;
 import quackstagram.controllers.prelogin.SignInController;
 import quackstagram.views.ColorID;
 
+/**
+ * The {@code SignInUI} class provides the graphical user interface for the sign-in process in the Quackstagram application.
+ * It extends {@code AbstractPreLogin} to leverage common pre-login features such as title formatting and header text.
+ * This UI includes text fields for entering username and password, as well as a button for users with two-factor authentication (2FA) enabled.
+ */
 public class SignInUI extends AbstractPreLogin {
     protected JTextField txtUsername;
     protected JTextField txtPassword;
     protected SignInController controller;
 
+    /**
+     * Constructs a new {@code SignInUI} instance, initializing the UI components and setting up the sign-in controller.
+     */
     public SignInUI() {
         super("Sign-In");
         this.controller = new SignInController(this);
     }
 
+    /**
+     * Creates and returns the main content panel for the sign-in screen, including text fields for username and password,
+     * and a button for users with 2FA enabled.
+     *
+     * @return A {@code JPanel} containing the sign-in form components.
+     */
     @Override
     protected JPanel createMainContentPanel() {
         // Text fields panel

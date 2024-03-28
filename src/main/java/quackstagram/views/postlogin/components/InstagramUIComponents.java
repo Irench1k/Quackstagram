@@ -25,19 +25,32 @@ import quackstagram.views.ColorID;
 import quackstagram.views.Theme;
 import quackstagram.views.postlogin.InstagramProfileUI;
 
+/**
+ * A utility class for creating UI components specific to the InstagramProfileUI.
+ * This class encapsulates the creation of various components like header panel,
+ * follow button, stats panel, etc., that are used in displaying a user's profile.
+ */
 public class InstagramUIComponents {
-    private User currentUser; // logged in user
-    private User targetUser; // user whos profile is displayed
-    private static final int PROFILE_IMAGE_SIZE = 80; // Adjusted size for the profile image to match UI
-    private boolean isCurrentUser = false;
-    private InstagramProfileController controller;
-    private Theme theme = Theme.getInstance();
-    private Color followButtonColor = theme.getColor(ColorID.FOLLOW_BUTTON);
-    private Color textPrimaryColor = theme.getColor(ColorID.TEXT_PRIMARY);
-    private Color backgroundHeaderSecondary = theme.getColor(ColorID.BACKGROUND_HEADER_SECONDARY);
-    private Color minorBackgroundColor = theme.getColor(ColorID.MINOR_BACKGROUND);
+    private User currentUser; // The currently logged-in user
+    private User targetUser; // The user whose profile is being viewed
+    private static final int PROFILE_IMAGE_SIZE = 80; // Standard size for the profile image
+    private boolean isCurrentUser = false; // Flag to check if the current profile belongs to the logged-in user
+    private InstagramProfileController controller; // Controller for the Instagram profile
+    private Theme theme = Theme.getInstance(); // Theme instance for styling
+    // Theme colors
+    private Color followButtonColor;
+    private Color textPrimaryColor;
+    private Color backgroundHeaderSecondary;
+    private Color minorBackgroundColor;
 
-
+    /**
+     * Constructor to initialize the InstagramUIComponents class with the current and target users,
+     * and the controller.
+     *
+     * @param currentUser The currently logged-in user.
+     * @param targetUser The user whose profile is to be displayed.
+     * @param controller The controller for profile-related actions.
+     */
     public InstagramUIComponents(User currentUser, User targetUser, InstagramProfileController controller) {
         this.currentUser = currentUser;
         this.targetUser = targetUser;
@@ -45,6 +58,11 @@ public class InstagramUIComponents {
         this.isCurrentUser = currentUser.isIdEqualTo(targetUser);
     }
 
+    /**
+     * Creates and returns the header panel for the profile UI.
+     *
+     * @return A JPanel containing the user's profile header.
+     */
     public JPanel createHeaderPanel() {
         // Header Panel
         JPanel headerPanel = new JPanel();

@@ -17,8 +17,6 @@ import javax.swing.*;
  * ModeratorView, and ModeratorController. It then triggers the display of the
  * ModeratorView, allowing the moderator to interact with the application.
  * </p>
- *
- * TODO: add delete full user (if we have time)
  */
 public class ModeratorLaunch {
 

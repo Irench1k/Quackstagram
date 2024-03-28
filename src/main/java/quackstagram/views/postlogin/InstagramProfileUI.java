@@ -21,6 +21,11 @@ import quackstagram.models.User;
 import quackstagram.views.ColorID;
 import quackstagram.views.postlogin.components.InstagramUIComponents;
 
+/**
+ * The {@code InstagramProfileUI} class extends {@code AbstractPostLogin} to present a profile interface in Quackstagram.
+ * It showcases a user's profile header, including user details and a grid of uploaded images. Users can click on an image
+ * to view it in full size, with an option to navigate back to the grid view.
+ */
 public class InstagramProfileUI extends AbstractPostLogin {
     private static final int GRID_IMAGE_SIZE = WIDTH / 3; // Static size for grid images
     private InstagramUIComponents uiComponents;
@@ -28,6 +33,12 @@ public class InstagramProfileUI extends AbstractPostLogin {
     private User targetUser;
     private InstagramProfileController controller;
 
+    /**
+     * Constructs an InstagramProfileUI for the given user viewing another user's profile.
+     *
+     * @param currentUser The currently logged-in user.
+     * @param targetUser The user whose profile is being viewed.
+     */
     public InstagramProfileUI(User currentUser, User targetUser) {
         super("DACS Profile", currentUser);
         this.targetUser = targetUser;
@@ -36,6 +47,11 @@ public class InstagramProfileUI extends AbstractPostLogin {
         overwriteMainContentPanel();
     }
 
+    /**
+     * Secondary constructor for a user viewing their own profile.
+     *
+     * @param user The user whose profile is to be displayed.
+     */
     public InstagramProfileUI(User user) {
         this(user, user);
     }
@@ -46,6 +62,10 @@ public class InstagramProfileUI extends AbstractPostLogin {
         return contentPanel;
     }
 
+    /**
+     * Initializes and populates the main content panel with a grid of images uploaded by the user.
+     * Adds functionality to view an image in full size upon clicking.
+     */
     private void overwriteMainContentPanel() {
         contentPanel.removeAll(); // Clear existing content
         contentPanel.setLayout(new GridLayout(0, 3, 5, 5)); // Grid layout for image grid
@@ -74,6 +94,12 @@ public class InstagramProfileUI extends AbstractPostLogin {
         repaint();
     }
 
+    /**
+     * Creates and returns a JLabel containing an image icon, with added mouse click event to view the image in full size.
+     *
+     * @param imageIcon The ImageIcon to display.
+     * @return A JLabel containing the given ImageIcon.
+     */
     private JLabel createImageLabel(ImageIcon imageIcon) {
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.addMouseListener(new MouseAdapter() {
@@ -85,6 +111,11 @@ public class InstagramProfileUI extends AbstractPostLogin {
         return imageLabel;
     }
 
+    /**
+     * Displays the clicked image in full size, replacing the image grid with a single large image view and a back button.
+     *
+     * @param imageIcon The ImageIcon of the clicked image to display.
+     */
     private void displayImage(ImageIcon imageIcon) {
         contentPanel.removeAll(); // Remove existing content
         contentPanel.setLayout(new BorderLayout()); // Change layout for image display
@@ -103,6 +134,11 @@ public class InstagramProfileUI extends AbstractPostLogin {
         repaint();
     }
 
+    /**
+     * Provides a list of navigation icons to be disabled for the profile UI, specifically disabling the profile icon.
+     *
+     * @return A List of icon types to be disabled.
+     */
     @Override
     protected List<String> disabledIcons() {
         return List.of("profile");

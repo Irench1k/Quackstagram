@@ -14,14 +14,33 @@ import quackstagram.models.Notification;
 import quackstagram.models.User;
 import quackstagram.views.ColorID;
 
+/**
+ * The {@code NotificationsUI} class extends {@code AbstractPostLogin} to provide a user interface
+ * for displaying notifications to the user. It shows all the notifications related to the user's
+ * activities and interactions within the Quackstagram app, such as likes and follows.
+ */
 public class NotificationsUI extends AbstractPostLogin {
     private JComponent contentPanel;
 
+    /**
+     * Constructs a {@code NotificationsUI} object for the specified user, initializing
+     * the user interface components including a panel for displaying notifications.
+     *
+     * @param currentUser The current user for whom notifications will be displayed.
+     */
     public NotificationsUI(User currentUser) {
         super("Notifications", currentUser);
         this.contentPanel = createMainContentPanel();
     }
 
+    /**
+     * Creates the main content panel for the notifications UI, including a scroll pane
+     * to accommodate the dynamic addition of notifications. The method initializes the
+     * layout and background color for the panel and invokes {@code updateNotifications}
+     * to populate it with the current notifications.
+     *
+     * @return A {@code JComponent} that contains the UI components for the notifications view.
+     */
     @Override
     protected JComponent createMainContentPanel() {
         // Content Panel for notifications

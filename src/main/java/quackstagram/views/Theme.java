@@ -4,10 +4,15 @@ import java.awt.Color;
 import java.util.EnumMap;
 import java.util.Map;
 
-// Singleton Design Pattern for theme change
+/**
+ * The {@code Theme} class implements a singleton pattern to manage and apply UI themes across the application.
+ * It supports switching between different themes and provides access to theme-specific colors and icon paths.
+ */
 public class Theme {
     private static Theme theme = null;
     private ThemeName currentTheme = ThemeName.DARK;
+
+    // Definition of theme-specific colors and icons
     private final EnumMap<ThemeName, EnumMap<ColorID, Color>> themeDefinitions = new EnumMap<>(Map.ofEntries(
         Map.entry(ThemeName.LIGHT, new EnumMap<>(Map.ofEntries(
             Map.entry(ColorID.BACKGROUND_HEADER, new Color(51, 51, 51)),
@@ -37,6 +42,7 @@ public class Theme {
         )))
     ));
 
+    // Definition of theme-specific icon paths
     private final EnumMap<ThemeName, EnumMap<IconID, String>> iconDefinitions = new EnumMap<>(Map.ofEntries(
         Map.entry(ThemeName.LIGHT, new EnumMap<>(Map.ofEntries(
             Map.entry(IconID.ADD, "img/icons/light/add.png"),
@@ -61,7 +67,11 @@ public class Theme {
         LIGHT
     }
 
-    // Theme theme = Theme.getInstance();
+    /**
+     * Retrieves the single instance of the Theme class.
+     *
+     * @return the singleton instance of Theme
+     */
     public static Theme getInstance() {
         if (theme == null) {
             theme = new Theme();
@@ -69,16 +79,32 @@ public class Theme {
         return theme;
     }
 
+    /**
+     * Changes the current theme to the specified theme name.
+     *
+     * @param name the theme name to switch to
+     */
     public void changeTheme(ThemeName name) {
         currentTheme = name;
         System.out.println("Current theme: " + currentTheme);
     }
 
-    // Color likeColor = theme.getColor(Theme.ColorComponent.LIKE_BUTTON);
+    /**
+     * Retrieves the color associated with the specified color identifier for the current theme.
+     *
+     * @param id the color identifier
+     * @return the color for the specified identifier
+     */
     public Color getColor(ColorID id) {
         return themeDefinitions.get(currentTheme).get(id);
     }
 
+    /**
+     * Retrieves the path to the icon associated with the specified icon identifier for the current theme.
+     *
+     * @param id the icon identifier
+     * @return the path to the icon for the specified identifier
+     */
     public String getIconPath(IconID id) {
         return iconDefinitions.get(currentTheme).get(id);
     }

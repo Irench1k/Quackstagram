@@ -32,19 +32,30 @@ import quackstagram.models.User;
 import quackstagram.views.ColorID;
 import quackstagram.views.postlogin.commands.OpenExploreUICommand;
 
+/**
+ * The {@code ExploreUI} class extends {@code AbstractPostLogin} to provide the user interface for the Explore section
+ * of the application, where users can search for other users and view a grid of images uploaded by the community.
+ */
 public class ExploreUI extends AbstractPostLogin {
     private final int WIDTH = AbstractPostLogin.WIDTH;
     static final int IMAGE_SIZE = 100;
     private ExploreController controller;
 
     /**
-     * Represents the Explore user interface.
+     * Constructs the ExploreUI with the specified current user.
+     *
+     * @param currentUser The current user.
      */
     public ExploreUI(User currentUser) {
         super("Explore", currentUser);
         this.controller = new ExploreController(this, currentUser);
     }
 
+    /**
+     * Creates the main content panel for the Explore UI, including a search bar and an image grid.
+     *
+     * @return A JComponent containing the main content of the Explore UI.
+     */
     @Override
     protected JComponent createMainContentPanel() {
         // Create the main content panel with search and image grid
@@ -74,6 +85,11 @@ public class ExploreUI extends AbstractPostLogin {
         return mainContentPanel;
     }
 
+    /**
+     * Loads images into the provided JPanel representing the image grid.
+     *
+     * @param imageGridPanel The JPanel into which images will be loaded.
+     */
     public void loadImages(JPanel imageGridPanel) {
         // Load images from the uploaded folder
         for (Picture picture : FileHandler.getUserPictures(null)) {
@@ -91,6 +107,12 @@ public class ExploreUI extends AbstractPostLogin {
         }
     }
 
+    /**
+     * Calculates the time elapsed since the posting of a picture and formats it for display.
+     *
+     * @param picture The picture for which the posting time is calculated.
+     * @return A formatted string representing the time elapsed since the picture was posted.
+     */
     private String getCalculatedTime(Picture picture) {
         String timeSincePosting = "Unknown";
         if (!picture.getDate().isEmpty()) {
@@ -104,6 +126,12 @@ public class ExploreUI extends AbstractPostLogin {
         return timeSincePosting;
     }
 
+    /**
+     * Creates and returns a top panel containing the username of the picture's owner and the time since posting.
+     *
+     * @param picture The picture for which the top panel is created.
+     * @return A JPanel containing the username and time since posting.
+     */
     private JPanel getTopPanel(Picture picture) {
         JPanel topPanel = new JPanel(new BorderLayout());
 
@@ -126,6 +154,12 @@ public class ExploreUI extends AbstractPostLogin {
         return topPanel;
     }
 
+    /**
+     * Creates and returns a JLabel containing the image of a picture.
+     *
+     * @param picture The picture for which the JLabel is created.
+     * @return A JLabel containing the picture's image.
+     */
     private JLabel getImageLabel(Picture picture) {
         JLabel imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -141,6 +175,12 @@ public class ExploreUI extends AbstractPostLogin {
         return imageLabel;
     }
 
+    /**
+     * Creates and returns a bottom panel containing the picture's caption and like count.
+     *
+     * @param picture The picture for which the bottom panel is created.
+     * @return A JPanel containing the picture's caption and like count.
+     */
     private JPanel getBottomPanel(Picture picture) {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JTextArea captionArea = new JTextArea(picture.getCaption());
@@ -156,6 +196,11 @@ public class ExploreUI extends AbstractPostLogin {
         return bottomPanel;
     }
 
+    /**
+     * Creates and returns a panel containing a back button that navigates back to the Explore UI.
+     *
+     * @return A JPanel containing a back button.
+     */
     private JPanel getBackButtonPanel() {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         backButtonPanel.setForeground(getColor(ColorID.TEXT_PRIMARY));
@@ -174,6 +219,12 @@ public class ExploreUI extends AbstractPostLogin {
         return backButtonPanel;
     }
 
+    /**
+     * Creates and returns a container panel for displaying a picture's details, including the top, image, and bottom panels.
+     *
+     * @param picture The picture for which the container panel is created.
+     * @return A JPanel containing the picture's details.
+     */
     private JPanel getContainerPanel(Picture picture) {
         JPanel containerPanel = new JPanel(new BorderLayout());
 
@@ -189,6 +240,11 @@ public class ExploreUI extends AbstractPostLogin {
         return containerPanel;
     }
 
+    /**
+     * Displays the details of a selected picture, including the image, caption, and likes.
+     *
+     * @param picture The picture to display.
+     */
     public void displayImage(Picture picture) {
         getContentPane().removeAll();
         setLayout(new BorderLayout());

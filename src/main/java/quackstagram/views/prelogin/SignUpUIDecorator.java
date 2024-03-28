@@ -13,15 +13,29 @@ import javax.swing.JTextField;
 
 import quackstagram.views.ColorID;
 
+/**
+ * The {@code SignUpUIDecorator} class extends {@code SignUpUI} to add two-factor authentication (2FA) functionality to the sign-up process.
+ * It provides an additional text field for users to enter their passcode, supporting enhanced security during account creation.
+ */
 public class SignUpUIDecorator extends SignUpUI {
     SignUpUI signUpUI;
     JTextField twoFAField;
 
+    /**
+     * Constructs a {@code SignUpUIDecorator} with a reference to the original {@code SignUpUI}.
+     *
+     * @param signUpUI the original {@code SignUpUI} to be decorated with 2FA functionality
+     */
     public SignUpUIDecorator(SignUpUI signUpUI) {
         super();
         this.signUpUI = signUpUI;
     }
 
+    /**
+     * Creates and returns the main content panel, modified to include a passcode field for two-factor authentication.
+     *
+     * @return A {@code JPanel} containing the components for the decorated sign-up form.
+     */
     @Override
     protected JPanel createMainContentPanel() {
         JPanel fieldsPanel = new JPanel();
@@ -81,6 +95,11 @@ public class SignUpUIDecorator extends SignUpUI {
         return fieldsPanel;
     }
 
+    /**
+     * Overrides the onPrimaryButtonClick method to include the 2FA passcode in the sign-up process.
+     *
+     * @param event The action event triggered by clicking the primary button.
+     */
     @Override
     protected void onPrimaryButtonClick(ActionEvent event) {
         String username = txtUsername.getText();

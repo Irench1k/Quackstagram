@@ -19,6 +19,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import quackstagram.controllers.prelogin.SignUpController;
 import quackstagram.views.ColorID;
 
+/**
+ * The {@code SignUpUI} class represents the user interface for the sign-up process in the Quackstagram application.
+ * It allows new users to create an account by entering their username, password, and bio, and by uploading a profile picture.
+ */
 public class SignUpUI extends AbstractPreLogin {
     protected JTextField txtUsername;
     protected JTextField txtPassword;
@@ -27,16 +31,30 @@ public class SignUpUI extends AbstractPreLogin {
     protected File selectedFile;
     protected SignUpController controller;
 
+    /**
+     * Constructs a new {@code SignUpUI} and initializes its controller.
+     */
     public SignUpUI() {
         super("Sign Up");
         this.controller = new SignUpController(this);
     }
 
+    /**
+     * Returns the text for the secondary button displayed on the sign-up interface.
+     *
+     * @return A string representing the text for the secondary button.
+     */
     @Override
     protected String getSecondButtonText() {
         return "Already have an account? Sign In";
     }
 
+    /**
+     * Creates and returns the main content panel for the sign-up interface.
+     * This panel includes text fields for entering user information and buttons for uploading a profile picture and enabling two-factor authentication.
+     *
+     * @return A {@code JPanel} containing the components for the sign-up form.
+     */
     @Override
     protected JPanel createMainContentPanel() {
         JPanel fieldsPanel = new JPanel();
@@ -95,13 +113,18 @@ public class SignUpUI extends AbstractPreLogin {
         photoUploadPanel.add(btnUploadPhoto);
         photoUploadPanel.add(twoFAButton);
         photoUploadPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
-        
+
         fieldsPanel.add(photoUploadPanel);
         fieldsPanel.setBackground(getColor(ColorID.MAIN_BACKGROUND));
 
         return fieldsPanel;
     }
 
+    /**
+     * Handles the primary button click by collecting user input from text fields and calling the sign-up method on the controller.
+     *
+     * @param event The action event triggered by clicking the primary button.
+     */
     @Override
     protected void onPrimaryButtonClick(ActionEvent event) {
         String username = txtUsername.getText();
@@ -122,12 +145,20 @@ public class SignUpUI extends AbstractPreLogin {
         controller.signUp(username, password, bio, selectedFile);
     }
 
+    /**
+     * Handles the secondary button click, navigating the user to the sign-in interface.
+     *
+     * @param event The action event triggered by clicking the secondary button.
+     */
     @Override
     protected void onSecondaryButtonCLick(ActionEvent event) {
         controller.showSignIn();
     }
 
-    // Method to handle profile picture upload
+    /**
+     * Prompts the user to select a profile picture from their file system.
+     * Sets the selected file as the profile picture for the new account.
+     */
     public void handleProfilePictureUpload() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());

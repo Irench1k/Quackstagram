@@ -51,8 +51,11 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
     private QuakstagramHomeController controller;
 
     /**
-     * Initializes and sets up the Quakstagram home UI including layout, panels,
-     * and navigation.
+     * Constructs a {@code QuakstagramHomeUI} object with the specified current user and notifications UI.
+     * Initializes the home interface, setting up the layout, content panels, and controller.
+     *
+     * @param currentUser     The user currently logged in and viewing the home screen.
+     * @param notificationsUI The notifications UI to display updates and interactions.
      */
     public QuakstagramHomeUI(User currentUser, NotificationsUI notificationsUI) {
         super("Quakstagram Home", currentUser);
@@ -60,6 +63,13 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         this.controller = new QuakstagramHomeController(this, currentUser);
     }
 
+    /**
+     * Creates and returns the main content panel for the home screen, comprising a dynamic feed
+     * of image posts from followed users. This method initializes the panel layout, content scrolling,
+     * and populates the feed with posts.
+     *
+     * @return A {@code JComponent} containing the main content for the home screen.
+     */
     @Override
     protected JComponent createMainContentPanel() {
         cardLayout = new CardLayout();
@@ -95,6 +105,12 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         return "🐥 Quakstagram 🐥";
     }
 
+    /**
+     * Fetches the pictures to be shown on the home screen, based on the current user's followings.
+     * This method retrieves pictures from followed users for inclusion in the home feed.
+     *
+     * @return An {@code ArrayList<Picture>} containing the pictures to be displayed.
+     */
     private ArrayList<Picture> getPicturesToShow() {
         ArrayList<Picture> picturesToShow = new ArrayList<Picture>();
         ArrayList<String> users = currentUser.getFollowingUsers();
@@ -105,6 +121,14 @@ public class QuakstagramHomeUI extends AbstractPostLogin {
         return picturesToShow;
     }
 
+    /**
+     * Populates the provided content panel with image post items based on the given list of pictures.
+     * Each post item includes an image, caption, like count, and a like button. The method configures
+     * interaction listeners and visual elements for each post.
+     *
+     * @param panel    The panel to populate with image post items.
+     * @param pictures The list of {@code Picture} objects to create post items for.
+     */
     private void populateContentPanel(JPanel panel, ArrayList<Picture> pictures) {
 
         for (Picture picture : pictures) {
