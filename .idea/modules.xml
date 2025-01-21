@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Quackstagram_Code.iml" filepath="$PROJECT_DIR$/Quackstagram_Code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.iml" filepath="$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.main.iml" filepath="$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.test.iml" filepath="$PROJECT_DIR$/.idea/modules/oom_gitlab.Quackstagram_Code.test.iml" />
     </modules>
   </component>
 </project>

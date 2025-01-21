@@ -1,0 +1,546 @@
+@startuml
+' Models
+class User {
+    - String username
+    - String password
+    - String bio
+    - String passCode
+    - ArrayList<String> followingUsers
+    - int followersCount
+    - int postsCount
+    + <<Create>> User(String,String,String,String,ArrayList<String>,int,int)
+    + <<Create>> User(String,String,String,ArrayList<String>,int,int)
+    + {static} User createInstance(String[])
+    + String[] serialize()
+    + boolean isUpdatable()
+    + boolean isIdEqualTo(User)
+    + String getUsername()
+    + String getBio()
+    + void setBio(String)
+    + int getPostsCount()
+    + int getFollowersCount()
+    + int getFollowingCount()
+    + boolean isPasswordEqual(String)
+    + boolean isPassCodeEqual(String)
+    + void setFollowersCount(int)
+    + void setPostCount(int)
+    + boolean followsUser(User)
+    + void addUserToFollow(User)
+    + String getProfileImagePath()
+    + ArrayList<String> getFollowingUsers()
+}
+
+class Picture {
+    - List<Observer> observers
+    - String pictureID
+    - String owner
+    - String caption
+    - String date
+    - int likesCount
+    + <<Create>> Picture(String,String,String,String,int)
+    + {static} Picture createInstance(String[])
+    + {static} Picture createNewForUser(String,String)
+    + String[] serialize()
+    + boolean isUpdatable()
+    + boolean isIdEqualTo(Picture)
+    + String getOwner()
+    + void addLike()
+    + void addObserver(Observer)
+    + void notifyObservers()
+    + void removeObserver(Observer)
+    + String getCaption()
+    + int getLikesCount()
+    + String getPictureID()
+    + String getPath()
+    + String getDate()
+}
+
+class Notification {
+    - NotificationsUI notificationsUI
+    - String username
+    - String likedBy
+    - String pictureId
+    - String date
+    + <<Create>> Notification(String,String,String,String)
+    + <<Create>> Notification(String,String,String)
+    + void update()
+    + void setNotificationsUI(NotificationsUI)
+    + {static} Notification createInstance(String[])
+    + String getUsername()
+    + String[] serialize()
+    + boolean isUpdatable()
+    + boolean isIdEqualTo(Notification)
+    + String getMessage()
+    - String getElapsedTime(String)
+}
+
+' Relationships
+User "1" -- "*" Picture : owns >
+User "1" -- "*" Notification : receives >
+Picture "1" -- "*" Notification : triggers >
+
+' Controllers and their connection to models
+SignInController --> User : unidirectional association \nverifies
+SignUpController --> User : unidirectional association \n<<create>>
+InstagramProfileController --> User : unidirectional association \nupdates
+InstagramProfileController ..> Picture : uses
+ExploreController --> "1" User : direct association w/currentUser
+QuakstagramHomeController ..> Picture : uses
+QuakstagramHomeController ..> Notification : uses
+ImageUploadController ..> Picture : uses
+
+' Associations among views and controllers
+SignInUI ---> SignInController : unidirectional association
+SignUpUI ---> SignUpController : unidirectional association
+InstagramProfileUI ---> InstagramProfileController : unidirectional association
+ExploreUI --* ExploreController : composition
+QuakstagramHomeUI ..> QuakstagramHomeController : uses
+ImageUploadUI ..> ImageUploadController : uses
+NotificationsUI ..> Notification : uses
+NotificationsUI -- "1" User : currentUser
+
+
+' Utility classes
+class FileHandler {
+    {static} -NOTIFICATIONS_FILE: Path
+    {static} -PICTURES_FILE: Path
+    {static} -USERS_FILE: Path
+    {static} -PROFILE_PICTURE_DIR: Path
+    {static} -UPLOADS_PICTURE_DIR: Path
+    {static} +getUser(username: String): User
+    {static} +saveUser(user: User): void
+    {static} +getPictureById(pictureId: String): Picture
+    {static} +getUserPictures(username: String): ArrayList<Picture>
+    {static} +savePicture(picture: Picture): void
+    {static} +uploadImage(file: File, picture: Picture): void
+    {static} +uploadProfilePicture(file: File, username: String): void
+    {static} +getNotifications(username: String): ArrayList<Notification>
+    {static} +saveNotification(notification: Notification): void
+    {static} -readFile(filePath: Path, instanceCreator: Function): ArrayList
+    {static} -saveToFile(filePath: Path, object: T, instanceCreator: Function): void
+}
+
+' Utility connections
+User ..> FileHandler : uses >
+Picture ..> FileHandler : uses >
+Notification ..> FileHandler : uses >
+
+' Views
+
+' Define the Theme Singleton class
+class Theme {
+    - static theme : Theme
+    - currentTheme : ThemeName
+    - themeDefinitions : EnumMap<ThemeName, EnumMap<ColorID, Color>>
+    - iconDefinitions : EnumMap<ThemeName, EnumMap<IconID, String>>
+    - Theme()
+    + {static} getInstance() : Theme
+    + changeTheme(name : ThemeName) : void
+    + getColor(id : ColorID) : Color
+    + getIconPath(id : IconID) : String
+}
+
+' Define enums used by the Theme class
+enum ThemeName {
+    DARK
+    LIGHT
+}
+
+enum ColorID {
+    BACKGROUND_HEADER
+    BACKGROUND_HEADER_SECONDARY
+    MAIN_BACKGROUND
+    MINOR_BACKGROUND
+    LIKE_BUTTON
+    PRIMARY_LOGIN_BUTTON
+    ENTER_COMPONENT
+    FOLLOW_BUTTON
+    TEXT_PRIMARY
+    TEXT_SECONDARY
+    OPPOSITE_TEXT
+}
+
+enum IconID {
+    ADD
+    HEART
+    HOME
+    PROFILE
+    SEARCH
+}
+
+' Show the Theme associations with the enums
+Theme -- ThemeName
+Theme -- ColorID
+Theme -- IconID
+
+' Define the BaseFrameManager class
+abstract class BaseFrameManager {
+    #WIDTH: int
+    #HEIGHT: int
+    -title: String
+    -theme: Theme
+    +BaseFrameManager(title: String)
+    #getRawTitle(): String
+    #getFormattedTitle(): String
+    #getColor(id: ColorID): Color
+    #getIconPath(id: IconID): String
+    {abstract} #createMainContentPanel(): JComponent
+    {abstract} #createControlPanel(): JComponent
+    #initializeUI(): void
+}
+
+
+' Define the inheritance relationship
+BaseFrameManager -down-> Theme : <<getInstance>>
+
+' Optionally, if there are subclasses of BaseFrameManager, define them like so
+abstract class AbstractPreLogin {
+    -primaryButton: JButton
+    -secondaryButton: JButton
+    -lblPhoto: JLabel
+    +AbstractPreLogin(title: String)
+    #getFormattedTitle(): String
+    #getHeaderText(): String
+    #createControlPanel(): JComponent
+    #createPrimaryButton(): JComponent
+    #createSecondaryButton(): JComponent
+    #getDuckIcon(): JPanel
+    {abstract} #getSecondButtonText(): String
+    {abstract} #onPrimaryButtonClick(ActionEvent): void
+    {abstract} #onSecondaryButtonCLick(ActionEvent): void
+}
+
+AbstractPreLogin --|> BaseFrameManager
+
+abstract class AbstractPostLogin {
+    # {static} int NAV_ICON_SIZE
+    # User currentUser
+    + <<Create>> AbstractPostLogin(String,User)
+    # User getCurrentUser()
+    # {abstract}JComponent createMainContentPanel()
+    # JComponent createControlPanel()
+    # List<String> disabledIcons()
+    - JButton createIconButton(String,String)
+    - void performActionBasedOnButtonType(String)
+}
+
+AbstractPostLogin --|> BaseFrameManager
+
+' Add notes if needed
+note right of Theme : Singleton\nensures only one instance
+note right of BaseFrameManager : Accesses Theme resources via protected methods
+note right of AbstractPostLogin : Specific UI after login
+note right of AbstractPreLogin : Specific UI before login
+
+class SignInUI {
+    -txtUsername: JTextField
+    -txtPassword: JTextField
+    -controller: SignInController
+    +SignInUI()
+    +createMainContentPanel(): JPanel
+    +getSecondButtonText(): String
+    +onPrimaryButtonClick(event: ActionEvent): void
+    +onSecondaryButtonCLick(event: ActionEvent): void
+}
+
+class SignUpUI {
+    -txtUsername: JTextField
+    -txtPassword: JTextField
+    -txtBio: JTextField
+    -btnUploadPhoto: JButton
+    -selectedFile: File
+    -controller: SignUpController
+    +SignUpUI()
+    +getSecondButtonText(): String
+    +createMainContentPanel(): JPanel
+    +onPrimaryButtonClick(event: ActionEvent): void
+    +onSecondaryButtonCLick(event: ActionEvent): void
+    -handleProfilePictureUpload(): void
+}
+
+class SignUpUIDecorator {
+    - SignUpUI signUpUI
+    - JTextField twoFAField
+    + SignUpUIDecorator(signUpUI: SignUpUI)
+    + createMainContentPanel(): JPanel
+    + onPrimaryButtonClick(event: ActionEvent)
+}
+
+class SignInUIDecorator {
+    - SignInUI signInUI
+    - JTextField txtPassCode
+    + SignInUIDecorator(signInUI: SignInUI)
+    + createMainContentPanel(): JPanel
+    + onPrimaryButtonClick(event: ActionEvent)
+}
+
+class InstagramProfileUI {
+    -GRID_IMAGE_SIZE: int
+    -uiComponents: InstagramUIComponents
+    -contentPanel: JPanel
+    -targetUser: User
+    -controller: InstagramProfileController
+    +InstagramProfileUI(currentUser: User, targetUser: User)
+    +InstagramProfileUI(user: User)
+    +createMainContentPanel(): JComponent
+    -overwriteMainContentPanel(): void
+    -createImageLabel(imageIcon: ImageIcon): JLabel
+    -displayImage(imageIcon: ImageIcon): void
+    +disabledIcons(): List<String>
+}
+
+class ExploreUI {
+    -WIDTH: int
+    -IMAGE_SIZE: int = 100
+    -controller: ExploreController
+    +ExploreUI(currentUser: User)
+    +createMainContentPanel(): JComponent
+    #loadImages(imageGridPanel: JPanel): void
+    -getCalculatedTime(picture: Picture): String
+    -getTopPanel(picture: Picture): JPanel
+    -getImageLabel(picture: Picture): JLabel
+    -getBottomPanel(picture: Picture): JPanel
+    -getBackButtonPanel(): JPanel
+    -getContainerPanel(picture: Picture): JPanel
+    +displayImage(picture: Picture): void
+}
+
+class QuakstagramHomeUI {
+    -IMAGE_WIDTH: int
+    -IMAGE_HEIGHT: int
+    -LIKE_BUTTON_COLOR: Color
+    -cardLayout: CardLayout
+    -cardPanel: JPanel
+    -homePanel: JPanel
+    -imageViewPanel: JPanel
+    -controller: QuakstagramHomeController
+    +QuakstagramHomeUI(currentUser: User)
+    +createMainContentPanel(): JComponent
+    -getPicturesToShow(): ArrayList<Picture>
+    -populateContentPanel(panel: JPanel, pictures: ArrayList<Picture>): void
+    -getItemPanel(): JPanel
+    -getNameLabel(owner: String): JLabel
+    -getCaptionLabel(caption: String): JLabel
+    -getLikesLabel(count: int): JLabel
+    -getSpacingPanel(): JPanel
+    -getImageLabel(picturePath: String): JLabel
+    -getUserPanel(picture: Picture): JPanel
+    -getInfoPanel(picture: Picture): JPanel
+    -displayImage(picture: Picture): void
+    -getLikeButton(picture: Picture, likesLabel: JLabel): JButton
+}
+
+class NotificationsUI {
+    -currentUser: User
+    +NotificationsUI(currentUser: User)
+    +createMainContentPanel(): JComponent
+}
+
+class ImageUploadUI {
+    +uploadAction(caption: String): void
+}
+
+SignInUI --|> AbstractPreLogin : extends >
+SignUpUI --|> AbstractPreLogin : extends >
+SignInUIDecorator --|> SignInUI : extends >
+SignUpUIDecorator --|> SignUpUI : extends >
+
+InstagramProfileUI --|> AbstractPostLogin : extends >
+ExploreUI --|> AbstractPostLogin : extends >
+QuakstagramHomeUI --|> AbstractPostLogin : extends >
+NotificationsUI --|> AbstractPostLogin : extends >
+ImageUploadUI --|> AbstractPostLogin : extends >
+
+
+' Controllers
+class SignInController {
+    -view: SignInUI
+    +SignInController(view: SignInUI)
+    +logIn(username: String, password: String): void
+    -showProfileUI(user: User): void
+    +showSignUp(): void
+}
+
+
+class SignUpController {
+    -view: SignUpUI
+    +SignUpController(view: SignUpUI)
+    +signUp(username: String, password: String, bio: String, selectedFile: File): void
+    -saveProfilePicture(file: File, username: String): void
+    +showSignIn(): void
+}
+
+class InstagramProfileController {
+    -view: InstagramProfileUI
+    -currentUser: User
+    -targetUser: User
+    +InstagramProfileController(view: InstagramProfileUI, currentUser: User, targetUser: User)
+    +showProfileUI(): void
+    +handleFollowAction(): void
+}
+
+class ExploreController {
+    -view: ExploreUI
+    -currentUser: User
+    +ExploreController(view: ExploreUI, currentUser: User)
+    +goToUserProfile(username: String): void
+}
+
+class QuakstagramHomeController {
+    -view: QuakstagramHomeUI
+    -currentUser: User
+    +QuakstagramHomeController(view: QuakstagramHomeUI, currentUser: User)
+    +addLike(picture: Picture): int
+}
+
+class ImageUploadUI {
+    -imagePreviewLabel: JLabel
+    -captionArea: JTextArea
+    -uploadButton: JButton
+    -controller: ImageUploadController
+    +ImageUploadUI(currentUser: User)
+    +createMainContentPanel(): JComponent
+    -createUploadButton(contentPanel: JPanel): void
+    -createCaptionTextAndPane(contentPanel: JPanel): void
+    -createImageIcon(contentPanel: JPanel): void
+    +disabledIcons(): List<String>
+}
+
+class ImageUploadController {
+    -view: ImageUploadUI
+    -currentUser: User
+    +ImageUploadController(view: ImageUploadUI, currentUser: User)
+    +uploadAction(caption: String): void
+    -selectFile(): File
+}
+
+'Moderator section
+class ModeratorController {
+    -model : ModeratorModel
+    -view : ModeratorView
+
+    +ModeratorController(model : ModeratorModel, view : ModeratorView)
+    +showView() : void
+
+    -onUserClicked(username : String) : void
+    -onAttributeClicked(attribute : String) : void
+    -updateView() : void
+}
+
+class ModeratorModel {
+    -USER_FILE : Path
+    -PICTURES_FILE : Path
+    -userList : List<User>
+
+    +ModeratorModel()
+    +getUserList() : List<User>
+    +getUserByUsername(username : String) : User
+    +getPicturesForUser(username : String) : List<Picture>
+    +refreshUserList() : void
+
+    -loadUsers() : void
+}
+
+class ModeratorView {
+    -userListDisplay : JList<String>
+    -userDetailsList : JList<String>
+    -userDetailsModel : DefaultListModel<String>
+    -deleteButton : JButton
+    -imagePreview : JLabel
+    -onUserClick : Consumer<String>
+    -onAttributeClick : Consumer<String>
+
+    +ModeratorView()
+    +displayUserList(users : List<String>) : void
+    +setUserDetails(details : List<String>) : void
+    +setOnUserClickListener(onUserClick : Consumer<String>) : void
+    +setOnAttributeClickListener(onAttributeClick : Consumer<String>) : void
+    +getSelectedUsername() : String
+
+    -initializeComponents() : void
+    -layoutComponents() : void
+    -clearImagePreview() : void
+    -loadImagePreview(pictureDetail : String) : void
+    -updateDeleteButtonVisibility() : void
+}
+
+interface Subject {
+    ~ void addObserver(Observer)
+    ~ void removeObserver(Observer)
+    ~ void notifyObservers()
+}
+
+interface Observer {
+    ~ void update()
+}
+
+
+interface NavigationCommand {
+    ~ void execute(User)
+}
+
+
+
+class OpenImageUploadUICommand {
+    - AbstractPostLogin ui
+    + <<Create>> OpenImageUploadUICommand(AbstractPostLogin)
+    + void execute(User)
+    + void imageUploadUI(User)
+}
+
+class OpenInstagramProfileUICommand {
+    - AbstractPostLogin ui
+    + <<Create>> OpenInstagramProfileUICommand(AbstractPostLogin)
+    + void execute(User)
+    + void openProfileUI(User)
+}
+
+class OpenExploreUICommand {
+    - AbstractPostLogin ui
+    + <<Create>> OpenExploreUICommand(AbstractPostLogin)
+    + void execute(User)
+    + void exploreUI(User)
+}
+
+class OpenNotificationUICommand {
+    - AbstractPostLogin ui
+    + <<Create>> OpenNotificationUICommand(AbstractPostLogin)
+    + void execute(User)
+    + void notificationsUI(User)
+}
+
+class OpenHomeUICommand {
+    - AbstractPostLogin ui
+    + <<Create>> OpenHomeUICommand(AbstractPostLogin)
+    + void execute(User)
+    + void openHomeUI(User)
+}
+
+
+ModeratorController --> ModeratorModel : uses
+ModeratorController --> ModeratorView : uses
+
+ModeratorController ..> User : updates
+ModeratorController ..> Picture : updates
+
+ModeratorModel --> User : contains
+ModeratorModel --> Picture : contains
+
+ModeratorController ..> FileHandler : uses
+
+Subject <|.. Picture
+Observer <|.. Notification
+Subject ..> Observer : uses
+
+
+NavigationCommand <|.. OpenNotificationUICommand
+NavigationCommand <|.. OpenExploreUICommand
+NavigationCommand <|.. OpenInstagramProfileUICommand
+NavigationCommand <|.. OpenImageUploadUICommand
+NavigationCommand <|.. OpenHomeUICommand
+
+AbstractPostLogin ..> NavigationCommand : uses
+
+
+
+@enduml
